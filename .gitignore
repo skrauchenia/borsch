@@ -1,0 +1,11 @@
+*.class
+
+# Maven
+borsch-core/target
+borsch-web/target
+target/
+
+# Package Files #
+*.jar
+*.war
+*.ear
