@@ -1,9 +1,14 @@
 *.class
+logger.txt
 
 # Maven
 borsch-core/target
 borsch-web/target
 target/
+
+# IDEA
+*.iml
+.idea/
 
 # Package Files #
 *.jar
