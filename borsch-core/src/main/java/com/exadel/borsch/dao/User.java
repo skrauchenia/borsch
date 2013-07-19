@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * @author Andrey Zhilka
+ */
 public class User {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(User.class);
