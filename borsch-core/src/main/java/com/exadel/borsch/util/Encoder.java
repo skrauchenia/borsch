@@ -12,10 +12,11 @@ import java.security.NoSuchAlgorithmException;
  * @author Andrey Zhilka
  */
 public final class Encoder {
+    private static final int HASH_RADIX = 16;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Encoder.class);
+
     private Encoder() {
     }
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(Encoder.class);
 
     public static String encodeWithMD5(String toEncode, String salt)
         throws RuntimeException {
@@ -27,8 +28,7 @@ public final class Encoder {
         try {
             m = MessageDigest.getInstance("MD5");
             m.update(forHash.getBytes(), 0, forHash.length());
-            int length = 16;
-            hash = new BigInteger(1, m.digest()).toString(length);
+            hash = new BigInteger(1, m.digest()).toString(HASH_RADIX);
         } catch (NoSuchAlgorithmException e) {
             LOGGER.trace("MD5 algorithm was not found", e);
             throw new RuntimeException();
