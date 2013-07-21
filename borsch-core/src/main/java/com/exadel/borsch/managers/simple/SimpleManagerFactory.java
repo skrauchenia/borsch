@@ -44,7 +44,7 @@ public class SimpleManagerFactory implements ManagerFactory {
         return simplePriceManager;
     }
 
-    private class SimpleUserManager implements UserManager {
+    private static class SimpleUserManager implements UserManager {
         private List<User> users;
 
         SimpleUserManager() {
@@ -112,7 +112,7 @@ public class SimpleManagerFactory implements ManagerFactory {
             User.LOGGER.error("User with hash=" + hashId + " does not exist.");
         }
     }
-    private class SimpleMenuManager implements MenuManager {
+    private static class SimpleMenuManager implements MenuManager {
         private List<Order> orders;
         SimpleMenuManager() {
             // TODO read frome file
@@ -152,7 +152,7 @@ public class SimpleManagerFactory implements ManagerFactory {
             return null;
         }
     }
-    private class SimplePriceManager implements PriceManager {
+    private static class SimplePriceManager implements PriceManager {
         private List<PriceList> prices;
         SimplePriceManager() {
             // TODO read from file
