@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -20,6 +21,7 @@ public class User {
     private String passwordHash;
     private UUID id;
     private List<AccessRight> accessRights = new ArrayList<>();
+    private Locale locale = new Locale("en_US");
 
     public User() {
         id = UUID.randomUUID();
@@ -43,6 +45,14 @@ public class User {
 
     public String getPasswordHash() {
         return passwordHash;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
     public void setPasswordHash(String passwordHash) {
