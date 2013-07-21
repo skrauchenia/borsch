@@ -57,7 +57,7 @@ public class PriceList {
 
     @Override
     public boolean equals(Object toCompare) {
-        if(toCompare instanceof PriceList) {
+        if (toCompare instanceof PriceList) {
             return new EqualsBuilder()
                     .append(creationTime, ((PriceList) toCompare).getCreationTime())
                     .append(expirationTime, ((PriceList) toCompare).getExpirationTime())

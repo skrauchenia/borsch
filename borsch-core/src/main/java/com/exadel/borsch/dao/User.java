@@ -21,7 +21,7 @@ public class User {
     private UUID id;
     private List<AccessRight> accessRights = new ArrayList<>();
 
-    User() {
+    public User() {
         id = UUID.randomUUID();
     }
 

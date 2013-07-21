@@ -46,7 +46,7 @@ public class MenuItem {
 
     @Override
     public boolean equals(Object menuItem) {
-        if(menuItem instanceof MenuItem) {
+        if (menuItem instanceof MenuItem) {
             return new EqualsBuilder()
                     .append(date, ((MenuItem) menuItem).getDate())
                     .append(this.getHash(), ((MenuItem) menuItem).getHash())

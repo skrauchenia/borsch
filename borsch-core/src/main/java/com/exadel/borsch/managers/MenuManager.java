@@ -6,7 +6,7 @@ import com.exadel.borsch.dao.Order;
  * @author Andrey Zhilka
  */
 public interface MenuManager {
-    public void updateOrder(Order toUpdate);
-    public void deleteOrderById(String hashId);
-    public Order getOrderById(String hashId);
+    void updateOrder(Order toUpdate);
+    void deleteOrderById(String hashId);
+    Order getOrderById(String hashId);
 }

@@ -6,8 +6,8 @@ import com.exadel.borsch.dao.PriceList;
  * @author Andrey Zhilka
  */
 public interface PriceManager {
-    public PriceList getPriceListById(String hashId);
-    public void deletePriceListById(String hashId);
-    public void addPriceList(PriceList toAdd);
-    public void updatePriceList(PriceList toUpdate);
+    PriceList getPriceListById(String hashId);
+    void deletePriceListById(String hashId);
+    void addPriceList(PriceList toAdd);
+    void updatePriceList(PriceList toUpdate);
 }

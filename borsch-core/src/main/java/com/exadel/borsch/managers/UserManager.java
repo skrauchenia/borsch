@@ -8,9 +8,9 @@ import java.util.UUID;
  * @author Andrey Zhilka
  */
 public interface UserManager {
-    public User getUserById(UUID userId);
-    public void deleteUserById(UUID userId);
-    public void updateUser(User toUpdate);
-    public User getUserByHash(String hashId);
-    public void deleteUserByHash(String hashId);
+    User getUserById(UUID userId);
+    void deleteUserById(UUID userId);
+    void updateUser(User toUpdate);
+    User getUserByHash(String hashId);
+    void deleteUserByHash(String hashId);
 }

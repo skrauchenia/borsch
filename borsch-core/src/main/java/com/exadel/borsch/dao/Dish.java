@@ -10,7 +10,7 @@ public class Dish {
     private String description;
     private String hashId;
 
-    Dish() {
+    public Dish() {
         updateHash();
     }
 
