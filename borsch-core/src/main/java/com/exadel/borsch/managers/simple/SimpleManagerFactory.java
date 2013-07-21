@@ -7,10 +7,8 @@ import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.MenuManager;
 import com.exadel.borsch.managers.PriceManager;
 import com.exadel.borsch.managers.UserManager;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.UUID;
+
+import java.util.*;
 
 /**
  *
@@ -111,6 +109,11 @@ public class SimpleManagerFactory implements ManagerFactory {
             }
             User.LOGGER.error("User with hash=" + hashId + " does not exist.");
         }
+
+        @Override
+        public List<User> getAllUsers() {
+            return Collections.unmodifiableList(users);
+        }
     }
     private static class SimpleMenuManager implements MenuManager {
         private List<Order> orders;
@@ -150,6 +153,11 @@ public class SimpleManagerFactory implements ManagerFactory {
                 }
             }
             return null;
+        }
+
+        @Override
+        public List<Order> getAllOrders() {
+            return Collections.unmodifiableList(orders);
         }
     }
     private static class SimplePriceManager implements PriceManager {
@@ -195,6 +203,11 @@ public class SimpleManagerFactory implements ManagerFactory {
                     return;
                 }
             }
+        }
+
+        @Override
+        public List<PriceList> getAllPriceLists() {
+            return Collections.unmodifiableList(prices);
         }
     }
 }

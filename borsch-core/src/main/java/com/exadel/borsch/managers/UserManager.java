@@ -2,6 +2,7 @@ package com.exadel.borsch.managers;
 
 import com.exadel.borsch.dao.User;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -13,4 +14,5 @@ public interface UserManager {
     void updateUser(User toUpdate);
     User getUserByHash(String hashId);
     void deleteUserByHash(String hashId);
+    List<User> getAllUsers();
 }

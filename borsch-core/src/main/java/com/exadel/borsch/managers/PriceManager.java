@@ -2,6 +2,8 @@ package com.exadel.borsch.managers;
 
 import com.exadel.borsch.dao.PriceList;
 
+import java.util.List;
+
 /**
  * @author Andrey Zhilka
  */
@@ -10,4 +12,5 @@ public interface PriceManager {
     void deletePriceListById(String hashId);
     void addPriceList(PriceList toAdd);
     void updatePriceList(PriceList toUpdate);
+    List<PriceList> getAllPriceLists();
 }
