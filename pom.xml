@@ -85,6 +85,14 @@
             <artifactId>commons-lang</artifactId>
             <version>1.0</version>
         </dependency>
+        
+        <!-- Some nice messaging lib -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.1</version>
+            <type>jar</type>
+        </dependency>
 
     </dependencies>
 
