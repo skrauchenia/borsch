@@ -2,6 +2,7 @@ package com.exadel.borsch.notification;
 
 import com.exadel.borsch.dao.User;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,11 +35,8 @@ public class EmailNotification extends Notification {
     @Value("${mailer.subject}")
     private String subject;
 
-    private User target;
-
-    public EmailNotification(User target, String message) {
+    public EmailNotification(String message) {
         super(message);
-        this.target = target;
         // Let the Spring load property file for us
         try {
             Resource resource = new ClassPathResource(MAILER_PROPERTY_FILE);
@@ -72,16 +70,8 @@ public class EmailNotification extends Notification {
         this.subject = subject;
     }
 
-    public User getTarget() {
-        return target;
-    }
-
-    public void setTarget(User target) {
-        this.target = target;
-    }
-
     @Override
-    public void doNotify() {
+    public void submit(User target) {
         try {
             Session session = Session.getDefaultInstance(properties);
             MimeMessage message = new MimeMessage(session);

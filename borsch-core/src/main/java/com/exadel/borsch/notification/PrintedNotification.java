@@ -1,5 +1,6 @@
 package com.exadel.borsch.notification;
 
+import com.exadel.borsch.dao.User;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -7,6 +8,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.PrintService;
@@ -54,7 +56,12 @@ public class PrintedNotification extends Notification {
     }
 
     @Override
-    public void doNotify() {
+    public void submit(User target) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void submit(List<User> targets) {
         try {
             PrinterJob job = PrinterJob.getPrinterJob();
             PrintService service = findPrintService(printerName);
@@ -71,7 +78,6 @@ public class PrintedNotification extends Notification {
     }
 
     private static class TextPrintable implements Printable {
-        private static final int LINE_INTERVAL = 12;
         private static final int FONT_SIZE = 10;
         private String text;
 
@@ -86,6 +92,7 @@ public class PrintedNotification extends Notification {
             g2.setFont(new Font("TimesNewRoman", Font.PLAIN, FONT_SIZE));
             int x = (int) format.getImageableX();
             int y = (int) format.getImageableY();
+            // TODO: multiline output
             g2.drawString(text, x, y);
             return Printable.PAGE_EXISTS;
         }

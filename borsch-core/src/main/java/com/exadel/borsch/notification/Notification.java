@@ -1,5 +1,8 @@
 package com.exadel.borsch.notification;
 
+import com.exadel.borsch.dao.User;
+import java.util.List;
+
 /**
  * @author zubr
  */
@@ -18,5 +21,10 @@ public abstract class Notification {
         this.message = message;
     }
 
-    public abstract void doNotify();
+    public abstract void submit(User target);
+
+    public void submit(List<User> targets) {
+        for (User target: targets)
+            submit(target);
+    }
 }
