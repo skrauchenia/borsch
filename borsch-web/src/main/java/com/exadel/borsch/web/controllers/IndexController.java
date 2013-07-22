@@ -1,7 +1,5 @@
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.service.ServiceFactory;
-import com.exadel.borsch.service.SomeBusinessLogicService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,13 +10,12 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class IndexController {
-
-    private SomeBusinessLogicService service = ServiceFactory.getSomeBusinessLogicService();
+    private static final int THE_ANSWER = 42;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView handleRequest() {
         ModelAndView model = new ModelAndView("home");
-        model.addObject("value", service.doSomeWork());
+        model.addObject("value", THE_ANSWER);
         return model;
     }
 
