@@ -52,8 +52,9 @@ public class MakeOrderNotifier extends NotifierTask {
 
         for (Order order: menuManager.getAllOrders()) {
             checkedUsers.add(order.getOwner());
-            if (!isWeekOrderComplete(order, startOfWeek, endOfWeek))
+            if (!isWeekOrderComplete(order, startOfWeek, endOfWeek)) {
                 getNotification().submit(order.getOwner());
+            }
         }
 
         List<User> remeainingUsers = userManager.getAllUsers();

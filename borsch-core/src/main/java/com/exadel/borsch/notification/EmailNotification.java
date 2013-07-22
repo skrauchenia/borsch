@@ -2,7 +2,6 @@ package com.exadel.borsch.notification;
 
 import com.exadel.borsch.dao.User;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
