@@ -5,14 +5,45 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
+
+<t:genericpage>
+    
+    <jsp:attribute name="head">
         <title>Home</title>
-    </head>
-    <body>
-        <jsp:directive.include file="header.jspf"/>
+    </jsp:attribute>
+        
+    <jsp:attribute name="scripts">
+        <script>
+            $("#navHome").addClass("active")
+            $("#navUsers").removeClass();
+            $("#navMenu").removeClass();
+            window.onload = function() {
+                for (var i = 1; i < 6; i++) {
+                    if (1 != i) {
+                        $("#day" + i + "info").hide();
+                    }
+                }
+            }();
+            var current;
+            function rotate() {
+                for (var i = 1; i < 6; i++) {
+                    $(("#day" + i)).removeClass();
+                    $(("#day" + i + "info")).hide(400);
+                }
+                $("#day" + current).addClass("active");
+                $("#day" + current + "info").show(400);
+            }
+
+            $("#days li").click(function() {
+                current = this.id.substr(3);
+                rotate();
+
+            });
+        </script>
+    </jsp:attribute>
+        
+    <jsp:body>
         <div class="container">
             <br/>
             <div class="container-fluid">
@@ -28,7 +59,7 @@
                 <div id="day1info" class="span6">
                     <h3>Monday</h3>
                     <hr/>
-                    TRATATATATATTATATAT
+                    Here will be the table
                     <hr/>
                     <a href="#myModal" role="button" class="btn btn-success" data-toggle="modal" style="float: right">More info</a>
                 </div>
@@ -60,33 +91,6 @@
                 </div>
             </div>
         </div>
-        <script>
-            $("#navHome").addClass("active")
-            $("#navUsers").removeClass();
-            $("#navMenu").removeClass();
-            window.onload = function() {
-                for (var i = 1; i < 6; i++) {
-                    if (1 != i) {
-                        $("#day" + i + "info").hide();
-                    }
-                }
-            }();
-            var current;
-            function rotate() {
-                for (var i = 1; i < 6; i++) {
-                    $(("#day" + i)).removeClass();
-                    $(("#day" + i + "info")).hide(400);
-                }
-                $("#day" + current).addClass("active");
-                $("#day" + current + "info").show(400);
-            }
-
-            $("#days li").click(function() {
-                current = this.id.substr(3);
-                rotate();
-
-            });
-        </script>
-
-    </body>
-</html>
+    </jsp:body>
+        
+</t:genericpage>
