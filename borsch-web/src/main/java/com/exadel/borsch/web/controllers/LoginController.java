@@ -4,7 +4,6 @@
  */
 package com.exadel.borsch.web.controllers;
 
-import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -25,12 +24,5 @@ public class LoginController {
     public String error(ModelMap model) {
         model.addAttribute("error", true);
         return ViewURLs.LOGIN_PAGE;
-    }
-    @RequestMapping("/")
-    public String welcome(ModelMap model, Principal principal) {
-        String username = principal.getName();
-        System.out.println(username);
-        model.addAttribute("name", username); // get user from db...
-        return ViewURLs.HOME_PAGE;
     }
 }
