@@ -5,12 +5,13 @@
 --%>
 
 <%@tag description="Produce bootstrap navigation bar" pageEncoding="UTF-8"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div class="container">
     <div class="btn-group" style="float: right">
         <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
             <i class="icon-user icon-white"></i>
-            User ${userName}
+            User
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
