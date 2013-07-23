@@ -7,5 +7,6 @@
             <fmt:message key="index.property_message"/>
         </div>
         <p>Value = <c:out value="${value}"/></p>
+        <p>User = <c:out value="${user}"/></p>
     </body>
 </html>
