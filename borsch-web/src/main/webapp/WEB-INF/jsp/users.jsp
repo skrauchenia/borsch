@@ -5,13 +5,23 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
+
+<t:genericpage>
+    
+    <jsp:attribute name="head">
         <title>Users</title>
-    </head>
-    <body>
-        <jsp:directive.include file="header.jspf"/>
+    </jsp:attribute>
+        
+    <jsp:attribute name="scripts">
+        <script type="text/javascript">
+            $("#navHome").removeClass();
+            $("#navUsers").addClass("active");
+            $("#navMenu").removeClass();
+        </script>
+    </jsp:attribute>
+        
+    <jsp:body>
         <div class="container">
             <table class="table table-striped">
                 <tr>
@@ -44,10 +54,6 @@
 
             </table>
         </div>
-        <script>
-            $("#navHome").removeClass();
-            $("#navUsers").addClass("active");
-            $("#navMenu").removeClass();
-        </script>
-    </body>
-</html>
+    </jsp:body>
+        
+</t:genericpage>

@@ -5,13 +5,23 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Home</title>
-    </head>
-    <body>
-        <jsp:directive.include file="header.jspf"/>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
+
+<t:genericpage>
+    
+    <jsp:attribute name="head">
+        <title>Menu</title>
+    </jsp:attribute>
+        
+    <jsp:attribute name="scripts">
+        <script>
+            $("#navHome").removeClass();
+            $("#navUsers").removeClass();
+            $("#navMenu").addClass("active");
+        </script>
+    </jsp:attribute>
+        
+    <jsp:body>
         <div class="container">
             <div class="accordion" id="accordion2">
                 <div class="accordion-group">
@@ -74,10 +84,6 @@
                 </div>
             </div>
         </div>
-        <script>
-            $("#navHome").removeClass();
-            $("#navUsers").removeClass();
-            $("#navMenu").addClass("active");
-        </script>
-    </body>
-</html>
+    </jsp:body>
+        
+</t:genericpage>
