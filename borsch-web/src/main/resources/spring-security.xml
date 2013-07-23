@@ -12,7 +12,10 @@
 
     <http auto-config="true">
         <intercept-url pattern="/**" access="ROLE_USER" />
-        <form-login login-page="/login" />
+        <form-login login-page="/login" 
+                    default-target-url="/" 
+                    login-processing-url="/j_spring_security_check"
+                    authentication-failure-url="/login/err"/>
     </http>
 
     <authentication-manager>
