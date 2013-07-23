@@ -25,20 +25,18 @@
                     }
                 }
             }();
-            var current;
-            function rotate() {
-                for (var i = 1; i < 6; i++) {
+            function rotate(id) {
+                var dayCount = $("#days > li").length;
+                for (var i = 1; i <= dayCount; i++) {
                     $(("#day" + i)).removeClass();
                     $(("#day" + i + "info")).hide(400);
                 }
-                $("#day" + current).addClass("active");
-                $("#day" + current + "info").show(400);
+                $("#day" + id).addClass("active");
+                $("#day" + id + "info").show(400);
             }
 
-            $("#days li").click(function() {
-                current = this.id.substr(3);
-                rotate();
-
+            $("#days > li").click(function() {
+                rotate(this.id.substr(3));
             });
         </script>
     </jsp:attribute>
@@ -82,7 +80,7 @@
                         <h3 id="myModalLabel">Modal header</h3>
                     </div>
                     <div class="modal-body">
-                        <p>One fine body…</p>
+                        <iframe src="${contextPath}/menu?internal=true" style="zoom:0.60;" frameborder="0" height="250" width="99.6%"></iframe>
                     </div>
                     <div class="modal-footer">
                         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
