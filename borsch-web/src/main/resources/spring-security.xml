@@ -33,11 +33,10 @@
             group-search-base="ou=groups"
             user-search-base="ou=people"
             user-search-filter="uid={0}"
-            user-details-class="borschUserDetails"
+            user-context-mapper-ref="borschUserDetailsContextMapper"
         />
     </authentication-manager>
-    
-    <bean id="borschUserDetails" class="com.exadel.borsch.web.users.BorschUserDetails">
-    </bean>
+
+    <beans:bean id="borschUserDetailsContextMapper" class="com.exadel.borsch.web.users.BorschUserDetailsContextMapper"/>
 
 </beans:beans>
