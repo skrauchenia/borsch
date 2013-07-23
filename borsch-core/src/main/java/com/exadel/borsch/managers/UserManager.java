@@ -10,6 +10,7 @@ import java.util.UUID;
  */
 public interface UserManager {
     User getUserById(UUID userId);
+    User getUserByName(String name);
     void deleteUserById(UUID userId);
     void updateUser(User toUpdate);
     User getUserByHash(String hashId);

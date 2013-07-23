@@ -7,6 +7,7 @@ import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.MenuManager;
 import com.exadel.borsch.managers.PriceManager;
 import com.exadel.borsch.managers.UserManager;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -14,6 +15,7 @@ import java.util.*;
  *
  * @author Vlad
  */
+@Service
 public class SimpleManagerFactory implements ManagerFactory {
     private static SimpleUserManager simpleUserManager = null;
     private static SimpleMenuManager simpleMenuManager = null;
@@ -57,6 +59,17 @@ public class SimpleManagerFactory implements ManagerFactory {
                 }
             }
             User.LOGGER.error("User with id=" + userId + " does not exist.");
+            return null;
+        }
+
+        @Override
+        public User getUserByName(String name) {
+            for (User user : users) {
+                if (user.getName().equals(name)) {
+                    return user;
+                }
+            }
+            User.LOGGER.error("User with name=" + name + " does not exist.");
             return null;
         }
 
