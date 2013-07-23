@@ -1,9 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.exadel.borsch.web.users;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import com.exadel.borsch.dao.User;
@@ -31,6 +28,10 @@ public class BorschUserDetailsContextMapper implements UserDetailsContextMapper 
 
         if (user == null) {
             user = new User();
+            user.setName(dco.getStringAttribute("cn"));
+            user.setEmail(userName + "@exadel.com");
+            User[] usersToAdd = {user};
+            daoManager.addUsers(Arrays.asList(usersToAdd));
         }
 
         return new BorschUserDetails(user);
