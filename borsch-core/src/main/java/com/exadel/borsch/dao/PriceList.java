@@ -22,11 +22,11 @@ public class PriceList {
     public UUID getId() {
         return id;
     }
-    
+
     public void setId(UUID id) {
         this.id = id;
     }
-    
+
     public DateTime getExpirationTime() {
         return expirationTime;
     }
