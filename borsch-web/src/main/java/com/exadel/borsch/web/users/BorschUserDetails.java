@@ -1,6 +1,9 @@
 package com.exadel.borsch.web.users;
 
 import com.exadel.borsch.dao.User;
+
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,12 +21,20 @@ public class BorschUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        GrantedAuthority authority = new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                return "ROLE_USER";
+            }
+        };
+        authorities.add(authority);
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPasswordHash();
+        return "";
     }
 
     @Override

@@ -19,7 +19,6 @@ public class BorschUserDetailsService implements UserDetailsService {
     public BorschUserDetailsService() {
         User user = new User();
         user.setName("admin");
-        user.setPasswordHash("qwedde");
         admin = new BorschUserDetails(user);
     }
 
