@@ -8,7 +8,8 @@
         http://www.springframework.org/schema/security/spring-security.xsd">
 
     <http pattern="/assets/**" security="none"/>
-    <http pattern="/login*" security="none"/>
+    <http pattern="/login/*" security="none"/>
+    <http pattern="/login" security="none"/>
 
     <http auto-config="true">
         <intercept-url pattern="/**" access="ROLE_USER" />

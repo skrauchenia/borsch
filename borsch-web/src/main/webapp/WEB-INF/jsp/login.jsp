@@ -9,13 +9,15 @@
         <title>Sign in</title>
         <link href="${contextPath}/assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="${contextPath}/assets/css/signin.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="${contextPath}/assets/js/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="${contextPath}/assets/js/bootstrap.min.js"></script>
     </head>
     <body>
         <div class="container">
-            <c:if test="${error != null}">
-                <div class="alert">
-                    <button type="button" class="alert" data-dismiss="alert">&times;</button>
-                    <p><strong>Error!</strong>Incorrect login or password</p>
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Error!</strong> Incorrect login or password
                 </div>
             </c:if>
             <form action="j_spring_security_check" class="form-signin" method="post">
