@@ -169,6 +169,11 @@ public class SimpleManagerFactory implements ManagerFactory {
         }
 
         @Override
+        public void addOrder(Order toAdd) {
+            orders.add(toAdd);
+        }
+
+        @Override
         public List<Order> getAllOrders() {
             return Collections.unmodifiableList(orders);
         }

@@ -11,5 +11,6 @@ public interface MenuManager {
     void updateOrder(Order toUpdate);
     void deleteOrderById(String hashId);
     Order getOrderById(String hashId);
+    void addOrder(Order toAdd);
     List<Order> getAllOrders();
 }

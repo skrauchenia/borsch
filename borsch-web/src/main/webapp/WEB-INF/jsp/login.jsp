@@ -13,7 +13,10 @@
     <body>
         <div class="container">
             <c:if test="${error != null}">
-                <p>Incorrect login or password</p>
+                <div class="alert">
+                    <button type="button" class="alert" data-dismiss="alert">&times;</button>
+                    <p><strong>Error!</strong>Incorrect login or password</p>
+                </div>
             </c:if>
             <form action="j_spring_security_check" class="form-signin" method="post">
                 <h2 class="form-signin-heading">Sign in</h2>
