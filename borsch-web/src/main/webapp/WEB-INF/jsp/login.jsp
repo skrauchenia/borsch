@@ -20,7 +20,7 @@
                     <strong>Error!</strong> Incorrect login or password
                 </div>
             </c:if>
-            <form action="j_spring_security_check" class="form-signin" method="post">
+            <form action="${contextPath}/j_spring_security_check" class="form-signin" method="post">
                 <h2 class="form-signin-heading">Sign in</h2>
                 <input type="text" class="input-block-level" placeholder="login" required="true" name="j_username">
                 <input type="password" class="input-block-level" placeholder="password" required="true" name="j_password">

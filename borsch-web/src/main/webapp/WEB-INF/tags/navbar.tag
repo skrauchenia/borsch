@@ -20,7 +20,7 @@
                 <sec:authentication property="principal.username"/>
             </c:set>
             <li><a href="${contextPath}/edit/user/${userId}">Edit</a></li>
-            <li><a href="j_spring_security_check">Logout</a></li>
+            <li><a href="${contextPath}/j_spring_security_logout">Logout</a></li>
         </ul>
     </div>
     <h3 class="muted">Borsch</h3>
