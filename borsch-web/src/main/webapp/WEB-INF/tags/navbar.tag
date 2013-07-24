@@ -12,12 +12,12 @@
     <div class="btn-group" style="float: right">
         <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
             <i class="icon-user icon-white"></i>
-            User
+            User <sec:authentication property="principal.user.name" />
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
             <c:set var="userId">
-                <sec:authentication property="principal.username"/>
+                <sec:authentication property="principal.user.id"/>
             </c:set>
             <li><a href="${contextPath}/edit/user/${userId}">Edit</a></li>
             <li><a href="${contextPath}/j_spring_security_logout">Logout</a></li>
