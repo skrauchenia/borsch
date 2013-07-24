@@ -80,7 +80,7 @@
                         <h3 id="myModalLabel">Modal header</h3>
                     </div>
                     <div class="modal-body">
-                        <iframe src="${contextPath}/menu?internal=true" style="zoom:0.60;" frameborder="0" height="250" width="99.6%"></iframe>
+                        <iframe src="${contextPath}/menu?internal=true" style="zoom:0.60;" frameborder="0" height="900" width="99.6%"></iframe>
                     </div>
                     <div class="modal-footer">
                         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

@@ -16,20 +16,6 @@
         </a>
         <ul class="dropdown-menu">
             <li><a href="#">Edit</a></li>
-            <li>
-                <table>
-                    <tr>
-                        <td>Locale</td>
-                        <td>
-                            <div class="btn-group">
-                                <button class="btn active">Eng</button>
-                                <button class="btn">Rus</button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </li>
-            <li class="divider"></li>
             <li><a href="#">Logout</a></li>
         </ul>
     </div>
