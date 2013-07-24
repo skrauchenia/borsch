@@ -18,7 +18,6 @@ public class User {
 
     private String name;
     private String email;
-    private String passwordHash;
     private UUID id;
     private List<AccessRight> accessRights = new ArrayList<>();
     private Locale locale = new Locale("en_US");
@@ -43,20 +42,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
     public Locale getLocale() {
         return locale;
     }
 
     public void setLocale(Locale locale) {
         this.locale = locale;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
     }
 
     public UUID getId() {
