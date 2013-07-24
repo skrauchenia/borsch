@@ -8,14 +8,24 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Andrey Zhilka
  */
 public class MenuItem {
+    private UUID id = UUID.randomUUID();
     private DateTime date;
     private List<Dish> choices = new ArrayList<>();
 
+    public UUID getId() {
+        return id;
+    }
+    
+    public void setId(UUID id) {
+        this.id = id;
+    }
+    
     public DateTime getDate() {
         return date;
     }

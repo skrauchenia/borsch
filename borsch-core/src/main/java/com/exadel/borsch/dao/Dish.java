@@ -1,9 +1,11 @@
 package com.exadel.borsch.dao;
 
 import com.exadel.borsch.util.Encoder;
+import java.util.UUID;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 public class Dish {
+    private UUID id = UUID.randomUUID();
     private String name;
     private String photoUrl;
     private Integer price;
@@ -14,6 +16,14 @@ public class Dish {
         updateHash();
     }
 
+    public UUID getId() {
+        return id;
+    }
+    
+    public void setId(UUID id) {
+        this.id = id;
+    }
+    
     public String getName() {
         return name;
     }

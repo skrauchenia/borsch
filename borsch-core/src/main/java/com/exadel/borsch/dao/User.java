@@ -16,16 +16,21 @@ public class User {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
+    private String login;
     private String name;
     private String email;
-    private UUID id;
+    private UUID id = UUID.randomUUID();;
     private List<AccessRight> accessRights = new ArrayList<>();
     private Locale locale = new Locale("en_US");
 
-    public User() {
-        id = UUID.randomUUID();
+    public String getLogin() {
+        return login;
     }
-
+    
+    public void setLogin(String login) {
+        this.login = login;
+    }
+    
     public String getName() {
         return name;
     }

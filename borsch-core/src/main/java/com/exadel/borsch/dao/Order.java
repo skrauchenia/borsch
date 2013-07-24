@@ -6,16 +6,26 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Andrey Zhilka
  */
 public class Order {
+    private UUID id = UUID.randomUUID();
     private List<MenuItem> order = new ArrayList<>();
     private DateTime startDate;
     private DateTime endDate;
     private User owner;
 
+    public UUID getId() {
+        return id;
+    }
+    
+    public void setId(UUID id) {
+        this.id = id;
+    }
+    
     public DateTime getStartDate() {
         return startDate;
     }

@@ -8,15 +8,25 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Andrey Zhilka
  */
 public class PriceList {
+    private UUID id = UUID.randomUUID();
     private List<Dish> dishes = new ArrayList<>();
     private DateTime creationTime;
     private DateTime expirationTime;
 
+    public UUID getId() {
+        return id;
+    }
+    
+    public void setId(UUID id) {
+        this.id = id;
+    }
+    
     public DateTime getExpirationTime() {
         return expirationTime;
     }
