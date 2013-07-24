@@ -73,6 +73,7 @@ public class SimpleManagerFactory implements ManagerFactory {
             return null;
         }
 
+
         @Override
         public void deleteUserById(UUID userId) {
             ListIterator<User> iter = users.listIterator();
@@ -121,6 +122,11 @@ public class SimpleManagerFactory implements ManagerFactory {
                 }
             }
             User.LOGGER.error("User with hash=" + hashId + " does not exist.");
+        }
+
+        @Override
+        public void addUsers(List<User> toAdd) {
+            users.addAll(toAdd);
         }
 
         @Override

@@ -20,12 +20,28 @@
                     always-use-default-target="true"/>
     </http>
 
-    <authentication-manager>
+    <!--<authentication-manager>
         <authentication-provider>
             <user-service>
                 <user name="mkyong" password="123456" authorities="ROLE_USER" />
             </user-service>
         </authentication-provider>
+    </authentication-manager>-->
+    
+    <!-- Simple namespace-based configuration -->
+
+    <ldap-server ldif="classpath:users.ldif" port="33389"/>
+
+    <authentication-manager>
+        <ldap-authentication-provider
+            group-search-filter="member={0}"
+            group-search-base="ou=groups"
+            user-search-base="ou=people"
+            user-search-filter="uid={0}"
+            user-context-mapper-ref="borschUserDetailsContextMapper"
+        />
     </authentication-manager>
+
+    <beans:bean id="borschUserDetailsContextMapper" class="com.exadel.borsch.web.users.BorschUserDetailsContextMapper"/>
 
 </beans:beans>
