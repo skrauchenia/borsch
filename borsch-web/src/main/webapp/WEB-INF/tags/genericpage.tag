@@ -21,7 +21,9 @@
         <jsp:invoke fragment="head"/>
     </head>
     <body>
-        <t:navbar />
+        <c:if test="${empty param.internal}">
+            <t:navbar />
+        </c:if>
         <jsp:doBody />
         <t:defaultscripts />
         <jsp:invoke fragment="scripts"/>
