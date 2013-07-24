@@ -4,6 +4,7 @@
     Author     : zubr
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@tag description="Produce bootstrap navigation bar" pageEncoding="UTF-8"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
@@ -15,17 +16,20 @@
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-            <li><a href="#">Edit</a></li>
-            <li><a href="#">Logout</a></li>
+            <c:set var="userId">
+                <sec:authentication property="principal.username"/>
+            </c:set>
+            <li><a href="${contextPath}/edit/user/${userId}">Edit</a></li>
+            <li><a href="j_spring_security_check">Logout</a></li>
         </ul>
     </div>
     <h3 class="muted">Borsch</h3>
     <div id="myNav" class="navbar">
         <div class="navbar-inner">
                 <ul class="nav">
-                    <li id="navHome"><a href="home">Home</a></li>
-                    <li id="navMenu"><a href="menu">Menu</a></li>
-                    <li id="navUsers"><a href="users">Users</a></li>
+                    <li id="navHome"><a href="${contextPath}/home">Home</a></li>
+                    <li id="navMenu"><a href="${contextPath}/menu">Menu</a></li>
+                    <li id="navUsers"><a href="${contextPath}/users">Users</a></li>
                 </ul>
         </div>
     </div>
