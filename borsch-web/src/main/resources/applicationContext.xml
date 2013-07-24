@@ -7,7 +7,7 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <context:annotation-config/>
-    <context:component-scan base-package="com.exadel.borsch.web"/>
+    <context:component-scan base-package="com.exadel.borsch.web, com.exadel.borsch.managers"/>
 
     <context:property-placeholder properties-ref="properties"/>
 
