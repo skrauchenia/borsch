@@ -16,12 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.stereotype.Service;
 
 /**
  * @author zubr
  */
-@Service
 public class EmailNotification extends Notification {
     protected static final Logger LOGGER = Logger.getLogger(EmailNotification.class.getName());
     private static final String MAILER_PROPERTY_FILE = "/mailer.properties";

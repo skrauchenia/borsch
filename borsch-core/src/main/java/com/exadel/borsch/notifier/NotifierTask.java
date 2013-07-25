@@ -1,12 +1,11 @@
 package com.exadel.borsch.notifier;
 
 import com.exadel.borsch.notification.Notification;
-import java.util.TimerTask;
 
 /**
  * @author zubr
  */
-public abstract class NotifierTask extends TimerTask {
+public abstract class NotifierTask {
     private Notification notification;
 
     public NotifierTask(Notification notification) {
@@ -20,5 +19,7 @@ public abstract class NotifierTask extends TimerTask {
     public void setNotification(Notification notification) {
         this.notification = notification;
     }
+
+    public abstract void runPeriodicCheck();
 
 }
