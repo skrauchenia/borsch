@@ -25,6 +25,18 @@
                     $(this).remove();
                 });  
             }
+            function openModal(userId) {
+                var frame = $(".modal-body").children('iframe');
+                frame.attr('src','${contextPath}/edit/user/'+userId+"/?internal=true");
+                frame.load(function() {
+                    frame.contents().find('.btn').hide();
+                    var form = frame.contents().find('.form-horizontal');
+                    $('.btn-primary').click(function () {
+                        form.find('.btn').trigger('click');
+                    });
+                });
+               
+            }     
         </script>
     </jsp:attribute>
         
@@ -45,12 +57,26 @@
                         <td>${curUser.name}</td>
                         <td>${curUser.email}</td>
                         <td>
-                            <a href="${contextPath}/edit/user/${curUser.id}" class="btn btn-info"><i class="icon-pencil icon-white"></i> Edit</a>
+                            <a href="#editModal" onclick="openModal('${curUser.id}');" class="btn btn-info" data-toggle="modal" ><i class="icon-pencil icon-white"></i> Edit</a>
                             <a onclick="sendResponse('${curUser.id}',${st.index});" class="btn btn-danger"><i class="icon-remove icon-white"></i> Remove</a>
                         </td>
                     </tr>
                 </c:forEach>
             </table>
+            <!-- Modal -->
+            <div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Edit</h3>
+                </div>
+                <div class="modal-body">
+                    <iframe src="" style="zoom:0.50;" frameborder="0" height="500" width="99.6%"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <button class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
         </div>
     </jsp:body>
         
