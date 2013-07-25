@@ -11,9 +11,16 @@ public class Dish {
     private Integer price;
     private String description;
     private String hashId;
+    private Course course;
 
     public Dish() {
         updateHash();
+    }
+    public Dish(String name, Integer price, String description) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.updateHash();
     }
 
     public UUID getId() {
@@ -69,6 +76,12 @@ public class Dish {
 
     public void setHashId(String hashId) {
         this.hashId = hashId;
+    }
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+    public Course getCourse() {
+        return this.course;
     }
 
     @Override

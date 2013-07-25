@@ -14,6 +14,7 @@ public final class ViewURLs {
     public static final String MENU_PAGE = "menu";
     public static final String USERS_PAGE = "users";
     public static final String USER_EDIT_PAGE = "userEdit";
+    public static final String DISH_EDIT_PAGE = "dishEdit";
     private ViewURLs() {
     }
 }

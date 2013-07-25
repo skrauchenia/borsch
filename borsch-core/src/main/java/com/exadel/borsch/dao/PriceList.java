@@ -8,6 +8,8 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 /**
@@ -64,7 +66,22 @@ public class PriceList {
         return Encoder.encodeWithMD5(expirationTime.toString() + creationTime.toString(),
                         forHash.toString());
     }
-
+    public Map<Course, List<Dish>> getCourses() {
+        Map<Course, List<Dish>> courses = new TreeMap<>();
+        for (Dish dish : dishes) {
+            Course course = dish.getCourse();
+            courses.get(course).add(dish);
+        }
+        return courses;
+    }
+    public Dish getDishById(UUID id) {
+        for (Dish dish : dishes) {
+            if (dish.getId().equals(id)) {
+                return dish;
+            }
+        }
+        return null;
+    }
     @Override
     public boolean equals(Object toCompare) {
         if (toCompare instanceof PriceList) {
