@@ -1,5 +1,6 @@
 package com.exadel.borsch.web.users;
 
+import com.exadel.borsch.dao.AccessRight;
 import com.exadel.borsch.dao.User;
 
 import java.util.List;
@@ -26,13 +27,9 @@ public class BorschUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        GrantedAuthority authority = new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return "ROLE_USER";
-            }
-        };
-        authorities.add(authority);
+        for (AccessRight right : user.getAccessRights()) {
+            authorities.add(AccessRightAuthority.convert(right));
+        }
         return authorities;
     }
 
