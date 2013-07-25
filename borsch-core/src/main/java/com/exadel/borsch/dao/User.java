@@ -24,6 +24,14 @@ public class User {
         accessRights.add(AccessRight.ROLE_EDIT_MENU_SELF);
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public String getLogin() {
         return login;
     }
@@ -54,10 +62,6 @@ public class User {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
-    }
-
-    public UUID getId() {
-        return id;
     }
 
     public boolean addAccessRights(List<AccessRight> toAdd) {
