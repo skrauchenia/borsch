@@ -4,6 +4,7 @@
     Author     : Fedor
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
 
@@ -18,6 +19,12 @@
             $("#navHome").removeClass();
             $("#navUsers").addClass("active");
             $("#navMenu").removeClass();
+            function sendResponse(userId,rowId) {
+                $.post("${contextPath}/edit/user/"+userId+"/remove",{removeId: userId });
+                $('#userRow'+rowId).hide(1000, function () {
+                    $('#userRow'+rowId).remove();
+                });   
+            }
         </script>
     </jsp:attribute>
         
@@ -29,29 +36,20 @@
                     <th>Login</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th><button type="submit" class="btn btn-success" style="float: right"><i class="icon-plus icon-white"></i> Add</button></th>
+                    <th><a href="${contextPath}/add/user" type="submit" class="btn btn-success" style="float: right"><i class="icon-plus icon-white"></i> Add</a></th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>s.kravchenya</td>
-                    <td>Serhey Kravchenya</td>
-                    <td>s.kravchenya@exadel.com</td>
-                    <th >
-                        <button type="submit" class="btn btn-info"><i class="icon-pencil icon-white"></i> Edit</button>
-                        <button type="submit" class="btn btn-danger"><i class="icon-remove icon-white"></i> Remove</button>
-                    </th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>s.kravchenya</td>
-                    <td>Serhey Kravchenya</td>
-                    <td>s.kravchenya@exadel.com</td>
-                    <th >
-                        <button type="submit" class="btn btn-info"><i class="icon-pencil icon-white"></i> Edit</button>
-                        <button type="submit" class="btn btn-danger"><i class="icon-remove icon-white"></i> Remove</button>
-                    </th>
-                </tr>
-
+                <c:forEach var="curUser" items="${users}" varStatus="st">
+                    <tr id='userRow${st.index}'>
+                        <td>${st.index+1}</td>
+                        <td>${curUser.login}</td>
+                        <td>${curUser.name}</td>
+                        <td>${curUser.email}</td>
+                        <td>
+                            <a href="${contextPath}/edit/user/${curUser.id}" class="btn btn-info"><i class="icon-pencil icon-white"></i> Edit</a>
+                            <a onclick="sendResponse('${curUser.id}',${st.index});" class="btn btn-danger"><i class="icon-remove icon-white"></i> Remove</a>
+                        </td>
+                    </tr>
+                </c:forEach>
             </table>
         </div>
     </jsp:body>

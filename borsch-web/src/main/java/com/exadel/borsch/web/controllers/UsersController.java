@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
@@ -22,7 +24,9 @@ public class UsersController {
     @Autowired
     private ManagerFactory managerFactory;
     @RequestMapping("/users")
-    public String processPageRequest() {
+    public String processPageRequest(Model model) {
+        UserManager userManager = managerFactory.getUserManager();
+        model.addAttribute("users", userManager.getAllUsers());
         return ViewURLs.USERS_PAGE;
     }
     @RequestMapping("/edit/user/{userId}")
@@ -43,5 +47,12 @@ public class UsersController {
         userManager.updateUser(user);
 
         return ViewURLs.USER_EDIT_PAGE;
+    }
+
+    @RequestMapping(value = "/edit/user/{userId}/remove", method = RequestMethod.POST)
+    public String processRemoveUserRequest(@PathVariable String userId) {
+        UserManager userManager = managerFactory.getUserManager();
+        userManager.deleteUserById(UUID.fromString(userId));
+        return ViewURLs.USERS_PAGE;
     }
 }

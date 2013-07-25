@@ -28,6 +28,7 @@ public class BorschUserDetailsContextMapper implements UserDetailsContextMapper 
 
         if (user == null) {
             user = new User();
+            user.setLogin(userName);
             user.setName(dco.getStringAttribute("cn"));
             user.setEmail(userName + "@exadel.com");
             User[] usersToAdd = {user};
