@@ -24,7 +24,7 @@ public class BorschUserDetailsContextMapper implements UserDetailsContextMapper 
     public UserDetails mapUserFromContext(DirContextOperations dco, String userName,
                                           Collection<? extends GrantedAuthority> authority) {
         UserManager daoManager = managerFactory.getUserManager();
-        User user = daoManager.getUserByName(userName);
+        User user = daoManager.getUserByLogin(userName);
 
         if (user == null) {
             user = new User();

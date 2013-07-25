@@ -58,18 +58,16 @@ public class SimpleManagerFactory implements ManagerFactory {
                     return user;
                 }
             }
-            User.LOGGER.error("User with id=" + userId + " does not exist.");
             return null;
         }
 
         @Override
-        public User getUserByName(String name) {
+        public User getUserByLogin(String login) {
             for (User user : users) {
-                if (user.getName().equals(name)) {
+                if (user.getLogin().equals(login)) {
                     return user;
                 }
             }
-            User.LOGGER.error("User with name=" + name + " does not exist.");
             return null;
         }
 
@@ -84,7 +82,6 @@ public class SimpleManagerFactory implements ManagerFactory {
                     return;
                 }
             }
-            User.LOGGER.error("User with id=" + userId + " does not exist.");
         }
 
         @Override
@@ -97,7 +94,6 @@ public class SimpleManagerFactory implements ManagerFactory {
                     return;
                 }
             }
-            User.LOGGER.error("User with id=" + toUpdate.getId() + " does not exist.");
         }
 
         @Override
@@ -107,7 +103,6 @@ public class SimpleManagerFactory implements ManagerFactory {
                     return user;
                 }
             }
-            User.LOGGER.error("User with hash=" + hashId + " does not exist.");
             return null;
         }
 
@@ -121,7 +116,6 @@ public class SimpleManagerFactory implements ManagerFactory {
                     return;
                 }
             }
-            User.LOGGER.error("User with hash=" + hashId + " does not exist.");
         }
 
         @Override

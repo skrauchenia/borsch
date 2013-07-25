@@ -19,11 +19,11 @@
             $("#navHome").removeClass();
             $("#navUsers").addClass("active");
             $("#navMenu").removeClass();
-            function sendResponse(userId,rowId) {
-                $.post("${contextPath}/edit/user/"+userId+"/remove",{removeId: userId });
-                $('#userRow'+rowId).hide(1000, function () {
-                    $('#userRow'+rowId).remove();
-                });   
+            function sendResponse(userId, rowId) {
+                $.post("${contextPath}/edit/user/"+userId+"/remove",{removeId: userId});
+                $('#'+rowId).hide(1000, function () {
+                    $(this).remove();
+                });  
             }
         </script>
     </jsp:attribute>
@@ -39,7 +39,7 @@
                     <th><a href="${contextPath}/add/user" type="submit" class="btn btn-success" style="float: right"><i class="icon-plus icon-white"></i> Add</a></th>
                 </tr>
                 <c:forEach var="curUser" items="${users}" varStatus="st">
-                    <tr id='userRow${st.index}'>
+                    <tr id="${st.index}">
                         <td>${st.index+1}</td>
                         <td>${curUser.login}</td>
                         <td>${curUser.name}</td>
