@@ -68,6 +68,14 @@ public class Order {
                 startDate.toString() + endDate.toString());
     }
 
+    public void addMenuItem(MenuItem item) {
+        order.add(item);
+    }
+
+    public void discardMenuItem(MenuItem item) {
+        order.remove(item);
+    }
+
     public boolean discardMenuItems(List<MenuItem> toDiscard) {
         return order.removeAll(toDiscard);
     }

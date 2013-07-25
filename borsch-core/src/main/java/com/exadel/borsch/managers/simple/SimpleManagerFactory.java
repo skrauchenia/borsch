@@ -47,7 +47,7 @@ public class SimpleManagerFactory implements ManagerFactory {
     private static class SimpleUserManager implements UserManager {
         private List<User> users;
 
-        SimpleUserManager() {
+        public SimpleUserManager() {
             // TODO read frome file
             users = new ArrayList<>();
         }
@@ -130,7 +130,7 @@ public class SimpleManagerFactory implements ManagerFactory {
     }
     private static class SimpleMenuManager implements MenuManager {
         private List<Order> orders;
-        SimpleMenuManager() {
+        public SimpleMenuManager() {
             // TODO read frome file
             orders = new ArrayList<>();
         }
@@ -176,6 +176,17 @@ public class SimpleManagerFactory implements ManagerFactory {
         @Override
         public List<Order> getAllOrders() {
             return Collections.unmodifiableList(orders);
+        }
+
+        @Override
+        public List<Order> getOrdersForUser(User user) {
+            List<Order> result = new ArrayList<>();
+            for (Order order: orders) {
+                if (order.getOwner().equals(user)) {
+                    result.add(order);
+                }
+            }
+            return result;
         }
     }
     private static class SimplePriceManager implements PriceManager {
