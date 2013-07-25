@@ -7,6 +7,7 @@ import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.MenuManager;
 import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.notification.EmailNotification;
+import com.exadel.borsch.util.DateTimeUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.DateTime;
@@ -18,8 +19,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MakeOrderNotifier extends NotifierTask {
-    private static final int DAYS_IN_WEEK = 7;
-
     @Autowired
     private ManagerFactory managerFactory;
 
@@ -28,7 +27,7 @@ public class MakeOrderNotifier extends NotifierTask {
     }
 
     private boolean isWeekOrderComplete(Order order, DateTime startOfWeek, DateTime endOfWeek) {
-        boolean[] days = new boolean[DAYS_IN_WEEK];
+        boolean[] days = new boolean[DateTimeUtils.WORKING_DAYS_IN_WEEK];
         for (MenuItem item: order.getOrder()) {
             if (item.getDate().isAfter(startOfWeek) && item.getDate().isBefore(endOfWeek)) {
                 days[item.getDate().getDayOfWeek()] = true;
@@ -47,9 +46,8 @@ public class MakeOrderNotifier extends NotifierTask {
         UserManager userManager = managerFactory.getUserManager();
         MenuManager menuManager = managerFactory.getMenuManager();
 
-        DateTime startOfWeek = DateTime.now();
-        startOfWeek = startOfWeek.plusDays(DAYS_IN_WEEK - (startOfWeek.getDayOfWeek() - 1));
-        DateTime endOfWeek = startOfWeek.plusDays(DAYS_IN_WEEK);
+        DateTime startOfWeek = DateTimeUtils.getStartOfCurrentWeek();
+        DateTime endOfWeek = startOfWeek.plusDays(DateTimeUtils.WORKING_DAYS_IN_WEEK);
         List<User> checkedUsers = new ArrayList<>();
 
         for (Order order: menuManager.getAllOrders()) {
