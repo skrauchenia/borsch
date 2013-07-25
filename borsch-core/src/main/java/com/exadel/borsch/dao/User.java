@@ -76,4 +76,8 @@ public class User {
         String usersHash = Encoder.encodeWithMD5(name, email);
         return usersHash;
     }
+
+    public boolean hasAccessRight(AccessRight accessRight) {
+        return accessRights.contains(accessRight);
+    }
 }
