@@ -48,7 +48,7 @@
                     <th>Login</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th><a href="${contextPath}/add/user" type="submit" class="btn btn-success" style="float: right"><i class="icon-plus icon-white"></i> Add</a></th>
+                    <th><a href="${contextPath}/add/user" type="submit" class="btn btn-success hide" style="float: right"><i class="icon-plus icon-white"></i> Add</a></th>
                 </tr>
                 <c:forEach var="curUser" items="${users}" varStatus="st">
                     <tr id="${st.index}">
@@ -70,7 +70,7 @@
                     <h3 id="myModalLabel">Edit</h3>
                 </div>
                 <div class="modal-body">
-                    <iframe src="" style="zoom:0.50;" frameborder="0" height="500" width="99.6%"></iframe>
+                    <iframe src="" frameborder="0" height="200" width="99.6%"></iframe>
                 </div>
                 <div class="modal-footer">
                     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
