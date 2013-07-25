@@ -80,7 +80,7 @@ public class EmailNotification extends Notification {
                     return new PasswordAuthentication(username, password);
                 }
             });
-            
+
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(target.getEmail()));
