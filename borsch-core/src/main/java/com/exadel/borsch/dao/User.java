@@ -4,10 +4,7 @@ import com.exadel.borsch.util.Encoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Andrey Zhilka
@@ -65,6 +62,10 @@ public class User {
 
     public boolean discardAccessRights(List<AccessRight> toDiscard) {
         return accessRights.removeAll(toDiscard);
+    }
+
+    public List<AccessRight> getAccessRights() {
+        return Collections.unmodifiableList(accessRights);
     }
 
     public String getHash() {
