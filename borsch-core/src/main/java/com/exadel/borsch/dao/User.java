@@ -16,9 +16,13 @@ public class User {
     private String login;
     private String name;
     private String email;
-    private UUID id = UUID.randomUUID();;
+    private UUID id = UUID.randomUUID();
     private List<AccessRight> accessRights = new ArrayList<>();
     private Locale locale = new Locale("en_US");
+
+    public User() {
+        accessRights.add(AccessRight.ROLE_EDIT_MENU_SELF);
+    }
 
     public String getLogin() {
         return login;
