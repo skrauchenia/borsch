@@ -15,57 +15,77 @@
 
             function ajaxSubmit()
             {
+                $("[id^=alert]").hide();
                 var form = $('#profileEditForm');
                 $.post(form.attr('action'), form.serialize())
                         .fail(function() {
-                            $('.alertFail').alert();
+                            $('.alert-danger').show();
                         })
                         .done(function(response) {
+                            var valid = true;
                             $.each(response, function(key, value){
                                if(value == true) {
-                                   var target = '.' + key;
-                                   $(target).removeClass("hide");
+                                   valid = false;
+                                   var target = '#' + key;
+                                   $(target).show();
                                }
                             });
+                            if (valid) {
+                                $('.alert-success').show();
+                            }
                         });
             }
         </script>
     </jsp:attribute>
 
     <jsp:body>
-        <div class="alertFail alert-danger hide">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Fail!</strong> Failed to send request.
+        <div class="row">
+            <div class="alert alert-danger hide fade in span4 offset3">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong><spring:message code="form.submit.fail.title"/></strong> <spring:message code="form.submit.fail"/>.
+            </div>
+        </div>
+        <div class="row">
+            <div class="alert alert-success hide fade in span4 offset3">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <spring:message code="form.submit.success"/>
+            </div>
         </div>
         <div class="container">
             <form:form class="form-horizontal" id="profileEditForm" commandName="userCommand"
                   action="${contextPath}/edit/user/${userCommand.id}/edit" method="post">
                 <div class="control-group">
-                    <label class="control-label" for="name">Name</label>
+                    <label class="control-label" for="name"><spring:message code="form.name"/></label>
                     <div class="controls">
                         <form:input id="name" name="name" title="name" path="name"></form:input>
-                        <span class="help-inline alertName hide">
+                        <span class="help-inline hide" id="alertName">
                             <strong>Error!</strong><spring:message code="form.validation.size"/>.
                         </span>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="locale_select">Language</label>
+                    <label class="control-label" for="locale_select"><spring:message code="form.language"/></label>
                     <div class="controls">
                         <form:select class="selectpicker" path="locale" id="locale_select">
                             <form:option value="">Select Locale</form:option>
                             <form:option value="en_US">English(US)</form:option>
                             <form:option value="ru_RU">Русский</form:option>
                         </form:select>
-                        <span class="help-inline alertName hide">
+                        <span class="help-inline hide" id="alertLocale">
                             <strong>Error!</strong><spring:message code="form.validation.notEmpty"/>.
                         </span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="emailNotification"><spring:message code="form.email"/></label>
+                    <div class="controls">
+                        <form:checkbox id="emailNotification" path="needEmailNotification"/>
                     </div>
                 </div>
                 <sec:authorize access="hasRole('ROLE_EDIT_PROFILE')">
                     <div class="controls" name="role">
                         <form:checkboxes path="rights" items="${allRights}"/>
-                        <span class="help-inline alertName hide">
+                        <span class="help-inline hide" id="alertRights">
                             <strong>Error!</strong><spring:message code="form.validation.notNull"/>.
                         </span>
                     </div>

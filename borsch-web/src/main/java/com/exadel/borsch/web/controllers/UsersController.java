@@ -48,8 +48,9 @@ public class UsersController {
         return "userEdit";
     }
 
+    @ResponseBody
     @RequestMapping("/edit/user/{userId}/edit")
-    public @ResponseBody EditStatus  processUpdateUserRequest(@PathVariable String userId,
+    public EditStatus  processUpdateUserRequest(@PathVariable String userId,
                      @Valid UserCommand userCommand, BindingResult result) {
         EditStatus response = new EditStatus();
         UserManager userManager = managerFactory.getUserManager();
@@ -64,11 +65,12 @@ public class UsersController {
         } else {
             user.setLocale(new Locale(userCommand.getLocale()));
         }
-        if (result.hasFieldErrors("rights")) {
+        if (user.hasAccessRight(AccessRight.ROLE_EDIT_PROFILE) && result.hasFieldErrors("rights")) {
             response.setAlertRights(true);
         } else {
             user.setAccessRights(Arrays.asList(userCommand.getRights()));
         }
+        user.setNeedEmailNotification(userCommand.getNeedEmailNotification());
         if (!result.hasErrors()) {
             userManager.updateUser(user);
         }
@@ -88,7 +90,7 @@ public class UsersController {
         private boolean alertLocale = false;
         private boolean alertRights = false;
 
-        public boolean isAlertName() {
+        public boolean getAlertName() {
             return alertName;
         }
 
@@ -96,7 +98,7 @@ public class UsersController {
             this.alertName = alertName;
         }
 
-        public boolean isAlertLocale() {
+        public boolean getAlertLocale() {
             return alertLocale;
         }
 
@@ -104,7 +106,7 @@ public class UsersController {
             this.alertLocale = alertLocale;
         }
 
-        public boolean isAlertRights() {
+        public boolean getAlertRights() {
             return alertRights;
         }
 
@@ -120,7 +122,16 @@ public class UsersController {
         @NotNull
         private String id;
         @NotNull
-        private String[] rights;
+        private String[] rights = {};
+        private boolean needEmailNotification;
+
+        public boolean getNeedEmailNotification() {
+            return needEmailNotification;
+        }
+
+        public void setNeedEmailNotification(boolean needEmailNotification) {
+            this.needEmailNotification = needEmailNotification;
+        }
 
         public String getId() {
             return id;
@@ -147,17 +158,18 @@ public class UsersController {
         }
 
         public void setRights(String[] newRights) {
-            rights = newRights;
+            rights = Arrays.copyOf(newRights, newRights.length);
         }
 
         public String[] getRights() {
-            return rights;
+            return Arrays.copyOf(rights, rights.length);
         }
 
         public void mapUserToUserCommand(User user) {
             this.name = user.getName();
             this.id = user.getId().toString();
             this.locale = user.getLocale().getLanguage();
+            this.needEmailNotification = user.getNeedEmailNotification();
             this.rights = user.getStringAccessRights().toArray(new String[]{""});
         }
     }
