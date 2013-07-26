@@ -65,9 +65,9 @@ public class UsersController {
         } else {
             user.setLocale(new Locale(userCommand.getLocale()));
         }
-        if (user.hasAccessRight(AccessRight.ROLE_EDIT_PROFILE) && result.hasFieldErrors("rights")) {
+        if (result.hasFieldErrors("rights") && !userCommand.isRightsNull()) {
             response.setAlertRights(true);
-        } else {
+        } else if (!userCommand.isRightsNull()){
             user.setAccessRights(Arrays.asList(userCommand.getRights()));
         }
         user.setNeedEmailNotification(userCommand.getNeedEmailNotification());
@@ -121,12 +121,16 @@ public class UsersController {
         private String locale;
         @NotNull
         private String id;
-        @NotNull
-        private String[] rights = {};
+        @NotEmpty
+        private String[] rights;
         private boolean needEmailNotification;
 
         public boolean getNeedEmailNotification() {
             return needEmailNotification;
+        }
+
+        public boolean isRightsNull() {
+            return rights == null;
         }
 
         public void setNeedEmailNotification(boolean needEmailNotification) {
