@@ -17,7 +17,7 @@ public class User {
     private String name;
     private String email;
     private UUID id = UUID.randomUUID();
-    private List<AccessRight> accessRights = new ArrayList<>();
+    private Set<AccessRight> accessRights = new HashSet<>();
     private Locale locale = new Locale("en_US");
 
     public User() {
@@ -68,8 +68,29 @@ public class User {
         return accessRights.removeAll(toDiscard);
     }
 
-    public List<AccessRight> getAccessRights() {
-        return Collections.unmodifiableList(accessRights);
+    public Set<AccessRight> getAccessRights() {
+        return Collections.unmodifiableSet(accessRights);
+    }
+
+    public Set<String> getStringAccessRights() {
+        Set<String> rights = new HashSet<>();
+        for (AccessRight right : accessRights) {
+            rights.add(right.getName());
+        }
+
+        return rights;
+    }
+
+    public void setAccessRights(List<String> newAccessRights) {
+        accessRights = new HashSet<>();
+        for (String newRight : newAccessRights) {
+            for (AccessRight right : AccessRight.values()) {
+                if (right.getName().equals(newRight)) {
+                    accessRights.add(right);
+                    break;
+                }
+            }
+        }
     }
 
     public String getHash() {
