@@ -29,7 +29,7 @@
     <div id="myNav" class="navbar">
         <div class="navbar-inner">
                 <ul class="nav">
-                    <li id="navHome"><a href="${contextPath}/home"><spring:message code="navbar.user.logout"/></a></li>
+                    <li id="navHome"><a href="${contextPath}/home"><spring:message code="navbar.home"/></a></li>
                     <li id="navMenu"><a href="${contextPath}/menu"><spring:message code="navbar.menu"/></a></li>
                     <li id="navUsers"><a href="${contextPath}/users"><spring:message code="navbar.users"/></a></li>
                 </ul>
