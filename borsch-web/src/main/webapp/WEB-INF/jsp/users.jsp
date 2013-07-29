@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : users
     Created on : Jul 22, 2013, 11:27:26 AM
     Author     : Fedor
@@ -10,11 +10,11 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
 
 <t:genericpage>
-    
+
     <jsp:attribute name="head">
         <title>Users</title>
     </jsp:attribute>
-        
+
     <jsp:attribute name="scripts">
         <script type="text/javascript">
             $("#navHome").removeClass();
@@ -24,7 +24,7 @@
                 $.post("${contextPath}/edit/user/"+userId+"/remove",{removeId: userId});
                 $('#'+rowId).hide(1000, function () {
                     $(this).remove();
-                });  
+                });
             }
             function openModal(userId) {
                 var frame = $(".modal-body").children('iframe');
@@ -36,11 +36,11 @@
                         form.find('.btn').trigger('click');
                     });
                 });
-               
-            }     
+
+            }
         </script>
     </jsp:attribute>
-        
+
     <jsp:body>
         <div class="container">
             <table class="table table-striped">
@@ -80,5 +80,5 @@
             </div>
         </div>
     </jsp:body>
-        
+
 </t:genericpage>
