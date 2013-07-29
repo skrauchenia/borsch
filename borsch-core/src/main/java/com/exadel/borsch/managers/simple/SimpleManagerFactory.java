@@ -159,9 +159,9 @@ public class SimpleManagerFactory implements ManagerFactory {
         }
 
         @Override
-        public Order getOrderById(String hashId) {
+        public Order getOrderById(UUID id) {
             for (Order order : orders) {
-                if (order.getHash().equals(hashId)) {
+                if (order.getId().equals(id)) {
                     return order;
                 }
             }

@@ -3,10 +3,7 @@ package com.exadel.borsch.dao;
 import com.exadel.borsch.util.Encoder;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Andrey Zhilka
@@ -54,9 +51,9 @@ public class Order {
         return Collections.unmodifiableList(order);
     }
 
-    public MenuItem getMenuById(String id) {
+    public MenuItem getMenuById(UUID id) {
         for (MenuItem menu : order) {
-            if (menu.getHash().equals(id)) {
+            if (menu.getId().equals(id)) {
                 return menu;
             }
         }
@@ -82,5 +79,14 @@ public class Order {
 
     public boolean addMenuItems(List<MenuItem> toAdd) {
         return order.addAll(toAdd);
+    }
+
+    public void sortOrderByWeekday() {
+        Collections.sort(order, new Comparator<MenuItem>() {
+            @Override
+            public int compare(MenuItem firstItem, MenuItem secondItem) {
+                return firstItem.getDate().getDayOfWeek() - secondItem.getDate().getDayOfWeek();
+            }
+        });
     }
 }

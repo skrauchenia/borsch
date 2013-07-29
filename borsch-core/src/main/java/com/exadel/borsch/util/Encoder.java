@@ -31,7 +31,7 @@ public final class Encoder {
             LOGGER.trace("MD5 algorithm was not found", e);
             throw new RuntimeException();
         } catch (UnsupportedEncodingException e) {
-            LOGGER.trace("UTF-8 is not supportred by the system", e);
+            LOGGER.trace("UTF-8 is not supported by the system", e);
             throw new RuntimeException();
         }
     }

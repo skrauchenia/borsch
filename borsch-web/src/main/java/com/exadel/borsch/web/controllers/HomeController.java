@@ -32,7 +32,7 @@ public class HomeController {
         List<Order> orders = menuManager.getOrdersForUser(user);
         Order order;
         if (!orders.isEmpty()) {
-            order = orders.get(0);
+            order = orders.get(0);  //why zero index
         } else {
             order = new Order();
             order.setOwner(user);

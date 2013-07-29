@@ -17,6 +17,24 @@ public class MenuItem {
     private UUID id = UUID.randomUUID();
     private DateTime date;
     private List<Dish> choices = new ArrayList<>();
+    private boolean isPaid = false;
+
+    public Integer getTotalPrice() {
+        Integer total = 0;
+        for (Dish dish : choices) {
+            total += dish.getPrice();
+        }
+
+        return total;
+    }
+
+    public boolean getIsPaid() {
+        return isPaid;
+    }
+
+    public void setIsPaid(boolean status) {
+        this.isPaid = status;
+    }
 
     public UUID getId() {
         return id;
