@@ -31,8 +31,8 @@
                 }
                 
                 var currentDay = (new Date()).getDay();
-                if (currentDay > 4)
-                    currentDay = 0;
+                if (currentDay < 1 || currentDay > 5)
+                    currentDay = 1;
                 switchDay(currentDay);
 
                 $("#days > li").click(function() {
@@ -54,7 +54,7 @@
                     </ul>
                 </div>
                 <c:forEach items="${order.order}" var="menuItem" varStatus="st">
-                    <div id="day${st.index + 1}info" class="span7 day-info">
+                    <div id="day${st.index + 1}info" class="span7 day-info hide">
                         <h3><spring:message code="home.order.title"/></h3>
                         <hr/>
                         <table class="table table-striped">
@@ -64,6 +64,11 @@
                                 <th><spring:message code="menu.table.price"/></th>
                                 <th><spring:message code="actions.remove"/></th>
                             </tr>
+                            <c:if test="${empty menuItem.choices}">
+                                <tr>
+                                    <td colspan="4" class="centered-line">&lt;currently empty&gt;</td>
+                                </tr>
+                            </c:if>
                             <c:forEach items="${menuItem.choices}" var="item" varStatus="itemStatus">
                                 <tr>
                                     <td>${itemStatus.index + 1}</td>
@@ -90,7 +95,7 @@
                         <h3 id="myModalLabel">Customize order</h3>
                     </div>
                     <div class="modal-body">
-                        <iframe src="${contextPath}/menu?internal=true" frameborder="0" width="99.6%"></iframe>
+                        <iframe src="" frameborder="0" width="99.6%"></iframe>
                     </div>
                     <div class="modal-footer">
                         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
