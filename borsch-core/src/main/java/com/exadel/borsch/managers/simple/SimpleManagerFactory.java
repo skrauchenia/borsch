@@ -130,6 +130,7 @@ public class SimpleManagerFactory implements ManagerFactory {
     }
     private static class SimpleMenuManager implements MenuManager {
         private List<Order> orders;
+
         public SimpleMenuManager() {
             // TODO read frome file
             orders = new ArrayList<>();

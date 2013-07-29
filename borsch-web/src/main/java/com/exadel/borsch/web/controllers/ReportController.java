@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ReportController {
     private ManagerFactory managerFactory;
 
     @ResponseBody
-    @RequestMapping("/report/setPaid/{orderId}/{menuId}")
+    @RequestMapping(value = "/report/setPaid/{orderId}/{menuId}", method = RequestMethod.POST)
     public AjaxResponse processAjaxRequest(@PathVariable String orderId, @PathVariable String menuId) {
         MenuManager menuManager = managerFactory.getMenuManager();
         AjaxResponse response = new AjaxResponse();
@@ -57,9 +58,10 @@ public class ReportController {
                 DailyOrder daySummary = new DailyOrder();
                 daySummary.setMenuItem(item);
                 daySummary.setUser(order.getOwner());
+                daySummary.setWeekDay(item.getDate().getDayOfWeek());
                 daySummary.setTotal(item.getTotalPrice());
                 daySummary.setWeekOrderId(order.getId());
-                report.put(item.getDate().getDayOfWeek(), daySummary);
+                report.put(item.getDate().getDayOfWeek() - 1, daySummary);
             }
         }
 
@@ -70,15 +72,16 @@ public class ReportController {
         }
 
         model.addAttribute("report", reportFinalVersion);
+        model.addAttribute("workingDays", DateTimeUtils.WORKING_DAYS_IN_WEEK);
 
         return ViewURLs.WEEK_ORDER_REPORT;
     }
 
     private static class AjaxResponse {
 
-        private boolean responseSucceed = false;
+        private boolean responseSucceed = true;
 
-        public boolean getResponesSucceed() {
+        public boolean getResponseSucceed() {
             return this.responseSucceed;
         }
 
@@ -87,42 +90,51 @@ public class ReportController {
         }
     }
 
-    private static class DailyOrder {
-
+    public static class DailyOrder {
+        private Integer weekDay;
         private User user;
         private MenuItem menuItem;
         private Integer total;
         private UUID weekOrderId;
 
-        private UUID getWeekOrderId() {
+
+        public Integer getWeekDay() {
+            return weekDay;
+        }
+
+        public void setWeekDay(Integer weekDay) {
+            this.weekDay = weekDay;
+        }
+
+        public UUID getWeekOrderId() {
             return weekOrderId;
         }
 
-        private void setWeekOrderId(UUID weekOrderId) {
+        public void setWeekOrderId(UUID weekOrderId) {
             this.weekOrderId = weekOrderId;
         }
 
-        private Integer getTotal() {
+        public Integer getTotal() {
             return total;
         }
 
-        private void setTotal(Integer total) {
+        public void setTotal(Integer total) {
             this.total = total;
         }
 
-        private User getUser() {
+        public User getUser() {
             return user;
         }
 
-        private void setUser(User user) {
+        public void setUser(User user) {
             this.user = user;
         }
 
-        private MenuItem getMenuItem() {
+        public MenuItem getMenuItem() {
             return menuItem;
         }
 
-        private void setMenuItem(MenuItem menuItem) {
+        public void setMenuItem(MenuItem menuItem) {
             this.menuItem = menuItem;
         }
     }

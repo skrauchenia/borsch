@@ -7,8 +7,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <t:genericpage>
-    <jsp:attribute name="head">Order Report</jsp:attribute>
-    <jsp:attribute name="scripts">
+    <jsp:attribute name="head">
+        <title>Order Report</title>
         <script>
             $("#navHome").removeClass();
             $("#navUsers").removeClass();
@@ -19,34 +19,37 @@
                 //TODO: finish this section\
                 $.ajax({
                     url: "/report/setPaid/"+ weekOrderId + "/" + menuItemId,
-                    type: 'POST'
+                    type: 'POST',
+                    dataType: "json"
                 }).done(function(response){
-                        var responseState = $.parseJSON(response);
-                        if(responseState.responseSucceed === true) {
-                            $("#orderPaid").show("slow");
-                            $("#orderNotPaid").hide("slow");
-                        } else {
-                            alert("<spring:message code="request.fail"/>");
-                            $("#orderPaid").hide("slow");
-                            $("#orderNotPaid").show("slow");
-                        }
-                });
+                            if(response.responseSucceed == true) {
+                                $("#orderNotPaid").hide("slow");
+                                $("#orderPaid").show("slow");
+                            } else {
+                                alert("<spring:message code="request.fail"/>");
+                                $("#orderPaid").hide("slow");
+                                $("#orderNotPaid").show("slow");
+                            }
+                        })
+                  .fail(function(){
+                            alert("Ajax Request failed");
+                        });
             }
         </script>
     </jsp:attribute>
     <jsp:body>
         <div class="container">
             <c:set var="dayNumber" value="0" scope="page"/>
-            <c:forEach var="day" items="report">
-                <div class="accordion" id="dayAccordion">
+            <div class="accordion" id="dayAccordion">
+                <c:forEach var="day" items="${report}">
                     <div class="accordion-group">
                         <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#dayAccordion">
-                                <spring:message code="day.${count}"/>
-                                <c:set var="count" value="${count + 1}" scope="page"/>
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#dayAccordion" href="#collapse${dayNumber}">
+                                <c:set var="dayOfWeek" value="home.day${(dayNumber % workingDays) + 1}"/>
+                                <spring:message code="${dayOfWeek}"/>
                             </a>
                         </div>
-                        <div id="collapseDayNumber" class="accordion-body collapse in">
+                        <div id="collapse${dayNumber}" class="accordion-body collapse">
                             <div class="accordion-inner">
                                 <table class="table table-striped">
                                     <tr>
@@ -54,38 +57,39 @@
                                         <th>Total</th>
                                         <th>Payment status</th>
                                     </tr>
-                                    <c:forEach var="order" items="day">
-                                        <tr>
-                                            <td>
-                                                <c:out value="${order.user.name}"/>
-                                            </td>
-                                            <td>
-                                                <c:out value="${order.totalPrice}"/>
-                                            </td>
-                                            <td>
-                                                <c:choose>
-                                                    <c:when test="${order.menuItem.isPaid == true}">
-                                                        <button class="btn btn-success" id="orderPaid" disabled>
+                                    <c:forEach var="order" items="${day}">
+                                        <c:if test="${(dayNumber + 1) == order.weekDay}">
+                                            <tr>
+                                                <td>
+                                                    <c:out value="${order.user.name}"/>
+                                                </td>
+                                                <td>
+                                                    <c:out value="${order.total}"/>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-success
+                                                        <c:if test="${order.menuItem.isPaid != true}">
+                                                         hide</c:if>" id="orderPaid" disabled>
                                                             <i class="icon-ok icon-white"></i>
                                                         </button>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <button class="btn btn-danger" id="orderNotPaid"
-                                                                onclick="markAsPaid(${order.menuItem.id},
-                                                                            ${order.weekOrderId})">
+                                                        <button class="btn btn-danger
+                                                        <c:if test="${order.menuItem.isPaid == true}">
+                                                         hide</c:if>" id="orderNotPaid"
+                                                                onclick="markAsPaid('${order.menuItem.id}',
+                                                                            '${order.weekOrderId}')">
                                                             <i class="icon-remove icon-white"></i>
                                                         </button>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
+                                        </c:if>
                                     </c:forEach>
                                 </table>
                             </div>
                         </div>
                     </div>
-                </div>
-            </c:forEach>
+                    <c:set var="dayNumber" value="${dayNumber + 1}" scope="page"/>
+                </c:forEach>
+            </div>
         <div>
     </jsp:body>
 </t:genericpage>

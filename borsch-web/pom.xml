@@ -164,6 +164,13 @@
             <artifactId>hibernate-validator</artifactId>
             <version>5.0.1.Final</version>
         </dependency>
+
+        <!--HTML COMPRESSOR-->
+        <dependency>
+            <groupId>com.tunyk.mvn.plugins.htmlcompressor</groupId>
+            <artifactId>htmlcompressor-maven-plugin</artifactId>
+            <version>1.3</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -190,7 +197,20 @@
                 </configuration>
             </plugin>
 
-
+            <!--HTML COMPRESSOR PLUGIN-->
+            <!--<plugin>
+                <groupId>com.tunyk.mvn.plugins.htmlcompressor</groupId>
+                <artifactId>htmlcompressor-maven-plugin</artifactId>
+                <version>1.3-SNAPSHOT</version>
+                <configuration>
+                    <goalPrefix>htmlcompressor</goalPrefix>
+                    <fileExt>
+                        <fileExt>htm</fileExt>
+                        <fileExt>html</fileExt>
+                        <fileExt>jsp</fileExt>
+                    </fileExt>
+                </configuration>
+            </plugin>-->
         </plugins>
     </build>
 
