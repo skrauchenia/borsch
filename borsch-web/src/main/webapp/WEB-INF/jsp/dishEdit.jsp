@@ -16,6 +16,9 @@
     <jsp:body>
         <form class="form-horizontal" action="${contextPath}/edit/dish/${id}/save" method="POST">
             <div class="container" >
+                <div class="offset2">
+                    <h4 id="myModalLabel">Edit dish:</h4>
+                </div>
                 <input type="hidden" name="id" value="${id}"/>
                 <div class="control-group">
                     <label class="control-label" for="name">Name</label>
@@ -27,6 +30,12 @@
                     <label class="control-label" for="dish">Price</label>
                     <div class="controls">
                         <input type="text" name="price" value="${price}"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="dish">Description</label>
+                    <div class="controls">
+                        <textarea class="form-horizontal" name="description" rows="3" placeholder="Description..."></textarea>
                     </div>
                 </div>
                 <div class="control-group">

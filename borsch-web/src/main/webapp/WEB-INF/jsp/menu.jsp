@@ -42,8 +42,12 @@
                     });
                 });
             }
-            function remove(id) {
-                document.location.href = "${contextPath}/remove/dish/" + id;
+            function removeDish(id, rowId) {
+                var src = "${contextPath}/edit/dish/" + id + "/remove";
+                $.post(src, {removeId: id});
+                $('#row' + rowId).hide(1000, function() {
+                    $('#row' + rowId).remove();
+                });
             }
         </script>
     </jsp:attribute>
@@ -70,29 +74,30 @@
                                         </button>
                                     </th>
                                 </tr>
-                                <c:forEach var="dish" items="${firstCourses}">
-                                    <tr>
+                                <c:forEach var="dish" items="${firstCourses}" varStatus="st">
+                                    <tr id="row${st.index}">
+                                        <th>${st.index+1}</th>
                                         <th>${dish.name}</th>
                                         <th>${dish.price}</th>
                                         <th>
-                                            <button type="submit" class="btn btn-success" value="${dish.id}">
+                                            <button type="submit" class="btn btn-success">
                                                 <i class="icon-ok icon-white"></i> Add to order
                                             </button>
-                                            <button type="submit" class="btn btn-danger" value="${dish.id}">
+                                            <button type="submit" class="btn btn-danger">
                                                 <i class="icon-remove icon-white"></i> Remove from order
                                             </button>
                                         </th>
                                         <th>
-                                            <button type="submit" class="btn btn-info" value="${dish.id}">
+                                            <button type="submit" class="btn btn-info" onclick="loadModal('edit', '${dish.id}')">
                                                 <i class="icon-pencil icon-white"></i> Edit
                                             </button>
-                                            <button type="submit" class="btn btn-danger" value="${dish.id}">
+                                            <button type="submit" class="btn btn-danger" onclick="removeDish('${dish.id}', '${st.index}')">
                                                 <i class="icon-remove icon-white"></i> Remove
                                             </button>
                                         </th>
                                     </tr>
                                 </c:forEach>
-                                <tr>
+                                <tr id="rowsemki">
                                     <td>Семки</td>
                                     <td>228</td>
                                     <th>
@@ -104,10 +109,10 @@
                                         </button>
                                     </th>
                                     <th>
-                                        <button type="button" onclick="loadModal('edit','123')" class="btn btn-success" data-toggle="modal">
+                                        <button type="button" onclick="loadModal('edit', '123')" class="btn btn-success" data-toggle="modal">
                                             <i class="icon-pencil icon-white"></i> Edit
                                         </button>
-                                        <button type="button" class="btn btn-danger" onclick="remove('123')">
+                                        <button type="button" class="btn btn-danger" onclick="removeDish('123','semki')">
                                             <i class="icon-remove icon-white"></i> Remove
                                         </button>
                                     </th>
@@ -215,7 +220,7 @@
                 <h3 id="myModalLabel">Dish</h3>
             </div>
             <div class="modal-body offset1">
-                <iframe src="" style="zoom:0.60;" frameborder="0" height="600" width="99.6%"></iframe>
+                <iframe src="" style="zoom:0.60;" frameborder="0" height="650" width="99.6%"></iframe>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"><i class="icon-ban-circle icon-white"></i> Cancel</button>

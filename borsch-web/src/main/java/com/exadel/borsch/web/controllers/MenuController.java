@@ -112,7 +112,7 @@ public class MenuController {
         }
         return ViewURLs.MENU_PAGE;
     }
-    @RequestMapping("/remove/dish/{id}")
+    @RequestMapping("/edit/dish/{id}/remove")
     public String processRemoveDishRequest(@PathVariable String id, ModelMap model) {
         ManagerFactory factory = new SimpleManagerFactory();
         PriceManager manager = factory.getPriceManager();

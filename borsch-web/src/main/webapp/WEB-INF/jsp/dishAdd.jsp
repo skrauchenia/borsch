@@ -16,7 +16,10 @@
 
     <jsp:body>
         <form class="form-horizontal" action="${contextPath}/edit/dish/${id}/save" method="POST">
-            <div class="container" >
+            <div class="container">
+                <div class="offset2">
+                    <h4 id="myModalLabel">Add dish:</h4>
+                </div>
                 <input type="hidden" name="id" value="${id}"/>
                 <div class="control-group">
                     <label class="control-label" for="name">Name</label>
