@@ -224,7 +224,9 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"><i class="icon-ban-circle icon-white"></i> Cancel</button>
-                <button id="save" class="btn btn-success" type="submit"><i class="icon-ok icon-white"></i> Save</button>
+                <button id="save" class="btn btn-success" type="submit">
+                    <i class="icon-ok icon-white"></i> Save
+                </button>
             </div>
         </div>
     </jsp:body>

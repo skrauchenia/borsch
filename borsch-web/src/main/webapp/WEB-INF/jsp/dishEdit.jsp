@@ -1,7 +1,7 @@
 <%-- 
     Document   : menuEdit
     Created on : Jul 25, 2013, 10:32:48 AM
-    Author     : Fedor
+    Author     : Tima
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -23,25 +23,25 @@
                 <div class="control-group">
                     <label class="control-label" for="name">Name</label>
                     <div class="controls">
-                        <input type="text" name="name" value="${name}"/>
+                        <input type="text" id="name" value="${name}"/>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="dish">Price</label>
+                    <label class="control-label" for="price">Price</label>
                     <div class="controls">
-                        <input type="text" name="price" value="${price}"/>
+                        <input type="text" id="price" value="${price}"/>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="dish">Description</label>
+                    <label class="control-label" for="description">Description</label>
                     <div class="controls">
-                        <textarea class="form-horizontal" name="description" rows="3" placeholder="Description..."></textarea>
+                        <textarea class="form-horizontal" id="description" rows="3" placeholder="Description..."></textarea>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="corse">Course</label>
+                    <label class="control-label" for="course">Course</label>
                     <div class="controls">
-                        <select name="course">
+                        <select id="course">
                             <option value="firstCourse">First course</option>
                             <option value="secondCourse">Second course</option>
                             <option value="dessert">Dessert</option>
