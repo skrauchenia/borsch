@@ -1,8 +1,9 @@
 <%-- 
-    Document   : menuEdit
-    Created on : Jul 25, 2013, 10:32:48 AM
+    Document   : dishNew
+    Created on : Jul 28, 2013, 12:13:35 PM
     Author     : Fedor
 --%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
@@ -10,7 +11,7 @@
 <t:genericpage>
 
     <jsp:attribute name="head">
-        <title>Edit dish</title>
+        <title>New dish</title>
     </jsp:attribute>
 
     <jsp:body>
@@ -20,13 +21,19 @@
                 <div class="control-group">
                     <label class="control-label" for="name">Name</label>
                     <div class="controls">
-                        <input type="text" name="name" value="${name}"/>
+                        <input type="text" name="name" placeholder="Name..."/>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="dish">Price</label>
                     <div class="controls">
-                        <input type="text" name="price" value="${price}"/>
+                        <input type="text" name="price" placeholder="Price..."/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="dish">Description</label>
+                    <div class="controls">
+                        <textarea class="form-horizontal" name="description" rows="3" placeholder="Description..."></textarea>
                     </div>
                 </div>
                 <div class="control-group">
