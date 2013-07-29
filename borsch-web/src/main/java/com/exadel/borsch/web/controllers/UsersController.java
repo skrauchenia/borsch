@@ -45,7 +45,7 @@ public class UsersController {
         userCommand.mapUserToUserCommand(user);
         model.addAttribute("userCommand", userCommand);
         model.addAttribute("allRights", AccessRight.getAllRightsToString().toArray(new String[]{""}));
-        return "userEdit";
+        return ViewURLs.USER_EDIT_PAGE;
     }
 
     @ResponseBody
@@ -55,21 +55,31 @@ public class UsersController {
         EditStatus response = new EditStatus();
         UserManager userManager = managerFactory.getUserManager();
         User user = userManager.getUserById(UUID.fromString(userId));
-        if (result.hasFieldErrors("name")) {
-            response.setAlertName(true);
-        } else {
+
+
+        boolean hasError = result.hasFieldErrors("name");
+        response.setAlertName(hasError);
+
+        if (!hasError) {
             user.setName(userCommand.getName());
         }
-        if (result.hasFieldErrors("locale")) {
-            response.setAlertLocale(true);
-        } else {
+
+        hasError = result.hasFieldErrors("locale");
+
+        response.setAlertLocale(hasError);
+
+        if (!hasError) {
             user.setLocale(new Locale(userCommand.getLocale()));
         }
-        if (result.hasFieldErrors("rights") && !userCommand.isRightsNull()) {
-            response.setAlertRights(true);
-        } else if (!userCommand.isRightsNull()){
+
+        hasError = result.hasFieldErrors("rights");
+
+        response.setAlertRights(hasError && !userCommand.isRightsNull());
+
+        if (!hasError && !userCommand.isRightsNull()) {
             user.setAccessRights(Arrays.asList(userCommand.getRights()));
         }
+
         user.setNeedEmailNotification(userCommand.getNeedEmailNotification());
         if (!result.hasErrors()) {
             userManager.updateUser(user);
