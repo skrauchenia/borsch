@@ -43,8 +43,22 @@ public class PriceList {
         this.creationTime = creationTime;
     }
 
+    public Dish getDishById(UUID id) {
+        for (Dish dish : dishes) {
+            if (dish.getId().equals(id)) {
+                return dish;
+            }
+        }
+
+        return null;
+    }
+
     public List<Dish> getDishes() {
         return Collections.unmodifiableList(dishes);
+    }
+
+    public boolean addDish(Dish dish) {
+        return dishes.add(dish);
     }
 
     public boolean addDishes(List<Dish> toAdd) {
@@ -53,6 +67,10 @@ public class PriceList {
 
     public boolean removeDishes(List<Dish> toRemove) {
         return dishes.removeAll(toRemove);
+    }
+
+    public boolean removeDish(Dish dish) {
+        return dishes.remove(dish);
     }
 
     public String getHash() {
