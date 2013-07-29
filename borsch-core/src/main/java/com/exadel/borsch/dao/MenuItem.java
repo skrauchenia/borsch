@@ -64,6 +64,10 @@ public class MenuItem {
         return choices.addAll(toAdd);
     }
 
+    public boolean addDish(Dish dish) {
+        return choices.add(dish);
+    }
+
     public String getHash() {
         StringBuilder toHash = new StringBuilder();
         for (Dish choice : choices) {

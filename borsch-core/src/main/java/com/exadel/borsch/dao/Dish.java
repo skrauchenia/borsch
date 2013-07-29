@@ -13,7 +13,13 @@ public class Dish {
     private String hashId;
 
     public Dish() {
-        updateHash();
+    }
+
+    public Dish(String name, Integer price, String description) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.updateHash();
     }
 
     public UUID getId() {
