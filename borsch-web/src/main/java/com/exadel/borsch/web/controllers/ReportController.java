@@ -8,8 +8,6 @@ import com.exadel.borsch.managers.MenuManager;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -77,6 +75,7 @@ public class ReportController {
     }
 
     private static class AjaxResponse {
+
         private boolean responseSucceed = false;
 
         public boolean getResponesSucceed() {
@@ -89,6 +88,7 @@ public class ReportController {
     }
 
     private static class DailyOrder {
+
         private User user;
         private MenuItem menuItem;
         private Integer total;

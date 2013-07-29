@@ -7,7 +7,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <t:genericpage>
-    <jsp:attribute name="title">Order Report</jsp:attribute>
+    <jsp:attribute name="head">Order Report</jsp:attribute>
     <jsp:attribute name="scripts">
         <script>
             $("#navHome").removeClass();

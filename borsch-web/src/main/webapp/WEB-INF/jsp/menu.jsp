@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : menu
     Created on : Jul 19, 2013, 10:56:21 AM
     Author     : Tima
@@ -9,22 +9,22 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <t:genericpage>
-    
+
     <jsp:attribute name="head">
         <title>Menu</title>
     </jsp:attribute>
-        
+
     <jsp:attribute name="scripts">
         <script>
             $("#navHome").removeClass();
             $("#navUsers").removeClass();
             $("#navMenu").addClass("active");7
-            <sec:authorize access="hasRole(ROLE_PRINT_ORDER)">
+            <sec:authorize access="hasRole('ROLE_PRINT_ORDER')">
                 $("#navReport").removeClass();
             </sec:authorize>
         </script>
     </jsp:attribute>
-        
+
     <jsp:body>
         <div class="container">
             <div class="accordion" id="accordion2">
@@ -89,5 +89,5 @@
             </div>
         </div>
     </jsp:body>
-        
+
 </t:genericpage>
