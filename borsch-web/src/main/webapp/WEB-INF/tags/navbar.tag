@@ -32,7 +32,6 @@
                     <li id="navHome"><a href="${contextPath}/home"><spring:message code="navbar.home"/></a></li>
                     <li id="navMenu"><a href="${contextPath}/menu"><spring:message code="navbar.menu"/></a></li>
                     <li id="navUsers"><a href="${contextPath}/users"><spring:message code="navbar.users"/></a></li>
-                    <li id="navOrders"><a href="${contextPath}/orders"><spring:message code="navbar.orders"/></a></li>
                 </ul>
         </div>
     </div>
