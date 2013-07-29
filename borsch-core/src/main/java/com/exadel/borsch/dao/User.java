@@ -16,12 +16,21 @@ public class User {
     private String login;
     private String name;
     private String email;
+    private boolean needEmailNotification = true;
     private UUID id = UUID.randomUUID();
     private Set<AccessRight> accessRights = new HashSet<>();
     private Locale locale = new Locale("en_US");
 
     public User() {
         accessRights.add(AccessRight.ROLE_EDIT_MENU_SELF);
+    }
+
+    public boolean getNeedEmailNotification() {
+        return needEmailNotification;
+    }
+
+    public void setNeedEmailNotification(boolean needEmailNotification) {
+        this.needEmailNotification = needEmailNotification;
     }
 
     public UUID getId() {
