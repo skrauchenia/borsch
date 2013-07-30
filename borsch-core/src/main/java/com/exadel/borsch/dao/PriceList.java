@@ -7,9 +7,9 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.UUID;
 
 /**
@@ -85,9 +85,12 @@ public class PriceList {
                         forHash.toString());
     }
     public Map<Course, List<Dish>> getCourses() {
-        Map<Course, List<Dish>> courses = new TreeMap<>();
+        Map<Course, List<Dish>> courses = new HashMap<>();
         for (Dish dish : dishes) {
             Course course = dish.getCourse();
+            if (!courses.containsKey(course)) {
+                courses.put(course, new ArrayList<Dish>());
+            }
             courses.get(course).add(dish);
         }
         return courses;

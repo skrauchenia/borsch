@@ -77,12 +77,13 @@ public class MenuController {
         PriceList dishes = null;
         if ((prices != null) && (!prices.isEmpty())) {
             dishes = prices.get(prices.size() - 1);
+            dishes.addDish(dish);
+            manager.updatePriceList(dishes);
         } else {
             dishes = new PriceList();
+            dishes.addDish(dish);
             manager.addPriceList(dishes);
         }
-        dishes.getDishes().add(dish);
-        manager.updatePriceList(dishes);
         return ViewURLs.MENU_PAGE;
     }
     @RequestMapping("/edit/dish/{id}/edit")
