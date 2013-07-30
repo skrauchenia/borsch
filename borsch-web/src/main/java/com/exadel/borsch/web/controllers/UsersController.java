@@ -18,11 +18,8 @@ import org.springframework.ui.Model;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-<<<<<<< HEAD
 import org.springframework.security.access.prepost.PreAuthorize;
-=======
 
->>>>>>> for-sergei
 
 /**
  *
@@ -56,13 +53,8 @@ public class UsersController {
 
     @ResponseBody
     @RequestMapping("/edit/user/{userId}/edit")
-<<<<<<< HEAD
     public EditStatus processUpdateUserRequest(@PathVariable String userId,
             @Valid UserCommand userCommand, BindingResult result) {
-=======
-    public EditStatus  processUpdateUserRequest(@PathVariable String userId,
-                     @Valid UserCommand userCommand, BindingResult result) {
->>>>>>> for-sergei
         EditStatus response = new EditStatus();
         UserManager userManager = managerFactory.getUserManager();
         User user = userManager.getUserById(UUID.fromString(userId));
@@ -107,10 +99,7 @@ public class UsersController {
     }
 
     public static class EditStatus {
-<<<<<<< HEAD
 
-=======
->>>>>>> for-sergei
         private boolean alertName = false;
         private boolean alertLocale = false;
         private boolean alertRights = false;
@@ -139,13 +128,9 @@ public class UsersController {
             this.alertRights = alertRights;
         }
     }
-<<<<<<< HEAD
 
     public static class UserCommand {
 
-=======
-    public static class UserCommand {
->>>>>>> for-sergei
         @Size(min = 1, max = 20)
         private String name;
         @NotEmpty

@@ -7,7 +7,9 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -82,7 +84,17 @@ public class PriceList {
         return Encoder.encodeWithMD5(expirationTime.toString() + creationTime.toString(),
                         forHash.toString());
     }
-
+    public Map<Course, List<Dish>> getCourses() {
+        Map<Course, List<Dish>> courses = new HashMap<>();
+        for (Dish dish : dishes) {
+            Course course = dish.getCourse();
+            if (!courses.containsKey(course)) {
+                courses.put(course, new ArrayList<Dish>());
+            }
+            courses.get(course).add(dish);
+        }
+        return courses;
+    }
     @Override
     public boolean equals(Object toCompare) {
         if (toCompare instanceof PriceList) {
