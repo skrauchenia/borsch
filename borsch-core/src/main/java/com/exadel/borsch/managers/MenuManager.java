@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public interface MenuManager {
     void updateOrder(Order toUpdate);
-    void deleteOrderById(String hashId);
+    void deleteOrderById(UUID id);
     Order getOrderById(UUID id);
     void addOrder(Order toAdd);
     List<Order> getAllOrders();

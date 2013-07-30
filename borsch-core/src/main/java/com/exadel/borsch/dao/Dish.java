@@ -1,8 +1,9 @@
 package com.exadel.borsch.dao;
 
 import com.exadel.borsch.util.Encoder;
-import java.util.UUID;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+
+import java.util.UUID;
 
 public class Dish {
     private UUID id = UUID.randomUUID();

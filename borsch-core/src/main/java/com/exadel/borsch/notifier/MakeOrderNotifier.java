@@ -56,6 +56,10 @@ public class MakeOrderNotifier extends NotifierTask {
                 getNotification().submit(order.getOwner());
             }
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> for-sergei
         List<User> remainingUsers = new ArrayList<User>(userManager.getAllUsers());
         remainingUsers.removeAll(checkedUsers);
         getNotification().submit(remainingUsers);

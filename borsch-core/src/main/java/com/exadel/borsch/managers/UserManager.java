@@ -13,8 +13,6 @@ public interface UserManager {
     User getUserByLogin(String login);
     void deleteUserById(UUID userId);
     void updateUser(User toUpdate);
-    User getUserByHash(String hashId);
-    void deleteUserByHash(String hashId);
     void addUsers(List<User> toAdd);
     List<User> getAllUsers();
 }

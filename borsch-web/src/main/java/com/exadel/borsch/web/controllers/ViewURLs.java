@@ -16,7 +16,12 @@ public final class ViewURLs {
     public static final String USERS_PAGE = "users";
     public static final String ORDERS_PAGE = "orders";
     public static final String USER_EDIT_PAGE = "userEdit";
+<<<<<<< HEAD
     public static final String WEEK_ORDER_REPORT = "orderReport";
+=======
+    public static final String DISH_EDIT_PAGE = "dishEdit";
+    public static final String DISH_ADD_PAGE = "dishAdd";
+>>>>>>> for-sergei
     private ViewURLs() {
     }
 }
