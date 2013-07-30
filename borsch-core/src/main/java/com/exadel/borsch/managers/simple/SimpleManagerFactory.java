@@ -147,11 +147,11 @@ public class SimpleManagerFactory implements ManagerFactory {
         }
 
         @Override
-        public void deleteOrderById(String hashId) {
+        public void deleteOrderById(UUID id) {
             ListIterator<Order> iter = orders.listIterator();
             while (iter.hasNext()) {
                 Order curOrder = iter.next();
-                if (curOrder.getHash().equals(hashId)) {
+                if (curOrder.getId().equals(id)) {
                     iter.remove();
                     return;
                 }
@@ -159,9 +159,9 @@ public class SimpleManagerFactory implements ManagerFactory {
         }
 
         @Override
-        public Order getOrderById(String hashId) {
+        public Order getOrderById(UUID id) {
             for (Order order : orders) {
-                if (order.getHash().equals(hashId)) {
+                if (order.getId().equals(id)) {
                     return order;
                 }
             }
@@ -196,9 +196,9 @@ public class SimpleManagerFactory implements ManagerFactory {
             prices = new ArrayList<>();
         }
         @Override
-        public PriceList getPriceListById(String hashId) {
+        public PriceList getPriceListById(UUID id) {
             for (PriceList priceList : prices) {
-                if (priceList.getHash().equals(hashId)) {
+                if (priceList.getHash().equals(id)) {
                     return priceList;
                 }
             }
@@ -206,11 +206,11 @@ public class SimpleManagerFactory implements ManagerFactory {
         }
 
         @Override
-        public void deletePriceListById(String hashId) {
+        public void deletePriceListById(UUID id) {
             ListIterator<PriceList> iter = prices.listIterator();
             while (iter.hasNext()) {
                 PriceList curPriceList = iter.next();
-                if (curPriceList.getHash().equals(hashId)) {
+                if (curPriceList.getHash().equals(id)) {
                     iter.remove();
                     return;
                 }
@@ -227,7 +227,7 @@ public class SimpleManagerFactory implements ManagerFactory {
             ListIterator<PriceList> iter = prices.listIterator();
             while (iter.hasNext()) {
                 PriceList curPriceList = iter.next();
-                if (curPriceList.getHash().equals(toUpdate.getHash())) {
+                if (curPriceList.getId().equals(toUpdate.getId())) {
                     iter.set(toUpdate);
                     return;
                 }
