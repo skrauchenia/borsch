@@ -38,17 +38,20 @@ public class HomeController {
         if (!orders.isEmpty()) {
             order = orders.get(0);  //why zero index
         } else {
-            MenuItem item1 = new MenuItem();
-            item1.setDate(DateTime.now());
-            item1.addDish(new Dish("pizza", PRICE, "tasty"));
             order = new Order();
-            order.addMenuItem(item1);
             order.setOwner(user);
             order.setStartDate(DateTimeUtils.getStartOfCurrentWeek());
             order.setEndDate(order.getStartDate().plusDays(DateTimeUtils.WORKING_DAYS_IN_WEEK));
-           /* for (int i = 0; i < DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
-                order.addMenuItem(new MenuItem());
-            }*/
+            for (int i = 0; i < DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
+                if (i + 1 == DateTime.now().getDayOfWeek()) {
+                    MenuItem item1 = new MenuItem();
+                    item1.setDate(DateTime.now());
+                    item1.addDish(new Dish("pizza", PRICE, "tasty"));
+                    order.addMenuItem(item1);
+                } else {
+                    order.addMenuItem(new MenuItem());
+                }
+            }
             menuManager.addOrder(order);
         }
 

@@ -9,6 +9,8 @@
 <t:genericpage>
     <jsp:attribute name="head">
         <title>Order Report</title>
+    </jsp:attribute>
+    <jsp:attribute name="scripts">
         <script>
             $("#navHome").removeClass();
             $("#navUsers").removeClass();
@@ -18,7 +20,7 @@
             function markAsPaid(menuItemId, weekOrderId){
                 //TODO: finish this section\
                 $.ajax({
-                    url: "/report/setPaid/"+ weekOrderId + "/" + menuItemId,
+                    url: "${contextPath}/report/setPaid/"+ weekOrderId + "/" + menuItemId,
                     type: 'POST',
                     dataType: "json"
                 }).done(function(response){
