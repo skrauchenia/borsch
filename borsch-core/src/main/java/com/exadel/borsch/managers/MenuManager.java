@@ -1,6 +1,7 @@
 package com.exadel.borsch.managers;
 
 import com.exadel.borsch.dao.Order;
+import com.exadel.borsch.dao.User;
 
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface MenuManager {
     Order getOrderById(String hashId);
     void addOrder(Order toAdd);
     List<Order> getAllOrders();
+    List<Order> getOrdersForUser(User user);
 }

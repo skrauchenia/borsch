@@ -38,6 +38,16 @@ sn: Wombat
 uid: scott
 userPassword: wombat
 
+dn: uid=admin,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Borsch
+sn: Master
+uid: admin
+userPassword: 13758642
+
 dn: cn=user,ou=groups,dc=springframework,dc=org
 objectclass: top
 objectclass: groupOfNames

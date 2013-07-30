@@ -14,7 +14,7 @@
     </jsp:attribute>
 
     <jsp:body>
-        <form class="form-horizontal" action="${contextPath}/edit/dish/${id}/save" method="POST">
+        <form class="form-horizontal" action="${contextPath}/edit/dish/${id}/edit/save" method="POST">
             <div class="container" >
                 <div class="offset2">
                     <h4 id="myModalLabel">Edit dish:</h4>
@@ -42,9 +42,9 @@
                     <label class="control-label" for="corse">Course</label>
                     <div class="controls">
                         <select name="course">
-                            <option value="firstCourse">First course</option>
-                            <option value="secondCourse">Second course</option>
-                            <option value="dessert">Dessert</option>
+                            <option value="FIRST_COURSE">First course</option>
+                            <option value="SECOND_COURSE">Second course</option>
+                            <option value="DESSERT">Dessert</option>
                         </select>
                     </div>
                 </div>

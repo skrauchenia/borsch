@@ -4,10 +4,7 @@ import com.exadel.borsch.util.Encoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Andrey Zhilka
@@ -19,9 +16,30 @@ public class User {
     private String login;
     private String name;
     private String email;
-    private UUID id = UUID.randomUUID();;
-    private List<AccessRight> accessRights = new ArrayList<>();
+    private boolean needEmailNotification = true;
+    private UUID id = UUID.randomUUID();
+    private Set<AccessRight> accessRights = new HashSet<>();
     private Locale locale = new Locale("en_US");
+
+    public User() {
+        accessRights.add(AccessRight.ROLE_EDIT_MENU_SELF);
+    }
+
+    public boolean getNeedEmailNotification() {
+        return needEmailNotification;
+    }
+
+    public void setNeedEmailNotification(boolean needEmailNotification) {
+        this.needEmailNotification = needEmailNotification;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getLogin() {
         return login;
@@ -55,10 +73,6 @@ public class User {
         this.locale = locale;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
     public boolean addAccessRights(List<AccessRight> toAdd) {
         return accessRights.addAll(toAdd);
     }
@@ -67,8 +81,37 @@ public class User {
         return accessRights.removeAll(toDiscard);
     }
 
+    public Set<AccessRight> getAccessRights() {
+        return Collections.unmodifiableSet(accessRights);
+    }
+
+    public Set<String> getStringAccessRights() {
+        Set<String> rights = new HashSet<>();
+        for (AccessRight right : accessRights) {
+            rights.add(right.getName());
+        }
+
+        return rights;
+    }
+
+    public void setAccessRights(List<String> newAccessRights) {
+        accessRights = new HashSet<>();
+        for (String newRight : newAccessRights) {
+            for (AccessRight right : AccessRight.values()) {
+                if (right.getName().equals(newRight)) {
+                    accessRights.add(right);
+                    break;
+                }
+            }
+        }
+    }
+
     public String getHash() {
         String usersHash = Encoder.encodeWithMD5(name, email);
         return usersHash;
+    }
+
+    public boolean hasAccessRight(AccessRight accessRight) {
+        return accessRights.contains(accessRight);
     }
 }

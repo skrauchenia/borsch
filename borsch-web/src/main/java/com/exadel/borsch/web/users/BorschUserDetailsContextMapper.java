@@ -1,5 +1,6 @@
 package com.exadel.borsch.web.users;
 
+import com.exadel.borsch.dao.AccessRight;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -24,13 +25,20 @@ public class BorschUserDetailsContextMapper implements UserDetailsContextMapper 
     public UserDetails mapUserFromContext(DirContextOperations dco, String userName,
                                           Collection<? extends GrantedAuthority> authority) {
         UserManager daoManager = managerFactory.getUserManager();
-        User user = daoManager.getUserByName(userName);
+        User user = daoManager.getUserByLogin(userName);
 
         if (user == null) {
             user = new User();
             user.setLogin(userName);
             user.setName(dco.getStringAttribute("cn"));
             user.setEmail(userName + "@exadel.com");
+
+            // TODO: remove this!
+            if (userName.equals("admin")) {
+                user.setEmail("borschmail@gmail.com");
+                user.addAccessRights(Arrays.asList(AccessRight.values()));
+            }
+
             User[] usersToAdd = {user};
             daoManager.addUsers(Arrays.asList(usersToAdd));
         }

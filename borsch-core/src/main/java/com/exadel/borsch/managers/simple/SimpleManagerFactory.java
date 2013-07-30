@@ -47,7 +47,7 @@ public class SimpleManagerFactory implements ManagerFactory {
     private static class SimpleUserManager implements UserManager {
         private List<User> users;
 
-        SimpleUserManager() {
+        public SimpleUserManager() {
             // TODO read frome file
             users = new ArrayList<>();
         }
@@ -58,18 +58,16 @@ public class SimpleManagerFactory implements ManagerFactory {
                     return user;
                 }
             }
-            User.LOGGER.error("User with id=" + userId + " does not exist.");
             return null;
         }
 
         @Override
-        public User getUserByName(String name) {
+        public User getUserByLogin(String login) {
             for (User user : users) {
-                if (user.getName().equals(name)) {
+                if (user.getLogin().equals(login)) {
                     return user;
                 }
             }
-            User.LOGGER.error("User with name=" + name + " does not exist.");
             return null;
         }
 
@@ -84,7 +82,6 @@ public class SimpleManagerFactory implements ManagerFactory {
                     return;
                 }
             }
-            User.LOGGER.error("User with id=" + userId + " does not exist.");
         }
 
         @Override
@@ -97,7 +94,6 @@ public class SimpleManagerFactory implements ManagerFactory {
                     return;
                 }
             }
-            User.LOGGER.error("User with id=" + toUpdate.getId() + " does not exist.");
         }
 
         @Override
@@ -107,7 +103,6 @@ public class SimpleManagerFactory implements ManagerFactory {
                     return user;
                 }
             }
-            User.LOGGER.error("User with hash=" + hashId + " does not exist.");
             return null;
         }
 
@@ -121,7 +116,6 @@ public class SimpleManagerFactory implements ManagerFactory {
                     return;
                 }
             }
-            User.LOGGER.error("User with hash=" + hashId + " does not exist.");
         }
 
         @Override
@@ -136,7 +130,7 @@ public class SimpleManagerFactory implements ManagerFactory {
     }
     private static class SimpleMenuManager implements MenuManager {
         private List<Order> orders;
-        SimpleMenuManager() {
+        public SimpleMenuManager() {
             // TODO read frome file
             orders = new ArrayList<>();
         }
@@ -182,6 +176,17 @@ public class SimpleManagerFactory implements ManagerFactory {
         @Override
         public List<Order> getAllOrders() {
             return Collections.unmodifiableList(orders);
+        }
+
+        @Override
+        public List<Order> getOrdersForUser(User user) {
+            List<Order> result = new ArrayList<>();
+            for (Order order: orders) {
+                if (order.getOwner().equals(user)) {
+                    result.add(order);
+                }
+            }
+            return result;
         }
     }
     private static class SimplePriceManager implements PriceManager {

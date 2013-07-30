@@ -23,10 +23,10 @@
             function loadModal(method, id) {
                 var src = "${contextPath}/";
                 if (arguments.length === 1) {
-                    src += method + "/dish?internal=true";
+                    src += "edit/dish/" + method + "?internal=true";
                 }
                 else {
-                    src += method + "/dish/" + id + "?internal=true";
+                    src += "edit/dish/" + id + "/" + method + "?internal=true";
                 }
                 load(src);
             }
@@ -45,7 +45,7 @@
             function removeDish(id, rowId) {
                 var src = "${contextPath}/edit/dish/" + id + "/remove";
                 $.post(src, {removeId: id});
-                $('#row' + rowId).hide(1000, function() {
+                $('#row' + rowId).hide(100, function() {
                     $('#row' + rowId).remove();
                 });
             }

@@ -46,28 +46,46 @@ public class MenuController {
         }
         return mav;
     }
-    @RequestMapping("/add/dish")
+    @RequestMapping("/edit/dish/add")
     public String processAddPageRequest(ModelMap model) {
         return ViewURLs.DISH_ADD_PAGE;
     }
-    @RequestMapping("/add/dish/save")
+    @RequestMapping("/edit/dish/add/save")
     public String processSaveDishRequest(ModelMap model, HttpServletRequest request) {
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
         String description = request.getParameter("description");
-        Course course  = Course.valueOf(request.getParameter("course"));
+        Course course = null;
+        switch (request.getParameter("course")) {
+            case "FIRST_COURSE":
+                course = Course.FIRST_COURSE;
+                break;
+            case "SECOND_COURSE":
+                course = Course.SECOND_COURSE;
+                break;
+            case "DESSERT":
+                course = Course.DESSERT;
+                break;
+            default:
+                course = Course.FIRST_COURSE;
+        }
         Dish dish = new Dish(name, price, description);
         dish.setCourse(course);
         ManagerFactory factory = new SimpleManagerFactory();
         PriceManager manager = factory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
+        PriceList dishes = null;
         if ((prices != null) && (!prices.isEmpty())) {
-            PriceList dishes = prices.get(prices.size() - 1);
-            dishes.getDishes().add(dish);
+            dishes = prices.get(prices.size() - 1);
+        } else {
+            dishes = new PriceList();
+            manager.addPriceList(dishes);
         }
+        dishes.getDishes().add(dish);
+        manager.updatePriceList(dishes);
         return ViewURLs.MENU_PAGE;
     }
-    @RequestMapping("/edit/dish/{id}")
+    @RequestMapping("/edit/dish/{id}/edit")
     public String processEditPageRequest(@PathVariable String id, ModelMap model) {
 //        model.addAttribute("id", id);
 //        model.addAttribute("name", "name");
@@ -87,7 +105,7 @@ public class MenuController {
     }
 
     @ResponseBody
-    @RequestMapping("/edit/dish/{id}/save")
+    @RequestMapping("/edit/dish/{id}/edit/save")
     public String processUpdateDishRequest(@PathVariable String id,
             ModelMap model, HttpServletRequest request) {
 //        System.out.println(request.getParameter("name"));
@@ -119,9 +137,8 @@ public class MenuController {
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
-            //TODO : remove dish
-//            dishes.getDishes(
-            System.out.println(dishes.getId());
+            Dish forRemove = dishes.getDishById(UUID.fromString(id));
+            dishes.removeDish(forRemove);
         }
         return ViewURLs.MENU_PAGE;
     }
