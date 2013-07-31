@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -75,6 +76,17 @@ public class PriceList {
         return dishes.remove(dish);
     }
 
+    public void updateDish(Dish dish) {
+        ListIterator<Dish> iter = dishes.listIterator();
+        while (iter.hasNext()) {
+            Dish curDish = iter.next();
+            if (curDish.getId().equals(dish.getId())) {
+                iter.set(dish);
+                return;
+            }
+        }
+        dishes.add(dish);
+    }
     public String getHash() {
         StringBuilder forHash = new StringBuilder();
         for (Dish dish : dishes) {
