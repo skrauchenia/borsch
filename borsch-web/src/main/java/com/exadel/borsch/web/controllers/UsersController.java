@@ -4,6 +4,8 @@ import com.exadel.borsch.dao.AccessRight;
 import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.UserManager;
+import com.exadel.borsch.web.users.UserUtils;
+import java.security.Principal;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +20,6 @@ import org.springframework.ui.Model;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.springframework.security.access.prepost.PreAuthorize;
-
 
 /**
  *
@@ -34,8 +34,9 @@ public class UsersController {
     private ManagerFactory managerFactory;
 
     @RequestMapping("/users")
-    @PreAuthorize("hasRole('ROLE_EDIT_PROFILE')")
-    public String processPageRequest(Model model) {
+    public String processPageRequest(Principal principal, Model model) {
+        UserUtils.hasRole(principal, AccessRight.ROLE_EDIT_PROFILE);
+
         UserManager userManager = managerFactory.getUserManager();
         model.addAttribute("users", userManager.getAllUsers());
         return ViewURLs.USERS_PAGE;

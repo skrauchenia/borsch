@@ -1,15 +1,18 @@
 package com.exadel.borsch.web.users;
 
+import com.exadel.borsch.dao.AccessRight;
 import com.exadel.borsch.dao.User;
 import java.security.Principal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 /**
  * @author zubr
  */
 public final class UserUtils {
+
     private static final Logger LOGGER = Logger.getLogger(UserUtils.class.getName());
 
     private UserUtils() {
@@ -25,5 +28,15 @@ public final class UserUtils {
 
         LOGGER.log(Level.SEVERE, "The Principal is not BorschUser");
         return null;
+    }
+
+    public static void hasRole(Principal principal, AccessRight accessRight) throws AccessDeniedException {
+        User user = getUserByPrincipal(principal);
+        if (user != null) {
+            if (!user.hasAccessRight(accessRight)) {
+                throw new AccessDeniedException("Access for user with login \"" + user.getLogin() + "\" is denied.");
+            }
+            throw new AccessDeniedException("Access is denied.");
+        }
     }
 }
