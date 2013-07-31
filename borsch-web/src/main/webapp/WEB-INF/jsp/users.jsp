@@ -17,9 +17,7 @@
 
     <jsp:attribute name="scripts">
         <script type="text/javascript">
-            $("#navHome").removeClass();
             $("#navUsers").addClass("active");
-            $("#navMenu").removeClass();
             function sendResponse(userId, rowId) {
                 $.post("${contextPath}/edit/user/"+userId+"/remove",{removeId: userId});
                 $('#'+rowId).hide(1000, function () {

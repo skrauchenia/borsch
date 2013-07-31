@@ -1,7 +1,7 @@
 <%--
     Document   : menu
     Created on : Jul 19, 2013, 10:56:21 AM
-    Author     : Tima
+    Author     : Tima, Andrew Zhilka
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -17,8 +17,6 @@
 
     <jsp:attribute name="scripts">
         <script>
-            $("#navHome").removeClass();
-            $("#navUsers").removeClass();
             $("#navMenu").addClass("active");
             function loadModal(method, id) {
                 var src = "${contextPath}/";
@@ -49,6 +47,26 @@
                     $('#row' + rowId).remove();
                 });
             }
+
+            function dishAction(action, course, dishId) {
+                var targetUrl = "${contextPath}/edit/dish/" + action;
+                if (action == "edit") {
+                    targetUrl = targetUrl + '/' + dishId;
+                }
+                $.ajax({
+                    url:  targetUrl,
+                    data: {"course" : course},
+                    type: 'POST',
+                    dataType: "json"
+                }).done(function(response){
+                            if ($('#'+response.id).length() > 0) {
+                                //action is 'edit'
+
+                            } else {
+                                //action is 'add'
+                            }
+                        });
+            }
         </script>
     </jsp:attribute>
 
@@ -63,7 +81,7 @@
                     </div>
                     <div id="collapseOne" class="accordion-body collapse in">
                         <div class="accordion-inner">
-                            <table class="table table-condensed">
+                            <table class="table table-condensed firstCourseTable">
                                 <tr>
                                     <th>Name</th>
                                     <th>Price</th>
@@ -98,28 +116,6 @@
                                         </td>
                                     </tr>
                                 </c:forEach>
-                                <tr id="rowsemki">
-                                    <td></td>
-                                    <td>Семки</td>
-                                    <td>228</td>
-                                    <td>
-                                        <button type="submit" class="btn btn-success">
-                                            <i class="icon-ok icon-white"></i> Add to order
-                                        </button>
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="icon-remove icon-white"></i> Remove from order
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" onclick="loadModal('edit', '123')" class="btn btn-success" data-toggle="modal">
-                                            <i class="icon-pencil icon-white"></i> Edit
-                                        </button>
-                                        <button type="button" class="btn btn-danger" onclick="removeDish('123','semki')">
-                                            <i class="icon-remove icon-white"></i> Remove
-                                        </button>
-                                    </td>
-                                </tr>
-
                             </table>
                         </div>
                     </div>
@@ -132,7 +128,7 @@
                     </div>
                     <div id="collapseTwo" class="accordion-body collapse">
                         <div class="accordion-inner">
-                            <table class="table table-condensed">
+                            <table class="table table-condensed secondCourseTable">
                                 <tr>
                                     <th>Name</th>
                                     <th>Price</th>
@@ -145,8 +141,8 @@
                                 </tr>
                                 <c:forEach var="dish" items="${secondCourse}">
                                     <tr>
-                                        <th>${dish.name}</th>
-                                        <th>${dish.price}</th>
+                                        <td>${dish.name}</td>
+                                        <td>${dish.price}</td>
                                         <th>
                                             <button type="submit" class="btn btn-success" value="${dish.id}">
                                                 <i class="icon-ok icon-white"></i> Add to order
@@ -177,7 +173,7 @@
                     </div>
                     <div id="collapseThree" class="accordion-body collapse">
                         <div class="accordion-inner">
-                            <table class="table table-condensed">
+                            <table class="table table-condensed dessertTable">
                                 <tr>
                                     <th>Name</th>
                                     <th>Price</th>
@@ -190,8 +186,8 @@
                                 </tr>
                                 <c:forEach var="dish" items="${dessert}">
                                     <tr>
-                                        <th>${dish.name}</th>
-                                        <th>${dish.price}</th>
+                                        <td>${dish.name}</td>
+                                        <td>${dish.price}</td>
                                         <th>
                                             <button type="submit" class="btn btn-success" value="${dish.id}">
                                                 <i class="icon-ok icon-white"></i> Add to order
@@ -226,7 +222,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"><i class="icon-ban-circle icon-white"></i> Cancel</button>
-                <button id="save" class="btn btn-success" type="submit">
+                <button id="save" class="btn btn-success" type="submit" onclick="">
                     <i class="icon-ok icon-white"></i> Save
                 </button>
             </div>

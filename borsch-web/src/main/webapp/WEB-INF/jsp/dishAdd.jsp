@@ -42,7 +42,7 @@
                 <div class="control-group">
                     <label class="control-label" for="course">Course</label>
                     <div class="controls">
-                        <select name="course">
+                        <select name="course" id="course">
                             <option value="FIRST_COURSE">First course</option>
                             <option value="SECOND_COURSE">Second course</option>
                             <option value="DESSERT">Dessert</option>
