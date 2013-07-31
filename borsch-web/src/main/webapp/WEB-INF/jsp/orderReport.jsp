@@ -9,26 +9,25 @@
 <t:genericpage>
     <jsp:attribute name="head">
         <title>Order Report</title>
+    </jsp:attribute>
+    <jsp:attribute name="scripts">
         <script>
-            $("#navHome").removeClass();
-            $("#navUsers").removeClass();
-            $("#navMenu").removeClass();
             $("#navReport").addClass("active");
 
             function markAsPaid(menuItemId, weekOrderId){
                 //TODO: finish this section\
                 $.ajax({
-                    url: "/report/setPaid/"+ weekOrderId + "/" + menuItemId,
+                    url: "${contextPath}/report/setPaid/"+ weekOrderId + "/" + menuItemId,
                     type: 'POST',
                     dataType: "json"
                 }).done(function(response){
                             if(response.responseSucceed == true) {
-                                $("#orderNotPaid").hide("slow");
-                                $("#orderPaid").show("slow");
+                                $("#orderNotPaid"+menuItemId).hide("slow");
+                                $("#orderPaid"+menuItemId).show("slow");
                             } else {
                                 alert("<spring:message code="request.fail"/>");
-                                $("#orderPaid").hide("slow");
-                                $("#orderNotPaid").show("slow");
+                                $("#orderPaid"+menuItemId).hide("slow");
+                                $("#orderNotPaid"+menuItemId).show("slow");
                             }
                         })
                   .fail(function(){
@@ -69,12 +68,12 @@
                                                 <td>
                                                     <button class="btn btn-success
                                                         <c:if test="${order.menuItem.isPaid != true}">
-                                                         hide</c:if>" id="orderPaid" disabled>
+                                                         hide</c:if>" id="orderPaid${order.menuItem.id}" title="Order is paid" disabled>
                                                             <i class="icon-ok icon-white"></i>
                                                         </button>
                                                         <button class="btn btn-danger
                                                         <c:if test="${order.menuItem.isPaid == true}">
-                                                         hide</c:if>" id="orderNotPaid"
+                                                         hide</c:if>" id="orderNotPaid${order.menuItem.id}" title="Order is not paid"
                                                                 onclick="markAsPaid('${order.menuItem.id}',
                                                                             '${order.weekOrderId}')">
                                                             <i class="icon-remove icon-white"></i>
@@ -90,6 +89,6 @@
                     <c:set var="dayNumber" value="${dayNumber + 1}" scope="page"/>
                 </c:forEach>
             </div>
-        <div>
+        </div>
     </jsp:body>
 </t:genericpage>

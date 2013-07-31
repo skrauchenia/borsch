@@ -1,5 +1,8 @@
 package com.exadel.borsch.managers.simple;
 
+import com.exadel.borsch.dao.AccessRight;
+import com.exadel.borsch.dao.Course;
+import com.exadel.borsch.dao.Dish;
 import com.exadel.borsch.dao.Order;
 import com.exadel.borsch.dao.PriceList;
 import com.exadel.borsch.dao.User;
@@ -50,6 +53,14 @@ public class SimpleManagerFactory implements ManagerFactory {
         public SimpleUserManager() {
             // TODO read frome file
             users = new ArrayList<>();
+
+            // Test data
+            User admin = new User();
+            admin.setName("Administrator The Great");
+            admin.setLogin("admin");
+            admin.setEmail("borschmail@gmail.com");
+            admin.addAccessRights(Arrays.asList(AccessRight.values()));
+            users.add(admin);
         }
         @Override
         public User getUserById(UUID userId) {
@@ -175,6 +186,35 @@ public class SimpleManagerFactory implements ManagerFactory {
         SimplePriceManager() {
             // TODO read from file
             prices = new ArrayList<>();
+
+            // Test data
+            PriceList list = new PriceList();
+            //CHECKSTYLE:OFF
+            Object[][] listData = {
+                {Course.DESSERT, "Торт", "Отличный старый добрый торт! Прямо из пекарни! (столовая)", "cake.jpg.to", 59600},
+                {Course.DESSERT, "Блинчики с джемом", "Очень вкусные, и в отличие от блинчиков с ветчиной - не содержат кошек!", "pancakes.jpg.to", 10000},
+                {Course.FIRST_COURSE, "Боорщъ", "Просто борщ", "borsch.jpg.to", 7950},
+                {Course.FIRST_COURSE, "Суп", "Это не борщ. Не заказывайте.", "soup.jpg.to", 7000},
+                {Course.SECOND_COURSE, "Макароны", "Длинные такие, твердые.", "spaghetti.jpg.to", 3700},
+                {Course.SECOND_COURSE, "Картофель фри", "Mega edition. Специально от нашей столовой! Почти как в макдональдсе!", "potatoes.jpg.to", 4200},
+                {Course.SECOND_COURSE, "Драники", "Настоящие белорусские! Без пояснений", "draniki.jpg.to", 5400},
+                {Course.SECOND_COURSE, "Котлеты", "Из них делают блины. В том числе.", "http://котлет.jpg.to/", 19000}
+            };
+            for (int i = 0; i < listData.length; i++) {
+                Dish dish = new Dish();
+                dish.setCourse((Course) listData[i][0]);
+                dish.setName((String) listData[i][1]);
+                dish.setDescription((String) listData[i][2]);
+                dish.setPhotoUrl((String) listData[i][3]);
+                dish.setPrice((int) listData[i][4]);
+                list.addDish(dish);
+            }
+            //CHECKSTYLE:ON
+
+            // Some empty list
+            prices.add(new PriceList());
+            // Some useful list
+            prices.add(list);
         }
         @Override
         public PriceList getPriceListById(UUID id) {

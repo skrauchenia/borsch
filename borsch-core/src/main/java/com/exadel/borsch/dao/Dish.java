@@ -14,7 +14,6 @@ public class Dish {
     private Course course;
 
     public Dish() {
-        updateHash();
     }
     public Dish(String name, Integer price, String description) {
         this.name = name;
@@ -27,17 +26,12 @@ public class Dish {
         return id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-        updateHash();
     }
 
     public String getPhotoUrl() {
@@ -54,7 +48,6 @@ public class Dish {
 
     public void setPrice(int price) {
         this.price = price;
-        updateHash();
     }
 
     public String getDescription() {
@@ -63,7 +56,6 @@ public class Dish {
 
     public void setDescription(String description) {
         this.description = description;
-        updateHash();
     }
 
     private void updateHash() {
@@ -71,12 +63,10 @@ public class Dish {
     }
 
     public String getHashId() {
+        updateHash();
         return hashId;
     }
 
-    public void setHashId(String hashId) {
-        this.hashId = hashId;
-    }
     public void setCourse(Course course) {
         this.course = course;
     }
