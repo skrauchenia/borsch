@@ -36,21 +36,16 @@ public class HomeController {
         List<Order> orders = menuManager.getOrdersForUser(user);
         Order order;
         if (!orders.isEmpty()) {
-            order = orders.get(0);  //why zero index
+            order = orders.get(0);
         } else {
             order = new Order();
             order.setOwner(user);
             order.setStartDate(DateTimeUtils.getStartOfCurrentWeek());
             order.setEndDate(order.getStartDate().plusDays(DateTimeUtils.WORKING_DAYS_IN_WEEK));
             for (int i = 0; i < DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
-                if (i + 1 == DateTime.now().getDayOfWeek()) {
-                    MenuItem item1 = new MenuItem();
-                    item1.setDate(DateTime.now());
-                    item1.addDish(new Dish("pizza", PRICE, "tasty"));
-                    order.addMenuItem(item1);
-                } else {
-                    order.addMenuItem(new MenuItem());
-                }
+                MenuItem item = new MenuItem();
+                item.setDate(order.getStartDate().plusDays(i));
+                order.addMenuItem(item);
             }
             menuManager.addOrder(order);
         }

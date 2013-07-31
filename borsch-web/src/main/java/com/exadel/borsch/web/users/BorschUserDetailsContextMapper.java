@@ -33,12 +33,6 @@ public class BorschUserDetailsContextMapper implements UserDetailsContextMapper 
             user.setName(dco.getStringAttribute("cn"));
             user.setEmail(userName + "@exadel.com");
 
-            // TODO: remove this!
-            if (userName.equals("admin")) {
-                user.setEmail("borschmail@gmail.com");
-                user.addAccessRights(Arrays.asList(AccessRight.values()));
-            }
-
             User[] usersToAdd = {user};
             daoManager.addUsers(Arrays.asList(usersToAdd));
         }
