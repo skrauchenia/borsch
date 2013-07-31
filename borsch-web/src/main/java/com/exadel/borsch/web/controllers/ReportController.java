@@ -57,7 +57,7 @@ public class ReportController {
         for (Order order : allOrders) {
             order.sortOrderByWeekday();
             for (MenuItem item : order.getOrder()) {
-                if (item.getChoices().size() == 0) {
+                if (item.getChoices().isEmpty()) {
                     continue;
                 }
                 DailyOrder daySummary = new DailyOrder();
@@ -82,7 +82,7 @@ public class ReportController {
         return ViewURLs.WEEK_ORDER_REPORT;
     }
 
-    private static class AjaxResponse {
+    public static class AjaxResponse {
 
         private boolean responseSucceed = true;
 
