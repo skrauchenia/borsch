@@ -92,7 +92,8 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/edit/user/{userId}/remove", method = RequestMethod.POST)
-    public String processRemoveUserRequest(@PathVariable String userId) {
+    public String processRemoveUserRequest(@PathVariable String userId, Principal principal) {
+        UserUtils.hasRole(principal, AccessRight.ROLE_EDIT_PROFILE);
         UserManager userManager = managerFactory.getUserManager();
         userManager.deleteUserById(UUID.fromString(userId));
         return ViewURLs.USERS_PAGE;
