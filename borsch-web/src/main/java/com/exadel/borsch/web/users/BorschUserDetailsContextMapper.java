@@ -1,6 +1,5 @@
 package com.exadel.borsch.web.users;
 
-import com.exadel.borsch.dao.AccessRight;
 import java.util.Arrays;
 import java.util.Collection;
 
