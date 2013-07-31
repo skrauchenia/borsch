@@ -43,6 +43,17 @@
                 <div class="control-group">
                     <label class="control-label" for="description">Description</label>
                     <div class="controls">
+                        <textarea class="form-horizontal" id="description" name="description" rows="3" placeholder="Description..."></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="course">Course</label>
+                    <div class="controls">
+                        <select name="course" id="course">
+                            <option value="FIRST_COURSE">First course</option>
+                            <option value="SECOND_COURSE">Second course</option>
+                            <option value="DESSERT">Dessert</option>
+                        </select>
                         <textarea class="form-horizontal" id="description" name="description" rows="3" placeholder="Description...">${description}</textarea>
                     </div>
                 </div>

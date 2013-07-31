@@ -28,7 +28,6 @@ import javax.validation.constraints.Size;
 @Controller
 public class UsersController {
 
-    private static final int HTTP_OK = 200;
     private static UserCommand userCommand = new UserCommand();
     @Autowired
     private ManagerFactory managerFactory;
@@ -81,7 +80,7 @@ public class UsersController {
         response.setAlertRights(hasError && !userCommand.isRightsNull());
 
         if (!hasError && !userCommand.isRightsNull()) {
-            user.setAccessRights(Arrays.asList(userCommand.getRights()));
+            user.setStringAccessRights(Arrays.asList(userCommand.getRights()));
         }
 
         user.setNeedEmailNotification(userCommand.getNeedEmailNotification());

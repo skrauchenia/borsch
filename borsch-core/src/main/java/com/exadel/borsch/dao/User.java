@@ -94,7 +94,7 @@ public class User {
         return rights;
     }
 
-    public void setAccessRights(List<String> newAccessRights) {
+    public void setStringAccessRights(List<String> newAccessRights) {
         accessRights = new HashSet<>();
         for (String newRight : newAccessRights) {
             for (AccessRight right : AccessRight.values()) {
