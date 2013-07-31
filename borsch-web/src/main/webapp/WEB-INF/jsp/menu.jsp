@@ -21,7 +21,7 @@
             $("#navUsers").removeClass();
             $("#navMenu").addClass("active");
             function loadModal(method, id) {
-                var src = "${contextPath}/";
+                
                 if (arguments.length === 1) {
                     src += "edit/dish/" + method + "?internal=true";
                 }
@@ -42,11 +42,21 @@
                     });
                 });
             }
-            function removeDish(id, rowId) {
+            function addDish(course) {
+                var src = "${contextPath}/";
+                src += "edit/dish/add/" + course + "?internal=true";
+                load(src);
+            }
+            function editDish(id) {
+                var src = "${contextPath}/";
+                src += "edit/dish/" + id + "/edit" + "?internal=true";
+                load(src);
+            }
+            function removeDish(id) {
                 var src = "${contextPath}/edit/dish/" + id + "/remove";
                 $.post(src, {removeId: id});
-                $('#row' + rowId).hide(100, function() {
-                    $('#row' + rowId).remove();
+                $('#row' + id).hide(100, function() {
+                    $('#row' + id).remove();
                 });
             }
         </script>
@@ -70,13 +80,13 @@
                                     <th></th>
                                     <th></th>
                                     <th>
-                                        <button type="submit" class="btn btn-success" style="float: right" onclick="loadModal('add')">
+                                        <button type="submit" class="btn btn-success" style="float: right" onclick="addDish('FIRST_COURSE')">
                                             <i class="icon-plus icon-white"></i> Add
                                         </button>
                                     </th>
                                 </tr>
                                 <c:forEach var="dish" items="${firstCourse}" varStatus="st">
-                                    <tr id="row${st.index}">
+                                    <tr id="row${dish.id}">
                                         <td>${st.index+1}</td>
                                         <td>${dish.name}</td>
                                         <td>${dish.price}</td>
@@ -89,37 +99,15 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <button type="submit" class="btn btn-info" onclick="loadModal('edit', '${dish.id}')">
+                                            <button type="submit" class="btn btn-info" onclick="editDish('${dish.id}')">
                                                 <i class="icon-pencil icon-white"></i> Edit
                                             </button>
-                                            <button type="submit" class="btn btn-danger" onclick="removeDish('${dish.id}', '${st.index}')">
+                                            <button type="submit" class="btn btn-danger" onclick="removeDish('${dish.id}')">
                                                 <i class="icon-remove icon-white"></i> Remove
                                             </button>
                                         </td>
                                     </tr>
                                 </c:forEach>
-                                <tr id="rowsemki">
-                                    <td></td>
-                                    <td>Семки</td>
-                                    <td>228</td>
-                                    <td>
-                                        <button type="submit" class="btn btn-success">
-                                            <i class="icon-ok icon-white"></i> Add to order
-                                        </button>
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="icon-remove icon-white"></i> Remove from order
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" onclick="loadModal('edit', '123')" class="btn btn-success" data-toggle="modal">
-                                            <i class="icon-pencil icon-white"></i> Edit
-                                        </button>
-                                        <button type="button" class="btn btn-danger" onclick="removeDish('123','semki')">
-                                            <i class="icon-remove icon-white"></i> Remove
-                                        </button>
-                                    </td>
-                                </tr>
-
                             </table>
                         </div>
                     </div>
@@ -137,32 +125,34 @@
                                     <th>Name</th>
                                     <th>Price</th>
                                     <th></th>
+                                    <th></th>
                                     <th>
-                                        <button type="submit" class="btn btn-success" style="float: right">
+                                        <button type="submit" class="btn btn-success" style="float: right" onclick="addDish('SECOND_COURSE')">
                                             <i class="icon-plus icon-white"></i> Add
                                         </button>
                                     </th>
                                 </tr>
-                                <c:forEach var="dish" items="${secondCourse}">
-                                    <tr>
-                                        <th>${dish.name}</th>
-                                        <th>${dish.price}</th>
-                                        <th>
-                                            <button type="submit" class="btn btn-success" value="${dish.id}">
+                                <c:forEach var="dish" items="${secondCourse}" varStatus="st">
+                                    <tr id="row${dish.id}">
+                                        <td>${st.index+1}</td>
+                                        <td>${dish.name}</td>
+                                        <td>${dish.price}</td>
+                                        <td>
+                                            <button type="submit" class="btn btn-success">
                                                 <i class="icon-ok icon-white"></i> Add to order
                                             </button>
-                                            <button type="submit" class="btn btn-danger" value="${dish.id}">
+                                            <button type="submit" class="btn btn-danger">
                                                 <i class="icon-remove icon-white"></i> Remove from order
                                             </button>
-                                        </th>
-                                        <th>
-                                            <button type="submit" class="btn btn-info" value="${dish.id}">
+                                        </td>
+                                        <td>
+                                            <button type="submit" class="btn btn-info" onclick="editDish('${dish.id}')">
                                                 <i class="icon-pencil icon-white"></i> Edit
                                             </button>
-                                            <button type="submit" class="btn btn-danger" value="${dish.id}">
+                                            <button type="submit" class="btn btn-danger" onclick="removeDish('${dish.id}')">
                                                 <i class="icon-remove icon-white"></i> Remove
                                             </button>
-                                        </th>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -182,32 +172,34 @@
                                     <th>Name</th>
                                     <th>Price</th>
                                     <th></th>
+                                    <th></th>
                                     <th>
-                                        <button type="submit" class="btn btn-success" style="float: right">
+                                        <button type="submit" class="btn btn-success" style="float: right" onclick="addDish('DESSERT')">
                                             <i class="icon-plus icon-white"></i> Add
                                         </button>
                                     </th>
                                 </tr>
-                                <c:forEach var="dish" items="${dessert}">
-                                    <tr>
-                                        <th>${dish.name}</th>
-                                        <th>${dish.price}</th>
-                                        <th>
-                                            <button type="submit" class="btn btn-success" value="${dish.id}">
+                                <c:forEach var="dish" items="${dessert}" varStatus="st">
+                                    <tr id="row${dish.id}">
+                                        <td>${st.index+1}</td>
+                                        <td>${dish.name}</td>
+                                        <td>${dish.price}</td>
+                                        <td>
+                                            <button type="submit" class="btn btn-success">
                                                 <i class="icon-ok icon-white"></i> Add to order
                                             </button>
-                                            <button type="submit" class="btn btn-danger" value="${dish.id}">
+                                            <button type="submit" class="btn btn-danger">
                                                 <i class="icon-remove icon-white"></i> Remove from order
                                             </button>
-                                        </th>
-                                        <th>
-                                            <button type="submit" class="btn btn-info" value="${dish.id}">
+                                        </td>
+                                        <td>
+                                            <button type="submit" class="btn btn-info" onclick="editDish('${dish.id}')">
                                                 <i class="icon-pencil icon-white"></i> Edit
                                             </button>
-                                            <button type="submit" class="btn btn-danger" value="${dish.id}">
+                                            <button type="submit" class="btn btn-danger" onclick="removeDish('${dish.id}')">
                                                 <i class="icon-remove icon-white"></i> Remove
                                             </button>
-                                        </th>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </table>

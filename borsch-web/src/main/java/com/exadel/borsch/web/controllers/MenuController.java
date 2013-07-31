@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,15 +47,19 @@ public class MenuController {
         }
         return mav;
     }
-    @RequestMapping("/edit/dish/add")
-    public String processAddPageRequest(ModelMap model) {
+    @RequestMapping("/edit/dish/add/{course}")
+    public String processAddPageRequest(@PathVariable String course, ModelMap model) {
+        model.addAttribute("course", course);
+        model.addAttribute("action", "add");
         return ViewURLs.DISH_ADD_PAGE;
     }
-    @RequestMapping("/edit/dish/add/save")
-    public String processSaveDishRequest(ModelMap model, HttpServletRequest request) {
+    @ResponseBody
+    @RequestMapping(value = "/edit/dish/add/save", method = RequestMethod.POST)
+    public Dish processSaveDishRequest(ModelMap model, HttpServletRequest request) {
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
         String description = request.getParameter("description");
+        Dish dish = new Dish(name, price, description);
         Course course = null;
         switch (request.getParameter("course")) {
             case "FIRST_COURSE":
@@ -67,9 +72,8 @@ public class MenuController {
                 course = Course.DESSERT;
                 break;
             default:
-                course = Course.FIRST_COURSE;
+                throw new AssertionError();
         }
-        Dish dish = new Dish(name, price, description);
         dish.setCourse(course);
         ManagerFactory factory = new SimpleManagerFactory();
         PriceManager manager = factory.getPriceManager();
@@ -84,52 +88,45 @@ public class MenuController {
             dishes.addDish(dish);
             manager.addPriceList(dishes);
         }
-        return ViewURLs.MENU_PAGE;
+        return dish;
     }
     @RequestMapping("/edit/dish/{id}/edit")
     public String processEditPageRequest(@PathVariable String id, ModelMap model) {
-//        model.addAttribute("id", id);
-//        model.addAttribute("name", "name");
-//        model.addAttribute("price", "price");
         ManagerFactory factory = new SimpleManagerFactory();
         PriceManager manager = factory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
             Dish dish = dishes.getDishById(UUID.fromString(id));
+            model.addAttribute("id", id);
             model.addAttribute("name", dish.getName());
             model.addAttribute("price", dish.getPrice());
             model.addAttribute("course", dish.getCourse());
             model.addAttribute("description", dish.getDescription());
         }
-        return ViewURLs.DISH_EDIT_PAGE;
+        model.addAttribute("action", "edit");
+        return ViewURLs.DISH_ADD_PAGE;
     }
-
     @ResponseBody
-    @RequestMapping("/edit/dish/{id}/edit/save")
-    public String processUpdateDishRequest(@PathVariable String id,
-            ModelMap model, HttpServletRequest request) {
-//        System.out.println(request.getParameter("name"));
-//        System.out.println(request.getParameter("price"));
-//        System.out.println(request.getParameter("course"));
-//        model.addAttribute("name", "WORK!!!!1");
-//        String json = "{\"name\":\"asd\"}";
+    @RequestMapping(value = "/edit/dish/edit/save", method = RequestMethod.POST)
+    public Dish processUpdateDishRequest(ModelMap model, HttpServletRequest request) {
         String name = request.getParameter("name");
         String price = request.getParameter("price");
-        String course = request.getParameter("course");
         String description = request.getParameter("description");
+        String id = request.getParameter("id");
         ManagerFactory factory = new SimpleManagerFactory();
         PriceManager manager = factory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
+        Dish dish = null;
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
-            Dish dish = dishes.getDishById(UUID.fromString(id));
+            dish = dishes.getDishById(UUID.fromString(id));
             dish.setName(name);
             dish.setPrice(Integer.parseInt(price));
             dish.setDescription(description);
-            dish.setCourse(Course.valueOf(course));
+            dishes.updateDish(dish);
         }
-        return ViewURLs.MENU_PAGE;
+        return dish;
     }
     @RequestMapping("/edit/dish/{id}/remove")
     public String processRemoveDishRequest(@PathVariable String id, ModelMap model) {
