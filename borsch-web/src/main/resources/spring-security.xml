@@ -12,8 +12,9 @@
     <http pattern="/login" security="none"/>
 
     <http auto-config="true">
+        <intercept-url pattern="/**" access="ROLE_EDIT_MENU_SELF" />
         <form-login login-page="/login"
-                    default-target-url="/home" 
+                    default-target-url="/home"
                     login-processing-url="/j_spring_security_check"
                     authentication-failure-url="/login/err"
                     always-use-default-target="true"/>
@@ -26,7 +27,7 @@
             </user-service>
         </authentication-provider>
     </authentication-manager>-->
-    
+
     <!-- Simple namespace-based configuration -->
 
     <ldap-server ldif="classpath:users.ldif" port="33389"/>

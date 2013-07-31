@@ -35,10 +35,7 @@
                         <li id="navUsers"><a href="${contextPath}/users"><spring:message code="navbar.users"/></a></li>
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_PRINT_ORDER')">
-                        <li id="navReport"><a href=${contextPath}/report><spring:message code="navbar.report"/></a></li>
-                    </sec:authorize>
-                    <sec:authorize access="hasRole('ROLE_EDIT_MENU_OTHER')">
-                        <li id="navUsers"><a href="${contextPath}/users"><spring:message code="navbar.users"/></a></li>
+                        <li id="navReport"><a href="${contextPath}/report"><spring:message code="navbar.report"/></a></li>
                     </sec:authorize>
                 </ul>
         </div>
