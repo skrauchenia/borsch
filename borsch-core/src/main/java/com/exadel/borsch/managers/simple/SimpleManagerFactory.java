@@ -189,6 +189,7 @@ public class SimpleManagerFactory implements ManagerFactory {
 
             // Test data
             PriceList list = new PriceList();
+            //CHECKSTYLE:OFF
             Object[][] listData = {
                 {Course.DESSERT, "Торт", "Отличный старый добрый торт! Прямо из пекарни! (столовая)", "cake.jpg.to", 59600},
                 {Course.DESSERT, "Блинчики с джемом", "Очень вкусные, и в отличие от блинчиков с ветчиной - не содержат кошек!", "pancakes.jpg.to", 10000},
@@ -208,6 +209,8 @@ public class SimpleManagerFactory implements ManagerFactory {
                 dish.setPrice((int) listData[i][4]);
                 list.addDish(dish);
             }
+            //CHECKSTYLE:ON
+
             // Some empty list
             prices.add(new PriceList());
             // Some useful list

@@ -48,6 +48,9 @@
         <property name="min" value="15"/>
     </module> -->
     <!-- Try to use CPD instead -->
+    
+    <!-- Ignore filter -->
+    <module name="SuppressionCommentFilter"/>
 
     <module name="TreeWalker">
 
@@ -169,6 +172,7 @@
 
         <!-- Miscellaneous other checks.                   -->
         <!-- See http://checkstyle.sf.net/config_misc.html -->
+        <module name="FileContentsHolder"/>
         <module name="ArrayTypeStyle"/>
         <!--<module name="FinalParameters"/>-->
         <!--<module name="TodoComment"/>-->
