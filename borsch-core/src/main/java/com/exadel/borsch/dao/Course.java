@@ -9,7 +9,16 @@ package com.exadel.borsch.dao;
  * @author Fedor
  */
 public enum Course {
-    FIRST_COURSE,
-    SECOND_COURSE,
-    DESSERT
+    FIRST_COURSE("firstCourse"),
+    SECOND_COURSE("secondCourse"),
+    DESSERT("dessert");
+
+    private String name;
+    Course(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
