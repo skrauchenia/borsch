@@ -16,7 +16,7 @@ public final class DateTimeUtils {
         return ref.plusDays(DAYS_IN_WEEK - (ref.getDayOfWeek() - 1));
     }
 
-    public static DateTime getStartOfCurrentWeek() {
+    public static DateTime getStartOfNextWeek() {
         return getStartOfWeek(DateTime.now());
     }
 }

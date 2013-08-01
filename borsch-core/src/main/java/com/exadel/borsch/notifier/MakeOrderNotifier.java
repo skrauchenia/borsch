@@ -4,7 +4,7 @@ import com.exadel.borsch.dao.MenuItem;
 import com.exadel.borsch.dao.Order;
 import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.ManagerFactory;
-import com.exadel.borsch.managers.MenuManager;
+import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.notification.EmailNotification;
 import com.exadel.borsch.util.DateTimeUtils;
@@ -44,9 +44,9 @@ public class MakeOrderNotifier extends NotifierTask {
     @Override
     public void runPeriodicCheck() {
         UserManager userManager = managerFactory.getUserManager();
-        MenuManager menuManager = managerFactory.getMenuManager();
+        OrderManager menuManager = managerFactory.getOrderManager();
 
-        DateTime startOfWeek = DateTimeUtils.getStartOfCurrentWeek();
+        DateTime startOfWeek = DateTimeUtils.getStartOfNextWeek();
         DateTime endOfWeek = startOfWeek.plusDays(DateTimeUtils.WORKING_DAYS_IN_WEEK);
         List<User> checkedUsers = new ArrayList<>();
 

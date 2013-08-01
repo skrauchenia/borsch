@@ -3,13 +3,15 @@ package com.exadel.borsch.managers.simple;
 import com.exadel.borsch.dao.AccessRight;
 import com.exadel.borsch.dao.Course;
 import com.exadel.borsch.dao.Dish;
+import com.exadel.borsch.dao.MenuItem;
 import com.exadel.borsch.dao.Order;
 import com.exadel.borsch.dao.PriceList;
 import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.ManagerFactory;
-import com.exadel.borsch.managers.MenuManager;
+import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.PriceManager;
 import com.exadel.borsch.managers.UserManager;
+import com.exadel.borsch.util.DateTimeUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -21,7 +23,7 @@ import java.util.*;
 @Service
 public class SimpleManagerFactory implements ManagerFactory {
     private static SimpleUserManager simpleUserManager = null;
-    private static SimpleMenuManager simpleMenuManager = null;
+    private static SimpleOrderManager simpleOrderManager = null;
     private static SimplePriceManager simplePriceManager = null;
     @Override
     public UserManager getUserManager() {
@@ -32,11 +34,11 @@ public class SimpleManagerFactory implements ManagerFactory {
     }
 
     @Override
-    public MenuManager getMenuManager() {
-        if (simpleMenuManager == null) {
-            simpleMenuManager = new SimpleMenuManager();
+    public OrderManager getOrderManager() {
+        if (simpleOrderManager == null) {
+            simpleOrderManager = new SimpleOrderManager();
         }
-        return simpleMenuManager;
+        return simpleOrderManager;
     }
 
     @Override
@@ -117,10 +119,10 @@ public class SimpleManagerFactory implements ManagerFactory {
             return Collections.unmodifiableList(users);
         }
     }
-    private static class SimpleMenuManager implements MenuManager {
+    private static class SimpleOrderManager implements OrderManager {
         private List<Order> orders;
 
-        public SimpleMenuManager() {
+        public SimpleOrderManager() {
             // TODO read frome file
             orders = new ArrayList<>();
         }
@@ -179,6 +181,25 @@ public class SimpleManagerFactory implements ManagerFactory {
                 }
             }
             return result;
+        }
+
+        @Override
+        public Order getCurrentOrderForUser(User user) {
+            List<Order> userOrders = getOrdersForUser(user);
+            if (userOrders.isEmpty()) {
+                Order order = new Order();
+                order.setOwner(user);
+                order.setStartDate(DateTimeUtils.getStartOfNextWeek());
+                order.setEndDate(order.getStartDate().plusDays(DateTimeUtils.WORKING_DAYS_IN_WEEK));
+                for (int i = 0; i < DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
+                    MenuItem item = new MenuItem();
+                    item.setDate(order.getStartDate().plusDays(i));
+                    order.addMenuItem(item);
+                }
+                addOrder(order);
+                return order;
+            }
+            return userOrders.get(0);
         }
     }
     private static class SimplePriceManager implements PriceManager {
@@ -260,6 +281,14 @@ public class SimpleManagerFactory implements ManagerFactory {
         @Override
         public List<PriceList> getAllPriceLists() {
             return Collections.unmodifiableList(prices);
+        }
+
+        @Override
+        public PriceList getCurrentPriceList() {
+            if (prices.isEmpty()) {
+                return null;
+            }
+            return prices.get(0);
         }
     }
 }

@@ -4,7 +4,7 @@ import com.exadel.borsch.dao.MenuItem;
 import com.exadel.borsch.dao.Order;
 import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.ManagerFactory;
-import com.exadel.borsch.managers.MenuManager;
+import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -33,13 +33,13 @@ public class ReportController {
     @ResponseBody
     @RequestMapping(value = "/report/setPaid/{orderId}/{menuId}", method = RequestMethod.POST)
     public AjaxResponse processAjaxRequest(@PathVariable String orderId, @PathVariable String menuId) {
-        MenuManager menuManager = managerFactory.getMenuManager();
+        OrderManager orderManager = managerFactory.getOrderManager();
         AjaxResponse response = new AjaxResponse();
 
-        Order order = menuManager.getOrderById(UUID.fromString(orderId));
+        Order order = orderManager.getOrderById(UUID.fromString(orderId));
         MenuItem menuItem = order.getMenuById(UUID.fromString(menuId));
         menuItem.setIsPaid(true);
-        menuManager.updateOrder(order);
+        orderManager.updateOrder(order);
         response.setResponseSucceed(true);
 
         return response;
@@ -48,11 +48,11 @@ public class ReportController {
     @PreAuthorize("hasRole('ROLE_PRINT_ORDER')")
     @RequestMapping("/report")
     public String processPageRequest(ModelMap model) {
-        MenuManager menuManager = managerFactory.getMenuManager();
+        OrderManager orderManager = managerFactory.getOrderManager();
         ListMultimap<Integer, DailyOrder> report = ArrayListMultimap.create();
         List<Order> allOrders;
 
-        allOrders = menuManager.getAllOrders();
+        allOrders = orderManager.getAllOrders();
 
         for (Order order : allOrders) {
             order.sortOrderByWeekday();

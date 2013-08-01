@@ -6,6 +6,6 @@ package com.exadel.borsch.managers;
  */
 public interface ManagerFactory {
     UserManager getUserManager();
-    MenuManager getMenuManager();
+    OrderManager getOrderManager();
     PriceManager getPriceManager();
 }

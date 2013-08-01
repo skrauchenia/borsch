@@ -10,6 +10,7 @@ import java.util.UUID;
  */
 public interface PriceManager {
     PriceList getPriceListById(UUID id);
+    PriceList getCurrentPriceList();
     void deletePriceListById(UUID id);
     void addPriceList(PriceList toAdd);
     void updatePriceList(PriceList toUpdate);
