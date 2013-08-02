@@ -3,6 +3,7 @@ package com.exadel.borsch.web.users;
 import com.exadel.borsch.dao.AccessRight;
 import com.exadel.borsch.dao.User;
 import java.security.Principal;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.security.access.AccessDeniedException;
@@ -34,10 +35,19 @@ public final class UserUtils {
         User user = getUserByPrincipal(principal);
         if (user != null) {
             if (!user.hasAccessRight(accessRight)) {
-                throw new AccessDeniedException("Access for user with login \"" + user.getLogin() + "\" is denied.");
+                throw new AccessDeniedException("Access for login \"" + user.getLogin() + "\" is denied.");
             }
         } else {
             throw new AccessDeniedException("Access is denied.");
+        }
+    }
+
+    public static void checkEditor(Principal editor, UUID editableUserId) {
+        User userEditor = getUserByPrincipal(editor);
+        if (userEditor != null) {
+            if (!userEditor.getId().equals(editableUserId)) {
+                throw new AccessDeniedException("Access for login \"" + userEditor.getLogin() + "\" is denied.");
+            }
         }
     }
 }

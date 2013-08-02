@@ -33,17 +33,17 @@ public class UsersController {
 
     @RequestMapping("/users")
     public String processPageRequest(Principal principal, Model model) {
-        UserUtils.hasRole(principal, AccessRight.ROLE_EDIT_PROFILE);
-
         UserManager userManager = managerFactory.getUserManager();
         model.addAttribute("users", userManager.getAllUsers());
         return ViewURLs.USERS_PAGE;
     }
 
     @RequestMapping("/edit/user/{userId}")
-    public String processEditPageRequest(@PathVariable String userId, ModelMap model) {
+    public String processEditPageRequest(@PathVariable String userId, ModelMap model, Principal principal) {
         UserManager userManager = managerFactory.getUserManager();
         User user = userManager.getUserById(UUID.fromString(userId));
+        UserUtils.checkEditor(principal, user.getId());
+
         userCommand.mapUserToUserCommand(user);
         model.addAttribute("userCommand", userCommand);
         model.addAttribute("allRights", AccessRight.getAllRightsToString().toArray(new String[]{""}));

@@ -6,11 +6,66 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <t:genericpage>
-    
+
     <jsp:attribute name="head">
         <title>Edit profile</title>
+<<<<<<< HEAD
         <link href="${contextPath}/assets/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="${contextPath}/assets/js/bootstrap-select.min.js"></script>
+=======
+    </jsp:attribute>
+
+    <jsp:attribute name="scripts">
+        <script type="text/javascript">
+        var doRegistration = false;
+        function nameCheck() {
+            var nameStr = $('#name').val();
+            if (nameStr.length == 0) {
+                $('#alertName').show();
+                doRegistration = false;
+            } else {
+                $('#alertName').hide();
+                doRegistration = true;
+            }
+        }
+        function localeCheck() {
+            if ($('#locale_select').val() === "") {
+                $('#alertLocale').show();
+                doRegistration = false;
+            } else {
+                $('#alertLocale').hide('hide');
+                doRegistration = true;
+            }
+        }
+        function ajaxSubmit()
+        {
+            if (doRegistration) {
+                var form = $('#profileEditForm');
+                $.post(form.attr('action'), form.serialize())
+                        .fail(function() {
+                            $('.alert-danger').show();
+                        })
+                        .done(function(response) {
+                            var valid = true;
+                            $.each(response, function(key, value){
+                                if(value == true) {
+                                    valid = false;
+                                    var target = '#' + key;
+                                    //$(target).show();
+                                }
+                            });
+                            if (valid) {
+                                $('.alert-success').show();
+                            }
+                        });
+            } else {
+                if ($('#locale_select').val() === "") {
+                    $('#alertLocale').show();
+                }
+            }
+        }
+    </script>
+>>>>>>> a33c67ad7038b02d5575ee2a46f4f57aec87185c
     </jsp:attribute>
 
     <jsp:body>
@@ -35,21 +90,21 @@
                         <form:input id="name" name="name" title="name" path="name"></form:input>
                         <form:errors path="name" cssClass="error"></form:errors>
                         <span class="help-inline hide" id="alertName">
-                            <strong>Error!</strong><spring:message code="form.validation.size"/>.
+                            <strong>Error!</strong> <spring:message code="form.validation.notEmpty"/>.
                         </span>
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label" for="locale_select"><spring:message code="form.language"/></label>
                     <div class="controls">
-                        <form:select class="selectpicker" path="locale" id="locale_select">
+                        <form:select class="selectpicker" path="locale" id="locale_select" onchange="localeCheck()">
                             <form:option value="">Select Locale</form:option>
                             <form:option value="en_US">English(US)</form:option>
                             <form:option value="ru_RU">Русский</form:option>
                         </form:select>
                         <form:errors path="locale" cssClass="error"></form:errors>
                         <span class="help-inline hide" id="alertLocale">
-                            <strong>Error!</strong><spring:message code="form.validation.notEmpty"/>.
+                            <strong>Error!</strong> <spring:message code="form.validation.locale"/>.
                         </span>
                     </div>
                 </div>
@@ -64,7 +119,7 @@
                         <form:checkboxes path="rights" items="${allRights}"/>
                         <form:errors path="rights" cssClass="error"></form:errors>
                         <span class="help-inline hide" id="alertRights">
-                            <strong>Error!</strong><spring:message code="form.validation.notNull"/>.
+                            <strong>Error!</strong> <spring:message code="form.validation.roles"/>.
                         </span>
                     </div>
                 </sec:authorize>
@@ -76,5 +131,5 @@
             </form:form>
         </div>
     </jsp:body>
-        
+
 </t:genericpage>
