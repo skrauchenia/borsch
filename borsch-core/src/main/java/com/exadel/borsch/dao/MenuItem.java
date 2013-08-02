@@ -61,6 +61,14 @@ public class MenuItem extends Identifiable {
         return choices.add(dish);
     }
 
+    public boolean removeDish(Dish dish) {
+        return choices.remove(dish);
+    }
+
+    public void removeDishByIndex(int idx) {
+        choices.remove(idx);
+    }
+
     @Override
     public boolean equals(Object menuItem) {
         if (menuItem instanceof MenuItem) {

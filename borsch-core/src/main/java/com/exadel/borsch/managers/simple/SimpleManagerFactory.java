@@ -288,7 +288,7 @@ public class SimpleManagerFactory implements ManagerFactory {
             if (prices.isEmpty()) {
                 return null;
             }
-            return prices.get(0);
+            return prices.get(prices.size() - 1);
         }
     }
 }
