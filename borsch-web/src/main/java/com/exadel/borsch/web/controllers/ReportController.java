@@ -45,7 +45,6 @@ public class ReportController {
         return response;
     }
 
-    @PreAuthorize("hasRole('ROLE_PRINT_ORDER')")
     @RequestMapping("/report")
     public String processPageRequest(ModelMap model) {
         OrderManager orderManager = managerFactory.getOrderManager();
