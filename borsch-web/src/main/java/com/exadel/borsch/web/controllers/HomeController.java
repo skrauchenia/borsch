@@ -7,6 +7,7 @@ import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.web.users.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +27,13 @@ public class HomeController {
     @Autowired
     private ManagerFactory managerFactory;
 
+    @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/home")
     public String processPageRequest(Model model, Principal principal) {
         return pageRequest(model, principal);
     }
 
+    @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/")
     public String processDefaultPageRequest(Model model, Principal principal) {
         return pageRequest(model, principal);
@@ -51,6 +54,7 @@ public class HomeController {
     }
 
     @ResponseBody
+    @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/home/orders/{day}")
     public List<Dish> processOrderRequest(Principal principal, @PathVariable int day) {
 
@@ -62,6 +66,7 @@ public class HomeController {
     }
 
     @ResponseBody
+    @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/home/orders/{day}/remove/{itemIdx}")
     public void processOrderItemRemove(Principal principal, @PathVariable int day,
         @PathVariable int itemIdx) {

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/security"
              xmlns:beans="http://www.springframework.org/schema/beans"
@@ -8,16 +7,13 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd">
 
+    <global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
+
     <http pattern="/assets/**" security="none"/>
     <http pattern="/login/*" security="none"/>
     <http pattern="/login" security="none"/>
 
     <http auto-config="true">
-        <intercept-url pattern="/home" access="ROLE_EDIT_MENU_SELF" />
-        <intercept-url pattern="/menu" access="ROLE_EDIT_MENU_SELF" />
-        <intercept-url pattern="/users" access="ROLE_EDIT_PROFILE" />
-        <intercept-url pattern="/edit/dish**" access="ROLE_EDIT_PRICE" />
-        <intercept-url pattern="/report**" access="ROLE_PRINT_ORDER" />
         <form-login login-page="/login"
                     default-target-url="/home"
                     login-processing-url="/j_spring_security_check"
@@ -51,58 +47,3 @@
     <beans:bean id="borschUserDetailsContextMapper" class="com.exadel.borsch.web.users.BorschUserDetailsContextMapper"/>
 
 </beans:beans>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-             xmlns:beans="http://www.springframework.org/schema/beans"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/security
-        http://www.springframework.org/schema/security/spring-security.xsd">
-
-    <http pattern="/assets/**" security="none"/>
-    <http pattern="/login/*" security="none"/>
-    <http pattern="/login" security="none"/>
-
-    <http auto-config="true">
-        <intercept-url pattern="/" access="ROLE_EDIT_MENU_SELF" />
-        <intercept-url pattern="/home" access="ROLE_EDIT_MENU_SELF" />
-        <intercept-url pattern="/menu" access="ROLE_EDIT_MENU_SELF" />
-        <intercept-url pattern="/users" access="ROLE_EDIT_PROFILE" />
-        <intercept-url pattern="/edit/dish/**" access="ROLE_EDIT_PRICE" />
-        <intercept-url pattern="/report**" access="ROLE_PRINT_ORDER" />
-        <form-login login-page="/login"
-                    default-target-url="/home"
-                    login-processing-url="/j_spring_security_check"
-                    authentication-failure-url="/login/?error=true"
-                    always-use-default-target="true"/>
-        <logout logout-url="/j_spring_security_logout" logout-success-url="/login"/>
-    </http>
-
-    <!--<authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="mkyong" password="123456" authorities="ROLE_USER" />
-            </user-service>
-        </authentication-provider>
-    </authentication-manager>-->
-
-    <!-- Simple namespace-based configuration -->
-
-    <ldap-server ldif="classpath:users.ldif" port="33389"/>
-
-    <authentication-manager>
-        <ldap-authentication-provider
-            group-search-filter="member={0}"
-            group-search-base="ou=groups"
-            user-search-base="ou=people"
-            user-search-filter="uid={0}"
-            user-context-mapper-ref="borschUserDetailsContextMapper"
-        />
-    </authentication-manager>
-
-    <beans:bean id="borschUserDetailsContextMapper" class="com.exadel.borsch.web.users.BorschUserDetailsContextMapper"/>
-
-</beans:beans>
->>>>>>> ce16440aa3297e32142dcc1255bdf4dbea644c62

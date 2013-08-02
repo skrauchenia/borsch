@@ -10,6 +10,7 @@ import com.exadel.borsch.managers.simple.SimpleManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ public class MenuController {
     @Autowired
     private ManagerFactory factory;
 
+    @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/menu")
     public ModelAndView processPageRequest() {
         ModelAndView mav = new ModelAndView(ViewURLs.MENU_PAGE);
@@ -47,6 +49,8 @@ public class MenuController {
         }
         return mav;
     }
+
+    @Secured("ROLE_EDIT_PRICE")
     @RequestMapping("/edit/dish/add/{course}")
     public String processAddPageRequest(@PathVariable String course, ModelMap model) {
         model.addAttribute("course", course);
@@ -55,6 +59,7 @@ public class MenuController {
     }
 
     @ResponseBody
+    @Secured("ROLE_EDIT_PRICE")
     @RequestMapping(value = "/edit/dish/add/save", method = RequestMethod.POST)
     public DishJSON processSaveDishRequest(HttpServletRequest request) {
         String name = request.getParameter("name");
@@ -76,6 +81,7 @@ public class MenuController {
         return DishJSON.mapDishToJSON(dish);
     }
 
+    @Secured("ROLE_EDIT_PRICE")
     @RequestMapping("/edit/dish/{id}/edit")
     public String processEditPageRequest(@PathVariable String id, ModelMap model) {
         ManagerFactory factory = new SimpleManagerFactory();
@@ -89,7 +95,9 @@ public class MenuController {
         model.addAttribute("action", "edit");
         return ViewURLs.DISH_ADD_PAGE;
     }
+
     @ResponseBody
+    @Secured("ROLE_EDIT_PRICE")
     @RequestMapping(value = "/edit/dish/edit/save", method = RequestMethod.POST)
     public DishJSON processUpdateDishRequest(HttpServletRequest request) {
         String name = request.getParameter("name");
@@ -110,6 +118,8 @@ public class MenuController {
         }
         return DishJSON.mapDishToJSON(dish);
     }
+
+    @Secured("ROLE_EDIT_PRICE")
     @RequestMapping("/edit/dish/{id}/remove")
     public String processRemoveDishRequest(@PathVariable String id) {
         ManagerFactory factory = new SimpleManagerFactory();
