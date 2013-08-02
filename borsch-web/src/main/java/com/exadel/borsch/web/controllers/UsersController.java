@@ -43,7 +43,7 @@ public class UsersController {
     public String processEditPageRequest(@PathVariable String userId, ModelMap model, Principal principal) {
         UserManager userManager = managerFactory.getUserManager();
         User user = userManager.getUserById(UUID.fromString(userId));
-        UserUtils.checkEditor(principal,user.getId());
+        UserUtils.checkEditor(principal, user.getId());
 
         userCommand.mapUserToUserCommand(user);
         model.addAttribute("userCommand", userCommand);
@@ -58,7 +58,7 @@ public class UsersController {
         EditStatus response = new EditStatus();
         UserManager userManager = managerFactory.getUserManager();
         User user = userManager.getUserById(UUID.fromString(userId));
-        UserUtils.checkEditor(principal,user.getId());
+        UserUtils.checkEditor(principal, user.getId());
 
 
         boolean hasError = result.hasFieldErrors("name");

@@ -46,7 +46,8 @@ public final class UserUtils {
         User userEditor = getUserByPrincipal(editor);
         if (userEditor != null) {
             if (!userEditor.getId().equals(editableUserId)) {
-                throw new AccessDeniedException("Access for user with login \"" + userEditor.getLogin() + "\" is denied.");
+                throw new AccessDeniedException("Access for user with login \""
+                        + userEditor.getLogin() + "\" is denied.");
             }
         }
     }

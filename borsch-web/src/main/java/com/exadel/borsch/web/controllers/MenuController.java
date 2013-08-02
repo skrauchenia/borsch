@@ -127,7 +127,7 @@ public class MenuController {
         ManagerFactory factory = new SimpleManagerFactory();
         PriceManager manager = factory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
-        Dish dish = null;
+        Dish dish = new Dish();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
             dish = dishes.getDishById(UUID.fromString(id));
