@@ -53,20 +53,33 @@ public class UsersController {
     @RequestMapping("/edit/user/{userId}/edit")
     public String processUpdateUserRequest(@PathVariable String userId, ModelMap model,
             @Valid UserCommand userCommand, BindingResult result) {
-        if (!result.hasErrors()) {
-            UserManager userManager = managerFactory.getUserManager();
-            User user = userManager.getUserById(UUID.fromString(userId));
+        UserManager userManager = managerFactory.getUserManager();
+        User user = userManager.getUserById(UUID.fromString(userId));
 
-            user.setName(userCommand.getName());
+        boolean invalidForm = true;
 
-            user.setLocale(new Locale(userCommand.getLocale()));
-
+        invalidForm &= result.hasFieldErrors("rights") && user.hasAccessRight(AccessRight.ROLE_EDIT_PROFILE);
+        if (!result.hasFieldErrors("rights")
+                && !user.hasAccessRight(AccessRight.ROLE_EDIT_PROFILE)) {
             user.setStringAccessRights(Arrays.asList(userCommand.getRights()));
+        }
 
-            user.setNeedEmailNotification(userCommand.getNeedEmailNotification());
+        invalidForm &= result.hasFieldErrors("name");
+        if (!result.hasFieldErrors("name")) {
+            user.setName(userCommand.getName());
+        }
 
+        invalidForm &= result.hasFieldErrors("locale");
+        if (!result.hasFieldErrors("locale")) {
+            user.setLocale(new Locale(userCommand.getLocale()));
+        }
+
+        user.setNeedEmailNotification(userCommand.getNeedEmailNotification());
+
+        if (!invalidForm) {
             userManager.updateUser(user);
         }
+
         userCommand.setId(userId);
         model.addAttribute(userCommand);
         return ViewURLs.USER_EDIT_PAGE;

@@ -7,12 +7,11 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Andrey Zhilka
  */
-public class MenuItem extends Identifiable{
+public class MenuItem extends Identifiable {
     private DateTime date;
     private List<Dish> choices = new ArrayList<>();
     private boolean isPaid = false;

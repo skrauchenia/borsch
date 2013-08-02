@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * @author Andrey Zhilka
  */
-public class PriceList extends Identifiable{
+public class PriceList extends Identifiable {
     private List<Dish> dishes = new ArrayList<>();
     private DateTime creationTime;
     private DateTime expirationTime;

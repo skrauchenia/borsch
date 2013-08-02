@@ -9,10 +9,8 @@
 
     <jsp:attribute name="head">
         <title>Edit profile</title>
-<<<<<<< HEAD
         <link href="${contextPath}/assets/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="${contextPath}/assets/js/bootstrap-select.min.js"></script>
-=======
     </jsp:attribute>
 
     <jsp:attribute name="scripts">
@@ -22,50 +20,29 @@
             var nameStr = $('#name').val();
             if (nameStr.length == 0) {
                 $('#alertName').show();
-                doRegistration = false;
+                doRegistration &= false;
             } else {
                 $('#alertName').hide();
-                doRegistration = true;
+                doRegistration &= true;
             }
         }
         function localeCheck() {
             if ($('#locale_select').val() === "") {
                 $('#alertLocale').show();
-                doRegistration = false;
+                doRegistration &= false;
             } else {
                 $('#alertLocale').hide('hide');
-                doRegistration = true;
+                doRegistration &= true;
             }
         }
-        function ajaxSubmit()
-        {
+        function validate() {
+            nameCheck();
+            localeCheck();
             if (doRegistration) {
-                var form = $('#profileEditForm');
-                $.post(form.attr('action'), form.serialize())
-                        .fail(function() {
-                            $('.alert-danger').show();
-                        })
-                        .done(function(response) {
-                            var valid = true;
-                            $.each(response, function(key, value){
-                                if(value == true) {
-                                    valid = false;
-                                    var target = '#' + key;
-                                    //$(target).show();
-                                }
-                            });
-                            if (valid) {
-                                $('.alert-success').show();
-                            }
-                        });
-            } else {
-                if ($('#locale_select').val() === "") {
-                    $('#alertLocale').show();
-                }
+               document.forms["profileEditForm"].submit();
             }
         }
     </script>
->>>>>>> a33c67ad7038b02d5575ee2a46f4f57aec87185c
     </jsp:attribute>
 
     <jsp:body>
@@ -125,7 +102,7 @@
                 </sec:authorize>
                 <div class="control-group">
                     <div class="controls">
-                        <button type="submit" class="btn">Submit</button>
+                        <button type="button" class="btn" onclick="validate()">Submit</button>
                     </div>
                 </div>
             </form:form>
