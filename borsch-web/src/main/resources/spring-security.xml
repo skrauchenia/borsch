@@ -22,6 +22,7 @@
                     login-processing-url="/j_spring_security_check"
                     authentication-failure-url="/login/?error=true"
                     always-use-default-target="true"/>
+        <logout logout-url="/j_spring_security_logout" logout-success-url="/login"/>
     </http>
 
     <!--<authentication-manager>

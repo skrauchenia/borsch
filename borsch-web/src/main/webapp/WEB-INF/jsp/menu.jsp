@@ -58,22 +58,50 @@
                 });
             }
 
-            function dishAction(action, course, dishId) {
-                var targetUrl = "${contextPath}/edit/dish/" + action;
-                if (action == "edit") {
-                    targetUrl = targetUrl + '/' + dishId;
-                }
-                $.ajax({
-                    url:  targetUrl,
-                    data: {"course" : course},
+            function dishAction() {
+//                $.post($('#dishForm').attr('action'), $('#dishForm').serialize())
+                  var form = $('#dishForm',  $("#myModal iframe").contents())
+                  $.ajax({
+                    url: form.attr('action'),
+                    data: form.serialize(),
                     type: 'POST',
-                    dataType: "json"
-                }).done(function(response){
-                            if ($('#'+response.id).length() > 0) {
-                                //action is 'edit'
+                    dataType: "json",
+                    error: function(request,error)
+                    {
+                      console.log(arguments);
+                      alert ( " Can't do because of " + error );
+                    }
+                  }).done(function(response){
+                            var tableId = "#"+response.course + "Table";
 
+                            if (form.attr('action').search("add") != -1) {
+                                var newRow = $(tableId + " tr:nth-child(2)").clone();
+                                newRow.attr("id", "row"+response.id);
+                                newRow.children("[id^=index]").html($(tableId + " tr").length);
+                                newRow.children("[id^=index]").attr("id", "index" + response.id);
+
+                                newRow.children("[id^=dishName]").html(response.name);
+                                newRow.children("[id^=dishName]").attr("id", "dishName" + response.id);
+
+                                newRow.children("[id^=dishPrice]").html(response.price);
+                                newRow.children("[id^=dishPrice]").attr("id", "dishPrice" + response.id);
+
+                                var editBtn = newRow.find("[id^=editBtn]");
+                                editBtn.removeAttr("onclick");
+                                editBtn.on("click", function(){editDish(response.id)});
+                                editBtn.attr("id", "editBtn" + response.id);
+                                console.log(editBtn.attr("id"));
+
+                                var removeBtn = newRow.find("[id^=removeBtn]");
+                                removeBtn.removeAttr("onclick");
+                                removeBtn.on("click", function(){removeDish(response.id)});
+                                removeBtn.attr("id", "removeBtn" + response.id);
+
+                                $(tableId).append(newRow);
                             } else {
-                                //action is 'add'
+//                                var editedRow = $(tableId).find()
+                                $("#row"+response.id).find("[id^=dishName]").html(response.name);
+                                $("#row"+response.id).find("[id^=dishPrice]").html(response.price);
                             }
                         });
             }
@@ -91,11 +119,11 @@
                     </div>
                     <div id="collapseOne" class="accordion-body collapse in">
                         <div class="accordion-inner">
-                            <table class="table table-condensed firstCourseTable">
+                            <table class="table table-condensed" id="firstCourseTable">
                                 <tr>
+                                    <th>#</th>
                                     <th>Name</th>
                                     <th>Price</th>
-                                    <th></th>
                                     <th></th>
                                     <th>
                                         <button type="submit" class="btn btn-success" style="float: right" onclick="addDish('FIRST_COURSE')">
@@ -103,11 +131,11 @@
                                         </button>
                                     </th>
                                 </tr>
-                                <c:forEach var="dish" items="${firstCourse}" varStatus="st">
+                                <c:forEach var="dish" items="${courseList.firstCourse}" varStatus="st">
                                     <tr id="row${dish.id}">
-                                        <td>${st.index+1}</td>
-                                        <td>${dish.name}</td>
-                                        <td>${dish.price}</td>
+                                        <td id="index${dish.id}">${st.index+1}</td>
+                                        <td id="dishName${dish.id}">${dish.name}</td>
+                                        <td id="dishPrice${dish.id}">${dish.price}</td>
                                         <td>
                                             <button type="submit" class="btn btn-success">
                                                 <i class="icon-ok icon-white"></i> Add to order
@@ -117,10 +145,10 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <button type="submit" class="btn btn-info" onclick="editDish('${dish.id}')">
+                                            <button type="submit" class="btn btn-info" id="editBtn${dish.id}" onclick="editDish('${dish.id}')">
                                                 <i class="icon-pencil icon-white"></i> Edit
                                             </button>
-                                            <button type="submit" class="btn btn-danger" onclick="removeDish('${dish.id}')">
+                                            <button type="submit" class="btn btn-danger" id="removeBtn${dish.id}" onclick="removeDish('${dish.id}')">
                                                 <i class="icon-remove icon-white"></i> Remove
                                             </button>
                                         </td>
@@ -138,11 +166,11 @@
                     </div>
                     <div id="collapseTwo" class="accordion-body collapse">
                         <div class="accordion-inner">
-                            <table class="table table-condensed secondCourseTable">
+                            <table class="table table-condensed"  id="secondCourseTable">
                                 <tr>
+                                    <th>#</th>
                                     <th>Name</th>
                                     <th>Price</th>
-                                    <th></th>
                                     <th></th>
                                     <th>
                                         <button type="submit" class="btn btn-success" style="float: right" onclick="addDish('SECOND_COURSE')">
@@ -150,11 +178,11 @@
                                         </button>
                                     </th>
                                 </tr>
-                                <c:forEach var="dish" items="${secondCourse}" varStatus="st">
+                                <c:forEach var="dish" items="${courseList.secondCourse}" varStatus="st">
                                     <tr id="row${dish.id}">
-                                        <td>${st.index+1}</td>
-                                        <td>${dish.name}</td>
-                                        <td>${dish.price}</td>
+                                        <td id="index${dish.id}">${st.index+1}</td>
+                                        <td id="dishName${dish.id}">${dish.name}</td>
+                                        <td id="dishPrice${dish.id}">${dish.price}</td>
                                         <td>
                                             <button type="submit" class="btn btn-success">
                                                 <i class="icon-ok icon-white"></i> Add to order
@@ -164,10 +192,10 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <button type="submit" class="btn btn-info" onclick="editDish('${dish.id}')">
+                                            <button type="submit" class="btn btn-info" id="editBtn${dish.id}" onclick="editDish('${dish.id}')">
                                                 <i class="icon-pencil icon-white"></i> Edit
                                             </button>
-                                            <button type="submit" class="btn btn-danger" onclick="removeDish('${dish.id}')">
+                                            <button type="submit" class="btn btn-danger" id="removeBtn${dish.id}" onclick="removeDish('${dish.id}')">
                                                 <i class="icon-remove icon-white"></i> Remove
                                             </button>
                                         </td>
@@ -185,11 +213,11 @@
                     </div>
                     <div id="collapseThree" class="accordion-body collapse">
                         <div class="accordion-inner">
-                            <table class="table table-condensed dessertTable">
+                            <table class="table table-condensed" id="dessertTable">
                                 <tr>
+                                    <th>#</th>
                                     <th>Name</th>
                                     <th>Price</th>
-                                    <th></th>
                                     <th></th>
                                     <th>
                                         <button type="submit" class="btn btn-success" style="float: right" onclick="addDish('DESSERT')">
@@ -197,11 +225,11 @@
                                         </button>
                                     </th>
                                 </tr>
-                                <c:forEach var="dish" items="${dessert}" varStatus="st">
+                                <c:forEach var="dish" items="${courseList.dessert}" varStatus="st">
                                     <tr id="row${dish.id}">
-                                        <td>${st.index+1}</td>
-                                        <td>${dish.name}</td>
-                                        <td>${dish.price}</td>
+                                        <td id="index${dish.id}">${st.index+1}</td>
+                                        <td id="dishName${dish.id}">${dish.name}</td>
+                                        <td id="dishPrice${dish.id}">${dish.price}</td>
                                         <td>
                                             <button type="submit" class="btn btn-success">
                                                 <i class="icon-ok icon-white"></i> Add to order
@@ -211,10 +239,10 @@
                                             </button>
                                         </td>
                                         <td>
-                                            <button type="submit" class="btn btn-info" onclick="editDish('${dish.id}')">
+                                            <button type="submit" class="btn btn-info" id="editBtn${dish.id}" onclick="editDish('${dish.id}')">
                                                 <i class="icon-pencil icon-white"></i> Edit
                                             </button>
-                                            <button type="submit" class="btn btn-danger" onclick="removeDish('${dish.id}')">
+                                            <button type="submit" class="btn btn-danger" id="removeBtn${dish.id}" onclick="removeDish('${dish.id}')">
                                                 <i class="icon-remove icon-white"></i> Remove
                                             </button>
                                         </td>
@@ -236,7 +264,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"><i class="icon-ban-circle icon-white"></i> Cancel</button>
-                <button id="save" class="btn btn-success" type="submit" onclick="">
+                <button id="save" class="btn btn-success" type="button" onclick="dishAction()">
                     <i class="icon-ok icon-white"></i> Save
                 </button>
             </div>

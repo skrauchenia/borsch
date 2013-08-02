@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.exadel.borsch.web.controllers;
 
 import com.exadel.borsch.dao.Course;
+import com.exadel.borsch.dao.CourseList;
 import com.exadel.borsch.dao.Dish;
 import com.exadel.borsch.dao.PriceList;
 import com.exadel.borsch.managers.ManagerFactory;
@@ -23,11 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 /**
- *
  * @author Vlad
  */
 @Controller
@@ -44,13 +39,11 @@ public class MenuController {
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
-            Map<Course, List<Dish>> courses = dishes.getCourses();
-            List<Dish> firstCourse = courses.get(Course.FIRST_COURSE);
-            List<Dish> secondCourse = courses.get(Course.SECOND_COURSE);
-            List<Dish> dessert = courses.get(Course.DESSERT);
-            mav.addObject("firstCourse", firstCourse);
-            mav.addObject("secondCourse", secondCourse);
-            mav.addObject("dessert", dessert);
+//            ListMultimap<Course, Dish> courses = dishes.getCourses();
+            mav.addObject("courseList", new CourseList(dishes));
+//            mav.addObject("firstCourse", courses.get(Course.FIRST_COURSE));
+//            mav.addObject("secondCourse", courses.get(Course.SECOND_COURSE));
+//            mav.addObject("dessert", courses.get(Course.SECOND_COURSE));
         }
         return mav;
     }
@@ -67,36 +60,19 @@ public class MenuController {
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
         String description = request.getParameter("description");
-        Dish dish = new Dish(name, price, description);
-        Course course = null;
-        switch (request.getParameter("course")) {
-            case "FIRST_COURSE":
-                course = Course.FIRST_COURSE;
-                break;
-            case "SECOND_COURSE":
-                course = Course.SECOND_COURSE;
-                break;
-            case "DESSERT":
-                course = Course.DESSERT;
-                break;
-            default:
-                throw new AssertionError();
-        }
-        dish.setCourse(course);
+        String course = request.getParameter("course");
+        Dish dish = new Dish(name, price, Course.getCourse(course), description);
         ManagerFactory factory = new SimpleManagerFactory();
         PriceManager manager = factory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         PriceList dishes = null;
         if ((prices != null) && (!prices.isEmpty())) {
             dishes = prices.get(prices.size() - 1);
-            dishes.addDish(dish);
-            manager.updatePriceList(dishes);
         } else {
             dishes = new PriceList();
-            dishes.addDish(dish);
-            manager.addPriceList(dishes);
         }
-
+        dishes.addDish(dish);
+        manager.updatePriceList(dishes);
         return DishJSON.mapDishToJSON(dish);
     }
 
@@ -108,11 +84,7 @@ public class MenuController {
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
             Dish dish = dishes.getDishById(UUID.fromString(id));
-            model.addAttribute("id", id);
-            model.addAttribute("name", dish.getName());
-            model.addAttribute("price", dish.getPrice());
-            model.addAttribute("course", dish.getCourse());
-            model.addAttribute("description", dish.getDescription());
+            model.addAttribute("dish", dish);
         }
         model.addAttribute("action", "edit");
         return ViewURLs.DISH_ADD_PAGE;

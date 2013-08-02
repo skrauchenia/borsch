@@ -1,12 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.exadel.borsch.dao;
 
 /**
- *
- * @author Fedor
+ * @author Tima
  */
 public enum Course {
     FIRST_COURSE("firstCourse"),
@@ -20,5 +15,22 @@ public enum Course {
 
     public String getName() {
         return name;
+    }
+    public static Course getCourse(String courseStr) {
+        Course course = null;
+        switch (courseStr) {
+            case "FIRST_COURSE":
+                course = Course.FIRST_COURSE;
+                break;
+            case "SECOND_COURSE":
+                course = Course.SECOND_COURSE;
+                break;
+            case "DESSERT":
+                course = Course.DESSERT;
+                break;
+            default:
+                throw new AssertionError();
+        }
+        return course;
     }
 }

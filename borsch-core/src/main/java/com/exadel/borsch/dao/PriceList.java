@@ -1,33 +1,23 @@
 package com.exadel.borsch.dao;
 
-import com.exadel.borsch.util.Encoder;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Andrey Zhilka
  */
-public class PriceList {
-    private UUID id = UUID.randomUUID();
+public class PriceList extends Identifiable {
     private List<Dish> dishes = new ArrayList<>();
     private DateTime creationTime;
     private DateTime expirationTime;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
+    public PriceList() {
+        super();
     }
 
     public DateTime getExpirationTime() {
@@ -87,23 +77,11 @@ public class PriceList {
         }
         dishes.add(dish);
     }
-    public String getHash() {
-        StringBuilder forHash = new StringBuilder();
-        for (Dish dish : dishes) {
-            forHash.append(dish.getHashId());
-        }
 
-        return Encoder.encodeWithMD5(expirationTime.toString() + creationTime.toString(),
-                        forHash.toString());
-    }
-    public Map<Course, List<Dish>> getCourses() {
-        Map<Course, List<Dish>> courses = new HashMap<>();
+    public ListMultimap<Course, Dish> getCourses() {
+        ListMultimap<Course, Dish> courses = ArrayListMultimap.create();
         for (Dish dish : dishes) {
-            Course course = dish.getCourse();
-            if (!courses.containsKey(course)) {
-                courses.put(course, new ArrayList<Dish>());
-            }
-            courses.get(course).add(dish);
+            courses.put(dish.getCourse(), dish);
         }
         return courses;
     }
@@ -111,9 +89,10 @@ public class PriceList {
     public boolean equals(Object toCompare) {
         if (toCompare instanceof PriceList) {
             return new EqualsBuilder()
+                    .append(this.getId(), ((PriceList) toCompare).getId())
                     .append(creationTime, ((PriceList) toCompare).getCreationTime())
                     .append(expirationTime, ((PriceList) toCompare).getExpirationTime())
-                    .append(this.getHash(), ((PriceList) toCompare).getHash())
+                    .append(this.dishes, ((PriceList) toCompare).getDishes())
                     .isEquals();
         } else {
             return false;
@@ -123,7 +102,10 @@ public class PriceList {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(42, 17)
-                .append(this.getHash())
+                .append(this.getId())
+                .append(this.dishes)
+                .append(this.creationTime)
+                .append(this.expirationTime)
                 .toHashCode();
     }
 }

@@ -25,7 +25,9 @@ public abstract class Notification {
 
     public void submit(List<User> targets) {
         for (User target: targets) {
-            submit(target);
+            if (target.getNeedEmailNotification()) {
+                submit(target);
+            }
         }
     }
 }

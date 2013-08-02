@@ -14,7 +14,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,19 +28,14 @@ public class ReportController {
     @Autowired
     private ManagerFactory managerFactory;
 
-    @ResponseBody
     @RequestMapping(value = "/report/setPaid/{orderId}/{menuId}", method = RequestMethod.POST)
-    public AjaxResponse processAjaxRequest(@PathVariable String orderId, @PathVariable String menuId) {
+    public void processAjaxRequest(@PathVariable String orderId, @PathVariable String menuId) {
         OrderManager orderManager = managerFactory.getOrderManager();
-        AjaxResponse response = new AjaxResponse();
 
         Order order = orderManager.getOrderById(UUID.fromString(orderId));
         MenuItem menuItem = order.getMenuById(UUID.fromString(menuId));
         menuItem.setIsPaid(true);
         orderManager.updateOrder(order);
-        response.setResponseSucceed(true);
-
-        return response;
     }
 
     @RequestMapping("/report")
@@ -53,17 +47,11 @@ public class ReportController {
         allOrders = orderManager.getAllOrders();
 
         for (Order order : allOrders) {
-            order.sortOrderByWeekday();
             for (MenuItem item : order.getOrder()) {
                 if (item.getChoices().isEmpty()) {
                     continue;
                 }
-                DailyOrder daySummary = new DailyOrder();
-                daySummary.setMenuItem(item);
-                daySummary.setUser(order.getOwner());
-                daySummary.setWeekDay(item.getDate().getDayOfWeek());
-                daySummary.setTotal(item.getTotalPrice());
-                daySummary.setWeekOrderId(order.getId());
+                DailyOrder daySummary = DailyOrder.mapOrderAndItemToDailyOrder(item, order);
                 report.put(item.getDate().getDayOfWeek() - 1, daySummary);
             }
         }
@@ -78,19 +66,6 @@ public class ReportController {
         model.addAttribute("workingDays", DateTimeUtils.WORKING_DAYS_IN_WEEK);
 
         return ViewURLs.WEEK_ORDER_REPORT;
-    }
-
-    public static class AjaxResponse {
-
-        private boolean responseSucceed = true;
-
-        public boolean getResponseSucceed() {
-            return this.responseSucceed;
-        }
-
-        public void setResponseSucceed(boolean status) {
-            this.responseSucceed = status;
-        }
     }
 
     public static class DailyOrder {
@@ -139,6 +114,16 @@ public class ReportController {
 
         public void setMenuItem(MenuItem menuItem) {
             this.menuItem = menuItem;
+        }
+
+        public static DailyOrder mapOrderAndItemToDailyOrder(MenuItem item, Order order) {
+            DailyOrder daySummary = new DailyOrder();
+            daySummary.setMenuItem(item);
+            daySummary.setUser(order.getOwner());
+            daySummary.setWeekDay(item.getDate().getDayOfWeek());
+            daySummary.setTotal(item.getTotalPrice());
+            daySummary.setWeekOrderId(order.getId());
+            return daySummary;
         }
     }
 }

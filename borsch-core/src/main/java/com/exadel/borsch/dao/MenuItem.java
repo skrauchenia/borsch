@@ -1,6 +1,5 @@
 package com.exadel.borsch.dao;
 
-import com.exadel.borsch.util.Encoder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
@@ -8,16 +7,18 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Andrey Zhilka
  */
-public class MenuItem {
-    private UUID id = UUID.randomUUID();
+public class MenuItem extends Identifiable {
     private DateTime date;
     private List<Dish> choices = new ArrayList<>();
     private boolean isPaid = false;
+
+    public MenuItem() {
+        super();
+    }
 
     public Integer getTotalPrice() {
         Integer total = 0;
@@ -34,14 +35,6 @@ public class MenuItem {
 
     public void setIsPaid(boolean status) {
         this.isPaid = status;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public DateTime getDate() {
@@ -68,20 +61,13 @@ public class MenuItem {
         return choices.add(dish);
     }
 
-    public String getHash() {
-        StringBuilder toHash = new StringBuilder();
-        for (Dish choice : choices) {
-            toHash.append(choice.getHashId());
-        }
-        return Encoder.encodeWithMD5(toHash.toString(), date.toString());
-    }
-
     @Override
     public boolean equals(Object menuItem) {
         if (menuItem instanceof MenuItem) {
             return new EqualsBuilder()
+                    .append(this.getId(), ((MenuItem) menuItem).getId())
                     .append(date, ((MenuItem) menuItem).getDate())
-                    .append(this.getHash(), ((MenuItem) menuItem).getHash())
+                    .append(this.choices, ((MenuItem) menuItem).getChoices())
                     .isEquals();
         } else {
             return false;
@@ -91,8 +77,9 @@ public class MenuItem {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(42, 6)
+                .append(this.getId())
                 .append(date)
-                .append(this.getHash())
+                .append(this.choices)
                 .toHashCode();
     }
 }
