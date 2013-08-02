@@ -1,6 +1,5 @@
 package com.exadel.borsch.dao;
 
-import com.exadel.borsch.util.Encoder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
