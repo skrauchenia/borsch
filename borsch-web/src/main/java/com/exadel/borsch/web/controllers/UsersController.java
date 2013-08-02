@@ -60,7 +60,6 @@ public class UsersController {
         User user = userManager.getUserById(UUID.fromString(userId));
         UserUtils.checkEditor(principal, user.getId());
 
-
         boolean hasError = result.hasFieldErrors("name");
         response.setAlertName(hasError);
 
