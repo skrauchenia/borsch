@@ -28,6 +28,15 @@ public class HomeController {
 
     @RequestMapping("/home")
     public String processPageRequest(Model model, Principal principal) {
+        return pageRequest(model, principal);
+    }
+
+    @RequestMapping("/")
+    public String processDefaultPageRequest(Model model, Principal principal) {
+        return pageRequest(model, principal);
+    }
+
+    public String pageRequest(Model model, Principal principal) {
         OrderManager orderManager = managerFactory.getOrderManager();
         User user = UserUtils.getUserByPrincipal(principal);
 

@@ -15,24 +15,18 @@
             $("#navReport").addClass("active");
 
             function markAsPaid(menuItemId, weekOrderId){
-                //TODO: finish this section\
                 $.ajax({
                     url: "${contextPath}/report/setPaid/"+ weekOrderId + "/" + menuItemId,
                     type: 'POST',
-                    dataType: "json"
-                }).done(function(response){
-                            if(response.responseSucceed == true) {
-                                $("#orderNotPaid"+menuItemId).hide("slow");
-                                $("#orderPaid"+menuItemId).show("slow");
-                            } else {
-                                alert("<spring:message code="request.fail"/>");
-                                $("#orderPaid"+menuItemId).hide("slow");
-                                $("#orderNotPaid"+menuItemId).show("slow");
-                            }
-                        })
-                  .fail(function(){
-                            alert("Ajax Request failed");
-                        });
+                    success: function() {
+                        $("#orderNotPaid"+menuItemId).hide("slow");
+                        $("#orderPaid"+menuItemId).show("slow");
+                    },
+                    error: function() {
+                        $("#orderPaid"+menuItemId).hide("slow");
+                        $("#orderNotPaid"+menuItemId).show("slow");
+                    }
+                });
             }
         </script>
     </jsp:attribute>

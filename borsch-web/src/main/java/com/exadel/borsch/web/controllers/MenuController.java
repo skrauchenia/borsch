@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.exadel.borsch.web.controllers;
 
 import com.exadel.borsch.dao.Course;
@@ -10,6 +6,7 @@ import com.exadel.borsch.dao.PriceList;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.PriceManager;
 import com.exadel.borsch.managers.simple.SimpleManagerFactory;
+import com.google.common.collect.ListMultimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 /**
- *
  * @author Vlad
  */
 @Controller
@@ -44,13 +39,11 @@ public class MenuController {
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
-            Map<Course, List<Dish>> courses = dishes.getCourses();
-            List<Dish> firstCourse = courses.get(Course.FIRST_COURSE);
-            List<Dish> secondCourse = courses.get(Course.SECOND_COURSE);
-            List<Dish> dessert = courses.get(Course.DESSERT);
-            mav.addObject("firstCourse", firstCourse);
-            mav.addObject("secondCourse", secondCourse);
-            mav.addObject("dessert", dessert);
+            ListMultimap<Course, Dish> courses = dishes.getCourses();
+
+            mav.addObject("firstCourse", courses.get(Course.FIRST_COURSE));
+            mav.addObject("secondCourse", courses.get(Course.SECOND_COURSE));
+            mav.addObject("dessert", courses.get(Course.SECOND_COURSE));
         }
         return mav;
     }
@@ -89,13 +82,12 @@ public class MenuController {
         PriceList dishes = null;
         if ((prices != null) && (!prices.isEmpty())) {
             dishes = prices.get(prices.size() - 1);
-            dishes.addDish(dish);
-            manager.updatePriceList(dishes);
         } else {
             dishes = new PriceList();
-            dishes.addDish(dish);
-            manager.addPriceList(dishes);
         }
+
+        dishes.addDish(dish);
+        manager.updatePriceList(dishes);
 
         return DishJSON.mapDishToJSON(dish);
     }

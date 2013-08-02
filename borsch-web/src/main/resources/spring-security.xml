@@ -12,12 +12,18 @@
     <http pattern="/login" security="none"/>
 
     <http auto-config="true">
-        <intercept-url pattern="/**" access="ROLE_EDIT_MENU_SELF" />
+        <intercept-url pattern="/" access="ROLE_EDIT_MENU_SELF" />
+        <intercept-url pattern="/home" access="ROLE_EDIT_MENU_SELF" />
+        <intercept-url pattern="/menu" access="ROLE_EDIT_MENU_SELF" />
+        <intercept-url pattern="/users" access="ROLE_EDIT_PROFILE" />
+        <intercept-url pattern="/edit/dish**" access="ROLE_EDIT_PRICE" />
+        <intercept-url pattern="/report**" access="ROLE_PRINT_ORDER" />
         <form-login login-page="/login"
                     default-target-url="/home"
                     login-processing-url="/j_spring_security_check"
-                    authentication-failure-url="/login/err"
+                    authentication-failure-url="/login/?error=true"
                     always-use-default-target="true"/>
+        <logout logout-url="/j_spring_security_logout" logout-success-url="/login"/>
     </http>
 
     <!--<authentication-manager>
