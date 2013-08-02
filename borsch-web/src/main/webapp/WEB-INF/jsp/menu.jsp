@@ -8,6 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <t:genericpage>
 
@@ -126,11 +127,13 @@
                                     <th>Price</th>
                                     <th></th>
                                     <th></th>
-                                    <th>
-                                        <button type="submit" class="btn btn-success" style="float: right" onclick="addDish('FIRST_COURSE')">
-                                            <i class="icon-plus icon-white"></i> Add
-                                        </button>
-                                    </th>
+                                    <sec:authorize access="hasRole('ROLE_EDIT_PRICE')">
+                                        <th>
+                                            <button type="submit" class="btn btn-success" style="float: right" onclick="addDish('FIRST_COURSE')">
+                                                <i class="icon-plus icon-white"></i> Add
+                                            </button>
+                                        </th>
+                                    </sec:authorize>
                                 </tr>
                                 <c:forEach var="dish" items="${firstCourse}" varStatus="st">
                                     <tr id="row${dish.id}">
@@ -145,14 +148,16 @@
                                                 <i class="icon-remove icon-white"></i> Remove from order
                                             </button>
                                         </td>
-                                        <td>
-                                            <button type="submit" class="btn btn-info" id="editBtn${dish.id}" onclick="editDish('${dish.id}')">
-                                                <i class="icon-pencil icon-white"></i> Edit
-                                            </button>
-                                            <button type="submit" class="btn btn-danger" id="removeBtn${dish.id}" onclick="removeDish('${dish.id}')">
-                                                <i class="icon-remove icon-white"></i> Remove
-                                            </button>
-                                        </td>
+                                        <sec:authorize access="hasRole('ROLE_EDIT_PRICE')">
+                                            <td>
+                                                <button type="submit" class="btn btn-info" id="editBtn${dish.id}" onclick="editDish('${dish.id}')">
+                                                    <i class="icon-pencil icon-white"></i> Edit
+                                                </button>
+                                                <button type="submit" class="btn btn-danger" id="removeBtn${dish.id}" onclick="removeDish('${dish.id}')">
+                                                    <i class="icon-remove icon-white"></i> Remove
+                                                </button>
+                                            </td>
+                                        </sec:authorize>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -174,11 +179,13 @@
                                     <th>Price</th>
                                     <th></th>
                                     <th></th>
-                                    <th>
-                                        <button type="submit" class="btn btn-success" style="float: right" onclick="addDish('SECOND_COURSE')">
-                                            <i class="icon-plus icon-white"></i> Add
-                                        </button>
-                                    </th>
+                                    <sec:authorize access="hasRole('ROLE_EDIT_PRICE')">
+                                        <th>
+                                            <button type="submit" class="btn btn-success" style="float: right" onclick="addDish('SECOND_COURSE')">
+                                                <i class="icon-plus icon-white"></i> Add
+                                            </button>
+                                        </th>
+                                    </sec:authorize>
                                 </tr>
                                 <c:forEach var="dish" items="${secondCourse}" varStatus="st">
                                     <tr id="row${dish.id}">
@@ -193,14 +200,16 @@
                                                 <i class="icon-remove icon-white"></i> Remove from order
                                             </button>
                                         </td>
-                                        <td>
-                                            <button type="submit" class="btn btn-info" id="editBtn${dish.id}" onclick="editDish('${dish.id}')">
-                                                <i class="icon-pencil icon-white"></i> Edit
-                                            </button>
-                                            <button type="submit" class="btn btn-danger" id="removeBtn${dish.id}" onclick="removeDish('${dish.id}')">
-                                                <i class="icon-remove icon-white"></i> Remove
-                                            </button>
-                                        </td>
+                                        <sec:authorize access="hasRole('ROLE_EDIT_PRICE')">
+                                            <td>
+                                                <button type="submit" class="btn btn-info" id="editBtn${dish.id}" onclick="editDish('${dish.id}')">
+                                                    <i class="icon-pencil icon-white"></i> Edit
+                                                </button>
+                                                <button type="submit" class="btn btn-danger" id="removeBtn${dish.id}" onclick="removeDish('${dish.id}')">
+                                                    <i class="icon-remove icon-white"></i> Remove
+                                                </button>
+                                            </td>
+                                        </sec:authorize>
                                     </tr>
                                 </c:forEach>
                             </table>
@@ -222,11 +231,13 @@
                                     <th>Price</th>
                                     <th></th>
                                     <th></th>
-                                    <th>
+                                    <sec:authorize access="hasRole('ROLE_EDIT_PRICE')">
+                                        <th>
                                         <button type="submit" class="btn btn-success" style="float: right" onclick="addDish('DESSERT')">
                                             <i class="icon-plus icon-white"></i> Add
                                         </button>
                                     </th>
+                                    </sec:authorize>
                                 </tr>
                                 <c:forEach var="dish" items="${dessert}" varStatus="st">
                                     <tr id="row${dish.id}">
@@ -241,14 +252,16 @@
                                                 <i class="icon-remove icon-white"></i> Remove from order
                                             </button>
                                         </td>
-                                        <td>
-                                            <button type="submit" class="btn btn-info" id="editBtn${dish.id}" onclick="editDish('${dish.id}')">
-                                                <i class="icon-pencil icon-white"></i> Edit
-                                            </button>
-                                            <button type="submit" class="btn btn-danger" id="removeBtn${dish.id}" onclick="removeDish('${dish.id}')">
-                                                <i class="icon-remove icon-white"></i> Remove
-                                            </button>
-                                        </td>
+                                        <sec:authorize access="hasRole('ROLE_EDIT_PRICE')">
+                                            <td>
+                                                <button type="submit" class="btn btn-info" id="editBtn${dish.id}" onclick="editDish('${dish.id}')">
+                                                    <i class="icon-pencil icon-white"></i> Edit
+                                                </button>
+                                                <button type="submit" class="btn btn-danger" id="removeBtn${dish.id}" onclick="removeDish('${dish.id}')">
+                                                    <i class="icon-remove icon-white"></i> Remove
+                                                </button>
+                                            </td>
+                                        </sec:authorize>
                                     </tr>
                                 </c:forEach>
                             </table>
