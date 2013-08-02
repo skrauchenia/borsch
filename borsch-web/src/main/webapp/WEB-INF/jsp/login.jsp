@@ -14,7 +14,7 @@
     </head>
     <body>
         <div class="container">
-            <c:if test="${not empty error}">
+            <c:if test="${not empty param.error}">
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     <strong>Error!</strong> Incorrect login or password
