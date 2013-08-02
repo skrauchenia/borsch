@@ -68,6 +68,14 @@ public class MenuItem {
         return choices.add(dish);
     }
 
+    public boolean removeDish(Dish dish) {
+        return choices.remove(dish);
+    }
+
+    public void removeDishByIndex(int idx) {
+        choices.remove(idx);
+    }
+
     public String getHash() {
         StringBuilder toHash = new StringBuilder();
         for (Dish choice : choices) {
