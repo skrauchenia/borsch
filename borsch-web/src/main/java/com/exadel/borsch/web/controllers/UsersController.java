@@ -34,8 +34,6 @@ public class UsersController {
 
     @RequestMapping("/users")
     public String processPageRequest(Principal principal, Model model) {
-        UserUtils.hasRole(principal, AccessRight.ROLE_EDIT_PROFILE);
-
         UserManager userManager = managerFactory.getUserManager();
         model.addAttribute("users", userManager.getAllUsers());
         return ViewURLs.USERS_PAGE;
@@ -54,10 +52,11 @@ public class UsersController {
     @ResponseBody
     @RequestMapping("/edit/user/{userId}/edit")
     public EditStatus processUpdateUserRequest(@PathVariable String userId,
-            @Valid UserCommand userCommand, BindingResult result) {
+            @Valid UserCommand userCommand, BindingResult result, Principal principal) {
         EditStatus response = new EditStatus();
         UserManager userManager = managerFactory.getUserManager();
         User user = userManager.getUserById(UUID.fromString(userId));
+        UserUtils.checkEditor(principal,user.getId());
 
 
         boolean hasError = result.hasFieldErrors("name");

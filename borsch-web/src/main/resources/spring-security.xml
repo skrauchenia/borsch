@@ -13,6 +13,7 @@
 
     <http auto-config="true">
         <intercept-url pattern="/**" access="ROLE_EDIT_MENU_SELF" />
+        <intercept-url pattern="/users" access="ROLE_EDIT_PROFILE" />
         <form-login login-page="/login"
                     default-target-url="/home"
                     login-processing-url="/j_spring_security_check"
