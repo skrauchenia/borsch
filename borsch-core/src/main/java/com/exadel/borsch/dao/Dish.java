@@ -1,29 +1,24 @@
 package com.exadel.borsch.dao;
 
-import com.exadel.borsch.util.Encoder;
-import java.util.UUID;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class Dish {
-    private UUID id = UUID.randomUUID();
+import java.util.UUID;
+
+public class Dish extends Identifiable{
     private String name;
     private String photoUrl;
     private Integer price;
     private String description;
-    private String hashId;
     private Course course;
 
     public Dish() {
+        super();
     }
     public Dish(String name, Integer price, String description) {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.updateHash();
-    }
-
-    public UUID getId() {
-        return id;
     }
 
     public String getName() {
@@ -58,15 +53,6 @@ public class Dish {
         this.description = description;
     }
 
-    private void updateHash() {
-        hashId = Encoder.encodeWithMD5(name + description, price.toString());
-    }
-
-    public String getHashId() {
-        updateHash();
-        return hashId;
-    }
-
     public void setCourse(Course course) {
         this.course = course;
     }
@@ -77,7 +63,13 @@ public class Dish {
     @Override
     public boolean equals(Object toCompare) {
         if (toCompare instanceof Dish) {
-            return this.getHashId().equals(((Dish) toCompare).getHashId());
+            return new EqualsBuilder()
+                    .append(this.getId(), ((Dish) toCompare).getId())
+                    .append(this.name, ((Dish) toCompare).getName())
+                    .append((int) this.price, ((Dish) toCompare).getPrice())
+                    .append(this.course, ((Dish) toCompare).getCourse())
+                    .append(this.photoUrl, ((Dish) toCompare).getPhotoUrl())
+                    .isEquals();
         } else {
             return false;
         }
@@ -86,6 +78,7 @@ public class Dish {
     @Override
     public int hashCode() {
         return new HashCodeBuilder(42, 7)
+                .append(this.getId())
                 .append(name)
                 .append(price)
                 .append(description)

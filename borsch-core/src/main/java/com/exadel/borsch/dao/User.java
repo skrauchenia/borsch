@@ -1,6 +1,5 @@
 package com.exadel.borsch.dao;
 
-import com.exadel.borsch.util.Encoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,7 +8,7 @@ import java.util.*;
 /**
  * @author Andrey Zhilka
  */
-public class User {
+public class User extends Identifiable{
 
     public static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
@@ -17,11 +16,11 @@ public class User {
     private String name;
     private String email;
     private boolean needEmailNotification = true;
-    private UUID id = UUID.randomUUID();
     private Set<AccessRight> accessRights = new HashSet<>();
     private Locale locale = new Locale("en_US");
 
     public User() {
+        super();
         accessRights.add(AccessRight.ROLE_EDIT_MENU_SELF);
     }
 
@@ -31,14 +30,6 @@ public class User {
 
     public void setNeedEmailNotification(boolean needEmailNotification) {
         this.needEmailNotification = needEmailNotification;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getLogin() {
@@ -88,7 +79,7 @@ public class User {
     public Set<String> getStringAccessRights() {
         Set<String> rights = new HashSet<>();
         for (AccessRight right : accessRights) {
-            rights.add(right.getName());
+            rights.add(right.name());
         }
 
         return rights;
@@ -98,17 +89,12 @@ public class User {
         accessRights = new HashSet<>();
         for (String newRight : newAccessRights) {
             for (AccessRight right : AccessRight.values()) {
-                if (right.getName().equals(newRight)) {
+                if (right.name().equals(newRight)) {
                     accessRights.add(right);
                     break;
                 }
             }
         }
-    }
-
-    public String getHash() {
-        String usersHash = Encoder.encodeWithMD5(name, email);
-        return usersHash;
     }
 
     public boolean hasAccessRight(AccessRight accessRight) {

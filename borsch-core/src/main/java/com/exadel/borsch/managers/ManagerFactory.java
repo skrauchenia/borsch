@@ -1,7 +1,6 @@
 package com.exadel.borsch.managers;
 
 /**
- *
  * @author Vlad
  */
 public interface ManagerFactory {
