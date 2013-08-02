@@ -1,26 +1,23 @@
 package com.exadel.borsch.dao;
 
-import com.exadel.borsch.util.Encoder;
 import org.joda.time.DateTime;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Andrey Zhilka
  */
-public class Order {
-    private UUID id = UUID.randomUUID();
+public class Order extends Identifiable{
     private List<MenuItem> order = new ArrayList<>();
     private DateTime startDate;
     private DateTime endDate;
     private User owner;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
+    public Order() {
+        super();
     }
 
     public DateTime getStartDate() {
@@ -60,11 +57,6 @@ public class Order {
         return new MenuItem();
     }
 
-    public String getHash() {
-        return Encoder.encodeWithMD5(owner.getHash(),
-                startDate.toString() + endDate.toString());
-    }
-
     public void addMenuItem(MenuItem item) {
         order.add(item);
     }
@@ -81,12 +73,4 @@ public class Order {
         return order.addAll(toAdd);
     }
 
-    public void sortOrderByWeekday() {
-        Collections.sort(order, new Comparator<MenuItem>() {
-            @Override
-            public int compare(MenuItem firstItem, MenuItem secondItem) {
-                return firstItem.getDate().getDayOfWeek() - secondItem.getDate().getDayOfWeek();
-            }
-        });
-    }
 }

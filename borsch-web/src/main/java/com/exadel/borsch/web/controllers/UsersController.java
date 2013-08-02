@@ -22,7 +22,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- *
  * @author Vlad
  */
 @Controller
@@ -51,44 +50,26 @@ public class UsersController {
         return ViewURLs.USER_EDIT_PAGE;
     }
 
-    @ResponseBody
     @RequestMapping("/edit/user/{userId}/edit")
-    public EditStatus processUpdateUserRequest(@PathVariable String userId,
+    public String processUpdateUserRequest(@PathVariable String userId, ModelMap model,
             @Valid UserCommand userCommand, BindingResult result) {
-        EditStatus response = new EditStatus();
-        UserManager userManager = managerFactory.getUserManager();
-        User user = userManager.getUserById(UUID.fromString(userId));
-
-
-        boolean hasError = result.hasFieldErrors("name");
-        response.setAlertName(hasError);
-
-        if (!hasError) {
-            user.setName(userCommand.getName());
-        }
-
-        hasError = result.hasFieldErrors("locale");
-
-        response.setAlertLocale(hasError);
-
-        if (!hasError) {
-            user.setLocale(new Locale(userCommand.getLocale()));
-        }
-
-        hasError = result.hasFieldErrors("rights");
-
-        response.setAlertRights(hasError && !userCommand.isRightsNull());
-
-        if (!hasError && !userCommand.isRightsNull()) {
-            user.setStringAccessRights(Arrays.asList(userCommand.getRights()));
-        }
-
-        user.setNeedEmailNotification(userCommand.getNeedEmailNotification());
         if (!result.hasErrors()) {
+            UserManager userManager = managerFactory.getUserManager();
+            User user = userManager.getUserById(UUID.fromString(userId));
+
+            user.setName(userCommand.getName());
+
+            user.setLocale(new Locale(userCommand.getLocale()));
+
+            user.setStringAccessRights(Arrays.asList(userCommand.getRights()));
+
+            user.setNeedEmailNotification(userCommand.getNeedEmailNotification());
+
             userManager.updateUser(user);
         }
-
-        return response;
+        userCommand.setId(userId);
+        model.addAttribute(userCommand);
+        return ViewURLs.USER_EDIT_PAGE;
     }
 
     @RequestMapping(value = "/edit/user/{userId}/remove", method = RequestMethod.POST)
@@ -97,37 +78,6 @@ public class UsersController {
         UserManager userManager = managerFactory.getUserManager();
         userManager.deleteUserById(UUID.fromString(userId));
         return ViewURLs.USERS_PAGE;
-    }
-
-    public static class EditStatus {
-
-        private boolean alertName = false;
-        private boolean alertLocale = false;
-        private boolean alertRights = false;
-
-        public boolean getAlertName() {
-            return alertName;
-        }
-
-        public void setAlertName(boolean alertName) {
-            this.alertName = alertName;
-        }
-
-        public boolean getAlertLocale() {
-            return alertLocale;
-        }
-
-        public void setAlertLocale(boolean alertLocale) {
-            this.alertLocale = alertLocale;
-        }
-
-        public boolean getAlertRights() {
-            return alertRights;
-        }
-
-        public void setAlertRights(boolean alertRights) {
-            this.alertRights = alertRights;
-        }
     }
 
     public static class UserCommand {

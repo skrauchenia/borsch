@@ -11,31 +11,6 @@
         <title>Edit profile</title>
         <link href="${contextPath}/assets/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="${contextPath}/assets/js/bootstrap-select.min.js"></script>
-        <script type="text/javascript">
-
-            function ajaxSubmit()
-            {
-                $("[id^=alert]").hide();
-                var form = $('#profileEditForm');
-                $.post(form.attr('action'), form.serialize())
-                        .fail(function() {
-                            $('.alert-danger').show();
-                        })
-                        .done(function(response) {
-                            var valid = true;
-                            $.each(response, function(key, value){
-                               if(value == true) {
-                                   valid = false;
-                                   var target = '#' + key;
-                                   $(target).show();
-                               }
-                            });
-                            if (valid) {
-                                $('.alert-success').show();
-                            }
-                        });
-            }
-        </script>
     </jsp:attribute>
 
     <jsp:body>
@@ -58,6 +33,7 @@
                     <label class="control-label" for="name"><spring:message code="form.name"/></label>
                     <div class="controls">
                         <form:input id="name" name="name" title="name" path="name"></form:input>
+                        <form:errors path="name" cssClass="error"></form:errors>
                         <span class="help-inline hide" id="alertName">
                             <strong>Error!</strong><spring:message code="form.validation.size"/>.
                         </span>
@@ -71,6 +47,7 @@
                             <form:option value="en_US">English(US)</form:option>
                             <form:option value="ru_RU">Русский</form:option>
                         </form:select>
+                        <form:errors path="locale" cssClass="error"></form:errors>
                         <span class="help-inline hide" id="alertLocale">
                             <strong>Error!</strong><spring:message code="form.validation.notEmpty"/>.
                         </span>
@@ -85,6 +62,7 @@
                 <sec:authorize access="hasRole('ROLE_EDIT_PROFILE')">
                     <div class="controls" name="role">
                         <form:checkboxes path="rights" items="${allRights}"/>
+                        <form:errors path="rights" cssClass="error"></form:errors>
                         <span class="help-inline hide" id="alertRights">
                             <strong>Error!</strong><spring:message code="form.validation.notNull"/>.
                         </span>
@@ -92,7 +70,7 @@
                 </sec:authorize>
                 <div class="control-group">
                     <div class="controls">
-                        <button type="button" class="btn" onclick="ajaxSubmit()">Submit</button>
+                        <button type="submit" class="btn">Submit</button>
                     </div>
                 </div>
             </form:form>
