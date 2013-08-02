@@ -10,7 +10,7 @@ import java.util.UUID;
 /**
  * @author Andrey Zhilka
  */
-public class Order extends Identifiable{
+public class Order extends Identifiable {
     private List<MenuItem> order = new ArrayList<>();
     private DateTime startDate;
     private DateTime endDate;

@@ -3,9 +3,7 @@ package com.exadel.borsch.dao;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import java.util.UUID;
-
-public class Dish extends Identifiable{
+public class Dish extends Identifiable {
     private String name;
     private String photoUrl;
     private Integer price;

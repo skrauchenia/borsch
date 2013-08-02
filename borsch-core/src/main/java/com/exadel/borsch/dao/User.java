@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * @author Andrey Zhilka
  */
-public class User extends Identifiable{
+public class User extends Identifiable {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
