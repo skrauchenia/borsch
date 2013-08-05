@@ -5,6 +5,7 @@ import com.exadel.borsch.dao.Order;
 import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.util.DateTimeUtils;
+import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -68,6 +69,17 @@ public class SimpleOrderManager implements OrderManager {
         return Collections.unmodifiableList(orders);
     }
 
+    public List<Order> getAllOrders(DateTime startDate) {
+        List<Order> appropriateOrders = new ArrayList<>();
+        for (Order order : orders) {
+            if (order.getStartDate().equals(startDate)) {
+                appropriateOrders.add(order);
+            }
+        }
+
+        return Collections.unmodifiableList(appropriateOrders);
+    }
+
     @Override
     public List<Order> getOrdersForUser(User user) {
         List<Order> result = new ArrayList<>();
@@ -76,7 +88,7 @@ public class SimpleOrderManager implements OrderManager {
                 result.add(order);
             }
         }
-        return result;
+        return Collections.unmodifiableList(result);
     }
 
     @Override

@@ -1,0 +1,10 @@
+.reportSummary {
+    border: 1px solid #000000;
+    border-collapse: separate;
+    *border-collapse: collapse;
+    margin-left: 10cm;
+    width: 50%;
+}
+.navbar, #userButton{
+    display: none;
+}

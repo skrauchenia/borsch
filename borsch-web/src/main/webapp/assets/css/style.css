@@ -86,3 +86,11 @@ body {
 table .centered-line {
     text-align: center;
 }
+.reportSummary {
+    border: 1px solid #dddddd;
+    border-collapse: separate;
+    *border-collapse: collapse;
+    width: 50%;
+    margin-bottom: 20px;
+    margin-left: 10cm;
+ }

@@ -52,7 +52,7 @@ public class MakeOrderNotifier extends NotifierTask {
 
         String localizedMessage;
 
-        for (Order order: menuManager.getAllOrders()) {
+        for (Order order: menuManager.getAllOrders(startOfWeek)) {
             checkedUsers.add(order.getOwner());
             if (!isWeekOrderComplete(order, startOfWeek, endOfWeek)) {
                 localizedMessage = extractMessage("user.notification.order", order.getOwner().getLocale());

@@ -1,5 +1,6 @@
 package com.exadel.borsch.web.controllers;
 
+import com.exadel.borsch.dao.Dish;
 import com.exadel.borsch.dao.MenuItem;
 import com.exadel.borsch.dao.Order;
 import com.exadel.borsch.dao.User;
@@ -8,7 +9,7 @@ import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
-import org.springframework.beans.factory.annotation.Autowire;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Andrey Zhilka
@@ -48,7 +47,8 @@ public class ReportController {
         ListMultimap<Integer, DailyOrder> report = ArrayListMultimap.create();
         List<Order> allOrders;
 
-        allOrders = orderManager.getAllOrders();
+        DateTime startOfWeek = DateTimeUtils.getStartOfNextWeek();
+        allOrders = orderManager.getAllOrders(startOfWeek);
 
         for (Order order : allOrders) {
             for (MenuItem item : order.getOrder()) {
@@ -70,6 +70,39 @@ public class ReportController {
         model.addAttribute("workingDays", DateTimeUtils.WORKING_DAYS_IN_WEEK);
 
         return ViewURLs.WEEK_ORDER_REPORT;
+    }
+
+    @Secured("ROLE_PRINT_ORDER")
+    @RequestMapping("/report/summary")
+    public String processSummaryRequest(ModelMap model) {
+        OrderManager orderManager = managerFactory.getOrderManager();
+        int today = DateTime.now().getDayOfWeek();
+        Map<Integer, Map<String, Integer>> summary = new TreeMap<>();
+        for (int i = today; i <= DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
+            summary.put(i, new HashMap<String, Integer>());
+        }
+        DateTime startOfWeek = DateTimeUtils.getStartOfCurrentWeek();
+        for (Order order : orderManager.getAllOrders(startOfWeek)) {
+            for (MenuItem item : order.getOrder()) {
+                if (item.getDate().isBeforeNow()) {
+                    continue; // do not show past orders
+                }
+                Integer dayOfWeek = item.getDate().getDayOfWeek();
+                Map<String, Integer> dayOrders = summary.get(dayOfWeek);
+                for (Dish dish : item.getChoices()) {
+                    String dishName = dish.getName();
+                    if (!dayOrders.containsKey(dishName)) {
+                        dayOrders.put(dishName, 1);
+                    } else {
+                        dayOrders.put(dishName, dayOrders.get(dishName) + 1);
+                    }
+                }
+            }
+        }
+
+        model.addAttribute("summary", summary);
+
+        return ViewURLs.ORDERS_SUMMARY_PAGE;
     }
 
     public static class DailyOrder {
