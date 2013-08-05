@@ -123,15 +123,18 @@
                 function showEditOrderPage(day) {
                     var modal = $("#myModal");
                     var frame = modal.find("iframe");
+                    var table = getTable(day);
+                    frame[0].contentWindow.location.reload();
                     frame.attr("src", "${contextPath}/menu/?internal=true");
                     modal.modal("show");
                     
+                    frame.off("load");
                     frame.load(function() {
                         var addToOrderButton = $(".add-to-order", frame.contents()[0]);
                         addToOrderButton.off('click');
                         addToOrderButton.each(function() {
                             var orderId = $(this).parents("tr").attr("id").substr(3);
-                            if ($("#" + orderId).length > 0)
+                            if (table.find("#" + orderId).length > 0)
                                 toggleOrderButton($(this));
                         });
                         addToOrderButton.click(function() {
