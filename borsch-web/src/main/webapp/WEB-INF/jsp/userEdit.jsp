@@ -20,37 +20,27 @@
             var nameStr = $('#name').val();
             if (nameStr.length == 0) {
                 $('#alertName').show();
-                console.log('nameCheck()  if (nameStr.length == 0) : ' + doRegistration);
                 doRegistration &= false;
-                console.log('nameCheck()  if (nameStr.length == 0) : after ' + doRegistration);
             } else {
                 $('#alertName').hide();
-                console.log('nameCheck()  if (nameStr.length == 0) else : ' + doRegistration);
                 doRegistration &= true;
-                console.log('nameCheck()  if (nameStr.length == 0) else : after ' + doRegistration);
             }
         }
         function localeCheck() {
             if ($('#locale_select').val() === "") {
                 $('#alertLocale').show();
-                console.log('localeCheck()  if($(#locale_select).val() === "") : ' + doRegistration);
                 doRegistration &= false;
-                console.log('localeCheck()  if($(#locale_select).val() === "") : after ' + doRegistration);
             } else {
                 $('#alertLocale').hide();
-                console.log('localeCheck()  if($(#locale_select).val() === "") else : ' + doRegistration);
                 doRegistration &= true;
-                console.log('localeCheck()  if($(#locale_select).val() === "") else : after ' + doRegistration);
             }
         }
         function validate() {
             doRegistration = true;
             nameCheck();
             localeCheck();
-            console.log(doRegistration);
             if (doRegistration) {
                 var form = $('#profileEditForm');
-                console.log(form.serialize() + '\n' + form.attr('action'));
                 $.post(form.attr('action'),form.serialize())
                         .done(function() {
                             $('.alert-success').show();
