@@ -76,6 +76,13 @@ body {
     border-radius: 0 3px 3px 0;
 }
 
+#myModal {
+    width: 800px;
+    margin-left: -400px;
+}
+#myModal .modal-body {
+    height: 800px;
+}
 table .centered-line {
     text-align: center;
 }
