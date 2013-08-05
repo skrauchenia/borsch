@@ -1,21 +1,24 @@
 package com.exadel.borsch.web.controllers;
 
 import com.exadel.borsch.dao.Dish;
+import com.exadel.borsch.dao.MenuItem;
 import com.exadel.borsch.dao.Order;
 import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
+import com.exadel.borsch.managers.PriceManager;
 import com.exadel.borsch.web.users.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 import java.util.List;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import java.util.UUID;
 
 /**
  *
@@ -23,23 +26,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class HomeController {
-
     @Autowired
     private ManagerFactory managerFactory;
 
     @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/home")
     public String processPageRequest(Model model, Principal principal) {
-        return pageRequest(model, principal);
-    }
-
-    @Secured("ROLE_EDIT_MENU_SELF")
-    @RequestMapping("/")
-    public String processDefaultPageRequest(Model model, Principal principal) {
-        return pageRequest(model, principal);
-    }
-
-    public String pageRequest(Model model, Principal principal) {
         OrderManager orderManager = managerFactory.getOrderManager();
         User user = UserUtils.getUserByPrincipal(principal);
 
@@ -53,6 +45,12 @@ public class HomeController {
         return ViewURLs.HOME_PAGE;
     }
 
+    @Secured("ROLE_EDIT_MENU_SELF")
+    @RequestMapping("/")
+    public String processDefaultPageRequest(Model model, Principal principal) {
+        return "redirect:/home";
+    }
+
     @ResponseBody
     @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/home/orders/{day}")
@@ -62,19 +60,63 @@ public class HomeController {
         User user = UserUtils.getUserByPrincipal(principal);
 
         Order order = orderManager.getCurrentOrderForUser(user);
+        if (day < 0 || day > order.getOrder().size()) {
+            return null;
+        }
+
         return order.getOrder().get(day).getChoices();
     }
 
     @ResponseBody
     @Secured("ROLE_EDIT_MENU_SELF")
-    @RequestMapping("/home/orders/{day}/remove/{itemIdx}")
-    public void processOrderItemRemove(Principal principal, @PathVariable int day,
-        @PathVariable int itemIdx) {
+    @RequestMapping("/home/orders/{day}/{itemId}")
+    public OrderResult processOrderModification(Principal principal, @PathVariable int day,
+        @PathVariable String itemId) {
 
+        PriceManager priceManager = managerFactory.getPriceManager();
         OrderManager orderManager = managerFactory.getOrderManager();
         User user = UserUtils.getUserByPrincipal(principal);
 
+        Dish dish = priceManager.getCurrentPriceList().getDishById(UUID.fromString(itemId));
         Order order = orderManager.getCurrentOrderForUser(user);
-        order.getOrder().get(day).removeDishByIndex(itemIdx);
+        if (dish == null || day < 0 || day >= order.getOrder().size()) {
+            return new OrderResult("fail", null);
+        }
+
+        MenuItem menuItem = order.getOrder().get(day);
+        if (menuItem.getChoices().contains(dish)) {
+            menuItem.removeDish(dish);
+            return new OrderResult("removed", dish);
+        }
+
+        menuItem.addDish(dish);
+        return new OrderResult("added", dish);
+    }
+
+    public static class OrderResult {
+        private String status;
+        private Dish dish;
+
+        public OrderResult(String status, Dish dish) {
+            this.status = status;
+            this.dish = dish;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public Dish getDish() {
+            return dish;
+        }
+
+        public void setDish(Dish dish) {
+            this.dish = dish;
+        }
+
     }
 }

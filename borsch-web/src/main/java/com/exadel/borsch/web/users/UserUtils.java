@@ -2,12 +2,13 @@ package com.exadel.borsch.web.users;
 
 import com.exadel.borsch.dao.AccessRight;
 import com.exadel.borsch.dao.User;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import java.security.Principal;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 /**
  * @author zubr

@@ -15,7 +15,7 @@
 
     <jsp:attribute name="scripts">
         <script type="text/javascript">
-        var doRegistration = false;
+        var doRegistration = true;
         function nameCheck() {
             var nameStr = $('#name').val();
             if (nameStr.length == 0) {
@@ -31,34 +31,39 @@
                 $('#alertLocale').show();
                 doRegistration &= false;
             } else {
-                $('#alertLocale').hide('hide');
+                $('#alertLocale').hide();
                 doRegistration &= true;
             }
         }
         function validate() {
+            doRegistration = true;
             nameCheck();
             localeCheck();
             if (doRegistration) {
-               document.forms["profileEditForm"].submit();
+                var form = $('#profileEditForm');
+                $.post(form.attr('action'),form.serialize())
+                        .done(function() {
+                            $('.alert-success').show();
+                        });
             }
         }
     </script>
     </jsp:attribute>
 
     <jsp:body>
-        <div class="row">
-            <div class="alert alert-danger hide fade in span4 offset3">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong><spring:message code="form.submit.fail.title"/></strong> <spring:message code="form.submit.fail"/>.
-            </div>
-        </div>
-        <div class="row">
-            <div class="alert alert-success hide fade in span4 offset3">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <spring:message code="form.submit.success"/>
-            </div>
-        </div>
         <div class="container">
+            <div class="row">
+                <div class="alert alert-danger hide fade in span4 offset1">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong><spring:message code="form.submit.fail.title"/></strong> <spring:message code="form.submit.fail"/>.
+                </div>
+            </div>
+            <div class="row">
+                <div class="alert alert-success hide fade in span4 offset1">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <spring:message code="form.submit.success"/>
+                </div>
+            </div>
             <form:form class="form-horizontal" id="profileEditForm" commandName="userCommand"
                   action="${contextPath}/edit/user/${userCommand.id}/edit" method="post">
                 <div class="control-group">

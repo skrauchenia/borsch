@@ -26,7 +26,6 @@ import java.util.UUID;
  */
 @Controller
 public class ReportController {
-
     @Autowired
     private ManagerFactory managerFactory;
 

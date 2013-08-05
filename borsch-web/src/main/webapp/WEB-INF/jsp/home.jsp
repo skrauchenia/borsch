@@ -23,7 +23,7 @@
                 var emptyOrderTemplate = "<tr class=\"order-rows\">\
                                             <td colspan=\"4\" class=\"centered-line\">&lt;currently empty&gt;</td>\
                                           </tr>";
-                var orderTemplate = "<tr class=\"order-rows\">\
+                var orderTemplate = "<tr class=\"order-rows\" id=\"{3}\">\
                                        <td>{0}</td>\
                                        <td>{1}</td>\
                                        <td>{2}</td>\
@@ -52,7 +52,9 @@
                         $("#day" + i + "info").hide(400);
                     }
                     $("#day" + id).addClass("active");
-                    $("#day" + id + "info").show(400);
+                    $("#day" + id + "info").show(400, function() {
+                        
+                    });
                 }
                 
                 var currentDay = (new Date()).getDay() - 1;
@@ -60,45 +62,87 @@
                     currentDay = 0;
                 switchDay(currentDay);
 
-                $("#days > li").click(function() {
-                    switchDay($(this).attr("id").substr(3));
+                $("#days > li > a").click(function(e) {
+                    e.preventDefault();
+                    switchDay($(this).parent().attr("id").substr(3));
                 });
                 
-                // Order management
-                function removeOrder(day, order) {
-                    var table = $("#day" + day + "info table");
-                    $.post("${contextPath}/home/orders/" + day + "/remove/" + order, {}, function() {
-                        table.find("tr:eq(" + (order + 1) + ")").hide("fast", function() {
-                            $(this).remove();
-                        });
-                    });
+                function getTable(day) {
+                    return $("#day" + day + "info table");
                 }
                 
-                function updateOrders(day) {
-                    var table = $("#day" + day + "info table");
-                    $.get("${contextPath}/home/orders/" + day, {}, function(items) {
-                        console.log(items);
-                        table.find("tr:gt(0)").remove();
-                        if (items.length === 0) {
-                            table.append($(emptyOrderTemplate));
+                // Order management
+                function processOrder(day, orderId, button) {
+                    $.post("${contextPath}/home/orders/" + day + "/" + orderId, {}, function(result) {
+                        if (result.status === "added") {
+                            addOrder(day, result.dish);
+                        }
+                        else {
+                            removeOrder(day, result.dish.id);
+                        }
+                    });
+                }
+                function addOrder(day, dish) {
+                    var table = getTable(day);
+                    var order = orderTemplate.format(0,
+                        dish.name, dish.price, dish.id);
+                    table.append($(order));
+                    renumerateOrders(day);
+                }
+                function removeOrder(day, orderId) {
+                    var table = getTable(day);
+                    table.find("#" + orderId).hide("fast", function() {
+                        $(this).remove();
+                        renumerateOrders(day);
+                    });
+                }
+                function renumerateOrders(day) {
+                    var empty = true;
+                    var table = getTable(day);
+                    table.find("tr:gt(0)").each(function(idx) {
+                        if (!$(this).attr("id")) {
+                            $(this).remove();
                             return;
                         }
-                        $.each(items, function(idx, value) {
-                            var order = orderTemplate.format(idx + 1,
-                                value.name, value.price);
-                            table.append($(order));
-                        });
+                        $(this).find("td:first").text(idx + 1);
+                        empty = false;
                     });
+                    if (empty)
+                        table.append($(emptyOrderTemplate));
+                }
+                
+                function toggleOrderButton(button) {
+                    button.toggleClass("btn-success");
+                    button.toggleClass("btn-danger");
+                    if (button.hasClass("btn-danger"))
+                        button.html("<spring:message code='menu.order.remove'/>");
+                    else
+                        button.html("<spring:message code='menu.order.add'/>");
                 }
                 
                 function showEditOrderPage(day) {
                     var modal = $("#myModal");
                     var frame = modal.find("iframe");
+                    var table = getTable(day);
+                    frame[0].contentWindow.location.reload();
                     frame.attr("src", "${contextPath}/menu/?internal=true");
                     modal.modal("show");
                     
-                    frame.ready(function() {
-                        updateOrders(day);
+                    frame.off("load");
+                    frame.load(function() {
+                        var addToOrderButton = $(".add-to-order", frame.contents()[0]);
+                        addToOrderButton.off('click');
+                        addToOrderButton.each(function() {
+                            var orderId = $(this).parents("tr").attr("id").substr(3);
+                            if (table.find("#" + orderId).length > 0)
+                                toggleOrderButton($(this));
+                        });
+                        addToOrderButton.click(function() {
+                            var $this = $(this);
+                            var orderId = $this.parents("tr").attr("id").substr(3);
+                            processOrder(day, orderId, $this);
+                            toggleOrderButton($this);
+                        });
                     });
                 }
                 
@@ -107,11 +151,12 @@
                     return parseInt(dayInfo.attr("id").substr(3));
                 }
                 
-                $(".order-remove").click(function(e) {
+                $(".order-remove").on("click", function(e) {
                     e.preventDefault();
                     
                     var $this = $(this);
-                    var item = $this.parents('tr').index() - 1;
+                    var item = $this.parents('tr').attr("id");
+                    processOrder(getDay($this), item, null);
                     removeOrder(getDay($this), item);
                 });
                 $(".order-edit").click(function(e) {
@@ -130,7 +175,7 @@
                 <div class="span2">
                     <ul class="nav nav-pills nav-stacked" id="days">
                         <c:forEach begin="0" end="4" var="idx">
-                            <li id="day${idx}"><a><spring:message code="home.day${idx + 1}"/></a></li>
+                            <li id="day${idx}"><a href="#"><spring:message code="home.day${idx + 1}"/></a></li>
                         </c:forEach>
                     </ul>
                 </div>
@@ -163,7 +208,7 @@
                                 </tr>
                             </c:if>
                             <c:forEach items="${menuItem.choices}" var="item" varStatus="itemStatus">
-                                <tr class="order-rows">
+                                <tr class="order-rows" id="${item.id}">
                                     <td>${itemStatus.index + 1}</td>
                                     <td>${item.name}</td>
                                     <td>${item.price}</td>
@@ -188,7 +233,7 @@
                         <h3 id="myModalLabel">Customize order</h3>
                     </div>
                     <div class="modal-body">
-                        <iframe src="" frameborder="0" width="99.6%"></iframe>
+                        <iframe src="" frameborder="0" width="99.6%" height="100%"></iframe>
                     </div>
                     <div class="modal-footer">
                         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

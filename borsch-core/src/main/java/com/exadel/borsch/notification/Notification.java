@@ -1,6 +1,7 @@
 package com.exadel.borsch.notification;
 
 import com.exadel.borsch.dao.User;
+
 import java.util.List;
 
 /**
