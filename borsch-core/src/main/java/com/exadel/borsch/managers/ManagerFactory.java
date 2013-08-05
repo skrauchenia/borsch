@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 /**
  * @author Vlad
  */
+@Service
 public final class ManagerFactory {
 
     @Autowired

@@ -46,6 +46,4 @@
 
     <beans:bean id="borschUserDetailsContextMapper" class="com.exadel.borsch.web.users.BorschUserDetailsContextMapper"/>
 
-    <beans:bean id="managerFactory" class="com.exadel.borsch.managers.ManagerFactory"/>
-
 </beans:beans>
