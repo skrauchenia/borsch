@@ -21,6 +21,7 @@
         <jsp:invoke fragment="head"/>
     </head>
     <body>
+        <t:browserNotification/>
         <c:if test="${empty param.internal}">
             <t:navbar />
         </c:if>
