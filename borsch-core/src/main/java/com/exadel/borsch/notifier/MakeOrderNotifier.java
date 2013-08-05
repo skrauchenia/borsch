@@ -8,11 +8,12 @@ import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.notification.EmailNotification;
 import com.exadel.borsch.util.DateTimeUtils;
-import java.util.ArrayList;
-import java.util.List;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zubr

@@ -1,9 +1,9 @@
 package com.exadel.borsch.notification;
 
 import com.exadel.borsch.dao.User;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+
+import javax.print.PrintService;
+import java.awt.*;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
@@ -11,7 +11,6 @@ import java.awt.print.PrinterJob;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.print.PrintService;
 
 /**
  * @author zubr
