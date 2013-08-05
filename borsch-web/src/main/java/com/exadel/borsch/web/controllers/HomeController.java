@@ -12,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class HomeController {
-
     @Autowired
     private ManagerFactory managerFactory;
 
@@ -61,8 +60,9 @@ public class HomeController {
         User user = UserUtils.getUserByPrincipal(principal);
 
         Order order = orderManager.getCurrentOrderForUser(user);
-        if (day < 0 || day > order.getOrder().size())
+        if (day < 0 || day > order.getOrder().size()) {
             return null;
+        }
 
         return order.getOrder().get(day).getChoices();
     }
