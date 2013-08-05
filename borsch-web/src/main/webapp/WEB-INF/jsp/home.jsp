@@ -129,9 +129,14 @@
                     frame.load(function() {
                         var addToOrderButton = $(".add-to-order", frame.contents()[0]);
                         addToOrderButton.off('click');
+                        addToOrderButton.each(function() {
+                            var orderId = $(this).parents("tr").attr("id").substr(3);
+                            if ($("#" + orderId).length > 0)
+                                toggleOrderButton($(this));
+                        });
                         addToOrderButton.click(function() {
                             var $this = $(this);
-                            var orderId = $(this).parents("tr").attr("id").substr(3);
+                            var orderId = $this.parents("tr").attr("id").substr(3);
                             processOrder(day, orderId, $this);
                             toggleOrderButton($this);
                         });
