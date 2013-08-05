@@ -55,7 +55,7 @@ public class UsersController {
     }
 
     @Secured("ROLE_EDIT_MENU_SELF")
-    @RequestMapping("/edit/user/{userId}/edit")
+    @RequestMapping(value = "/edit/user/{userId}/edit", method = RequestMethod.POST)
     public String processUpdateUserRequest(@PathVariable String userId, ModelMap model,
             @Valid UserCommand userCommand, BindingResult result, Principal principal) {
         UUID uuidUserId = UUID.fromString(userId);
@@ -89,6 +89,7 @@ public class UsersController {
 
         userCommand.setId(userId);
         model.addAttribute(userCommand);
+        model.addAttribute("allRights", AccessRight.getAllRightsToString().toArray(new String[]{""}));
         return ViewURLs.USER_EDIT_PAGE;
     }
 

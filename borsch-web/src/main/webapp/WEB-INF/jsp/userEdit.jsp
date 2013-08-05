@@ -15,50 +15,65 @@
 
     <jsp:attribute name="scripts">
         <script type="text/javascript">
-        var doRegistration = false;
+        var doRegistration = true;
         function nameCheck() {
             var nameStr = $('#name').val();
             if (nameStr.length == 0) {
                 $('#alertName').show();
+                console.log('nameCheck()  if (nameStr.length == 0) : ' + doRegistration);
                 doRegistration &= false;
+                console.log('nameCheck()  if (nameStr.length == 0) : after ' + doRegistration);
             } else {
                 $('#alertName').hide();
+                console.log('nameCheck()  if (nameStr.length == 0) else : ' + doRegistration);
                 doRegistration &= true;
+                console.log('nameCheck()  if (nameStr.length == 0) else : after ' + doRegistration);
             }
         }
         function localeCheck() {
             if ($('#locale_select').val() === "") {
                 $('#alertLocale').show();
+                console.log('localeCheck()  if($(#locale_select).val() === "") : ' + doRegistration);
                 doRegistration &= false;
+                console.log('localeCheck()  if($(#locale_select).val() === "") : after ' + doRegistration);
             } else {
-                $('#alertLocale').hide('hide');
+                $('#alertLocale').hide();
+                console.log('localeCheck()  if($(#locale_select).val() === "") else : ' + doRegistration);
                 doRegistration &= true;
+                console.log('localeCheck()  if($(#locale_select).val() === "") else : after ' + doRegistration);
             }
         }
         function validate() {
+            doRegistration = true;
             nameCheck();
             localeCheck();
+            console.log(doRegistration);
             if (doRegistration) {
-               document.forms["profileEditForm"].submit();
+                var form = $('#profileEditForm');
+                console.log(form.serialize() + '\n' + form.attr('action'));
+                $.post(form.attr('action'),form.serialize())
+                        .done(function() {
+                            $('.alert-success').show();
+                        });
             }
         }
     </script>
     </jsp:attribute>
 
     <jsp:body>
-        <div class="row">
-            <div class="alert alert-danger hide fade in span4 offset3">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong><spring:message code="form.submit.fail.title"/></strong> <spring:message code="form.submit.fail"/>.
-            </div>
-        </div>
-        <div class="row">
-            <div class="alert alert-success hide fade in span4 offset3">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <spring:message code="form.submit.success"/>
-            </div>
-        </div>
         <div class="container">
+            <div class="row">
+                <div class="alert alert-danger hide fade in span4 offset1">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong><spring:message code="form.submit.fail.title"/></strong> <spring:message code="form.submit.fail"/>.
+                </div>
+            </div>
+            <div class="row">
+                <div class="alert alert-success hide fade in span4 offset1">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <spring:message code="form.submit.success"/>
+                </div>
+            </div>
             <form:form class="form-horizontal" id="profileEditForm" commandName="userCommand"
                   action="${contextPath}/edit/user/${userCommand.id}/edit" method="post">
                 <div class="control-group">
