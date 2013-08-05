@@ -22,14 +22,6 @@
         <logout logout-url="/j_spring_security_logout" logout-success-url="/login"/>
     </http>
 
-    <!--<authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="mkyong" password="123456" authorities="ROLE_USER" />
-            </user-service>
-        </authentication-provider>
-    </authentication-manager>-->
-
     <!-- Simple namespace-based configuration -->
 
     <ldap-server ldif="classpath:users.ldif" port="33389"/>

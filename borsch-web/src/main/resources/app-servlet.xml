@@ -26,7 +26,18 @@
             </list>
         </property>
     </bean>
-    
+    <bean id="localeResolver"
+          class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="en" />
+    </bean>
+
+    <mvc:interceptors>
+        <bean id="localeInterceptor"
+              class="com.exadel.borsch.web.interceptors.LocaleInterceptor">
+            </bean>
+    </mvc:interceptors>
+
+
     <mvc:annotation-driven/>
     <mvc:resources location="/assets/" mapping="/assets/**"/>
 

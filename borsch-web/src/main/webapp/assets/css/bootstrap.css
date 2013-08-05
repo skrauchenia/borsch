@@ -868,6 +868,7 @@ pre code {
   white-space: nowrap;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #999999;
+  border-radius: 10px 10px 10px 10px;
 }
 .label {
   -webkit-border-radius: 3px;
@@ -879,7 +880,7 @@ pre code {
   padding-right: 9px;
   -webkit-border-radius: 9px;
   -moz-border-radius: 9px;
-  border-radius: 9px;
+  border-radius: 10px;
 }
 .label:empty,
 .badge:empty {
@@ -903,19 +904,19 @@ a.badge:focus {
 }
 .label-warning,
 .badge-warning {
-  background-color: #f89406;
+  background-color: #f81021;
 }
 .label-warning[href],
 .badge-warning[href] {
-  background-color: #c67605;
+  background-color: #f81021;
 }
 .label-success,
 .badge-success {
-  background-color: #468847;
+  background-color: #46c847;
 }
 .label-success[href],
 .badge-success[href] {
-  background-color: #356635;
+  background-color: #46c847;
 }
 .label-info,
 .badge-info {
