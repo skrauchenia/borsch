@@ -178,10 +178,10 @@ pre code{padding:0;color:inherit;white-space:pre;white-space:pre-wrap;background
 a.label:hover,a.label:focus,a.badge:hover,a.badge:focus{color:#ffffff;text-decoration:none;cursor:pointer;}
 .label-important,.badge-important{background-color:#b94a48;}
 .label-important[href],.badge-important[href]{background-color:#953b39;}
-.label-warning,.badge-warning{background-color:#f89406;}
-.label-warning[href],.badge-warning[href]{background-color:#c67605;}
-.label-success,.badge-success{background-color:#468847;}
-.label-success[href],.badge-success[href]{background-color:#356635;}
+.label-warning,.badge-warning{background-color:#f81021;}
+.label-warning[href],.badge-warning[href]{background-color:#f81021;}
+.label-success,.badge-success{background-color:#46c847;}
+.label-success[href],.badge-success[href]{background-color:#46c847;}
 .label-info,.badge-info{background-color:#3a87ad;}
 .label-info[href],.badge-info[href]{background-color:#2d6987;}
 .label-inverse,.badge-inverse{background-color:#333333;}
