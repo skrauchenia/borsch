@@ -9,7 +9,6 @@ import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.notification.EmailNotification;
 import com.exadel.borsch.util.DateTimeUtils;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,8 +19,8 @@ import java.util.List;
  */
 @Service
 public class MakeOrderNotifier extends NotifierTask {
-    @Autowired
-    private ManagerFactory managerFactory;
+
+    private ManagerFactory managerFactory = new ManagerFactory();
 
     public MakeOrderNotifier() {
         super(new EmailNotification());

@@ -11,7 +11,7 @@ import java.util.*;
  * @author Vlad
  */
 @Service
-class SimpleUserManager implements UserManager {
+public class SimpleUserManager implements UserManager {
     private List<User> users;
 
     public SimpleUserManager() {

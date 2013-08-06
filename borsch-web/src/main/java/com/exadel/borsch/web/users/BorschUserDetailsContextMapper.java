@@ -3,7 +3,6 @@ package com.exadel.borsch.web.users;
 import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.UserManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,8 +16,9 @@ import java.util.Collection;
  * @author zubr
  */
 public class BorschUserDetailsContextMapper implements UserDetailsContextMapper {
-    @Autowired
-    private ManagerFactory managerFactory;
+
+    private ManagerFactory managerFactory = new ManagerFactory();
+
     @Override
     public UserDetails mapUserFromContext(DirContextOperations dco, String userName,
                                           Collection<? extends GrantedAuthority> authority) {

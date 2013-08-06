@@ -13,6 +13,8 @@
 
     <context:property-placeholder properties-ref="properties"/>
 
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
     <bean id="properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations">
             <list>
@@ -25,8 +27,6 @@
         <property name="basename" value="classpath:messages"/>
         <property name="defaultEncoding" value="${source.encoding}"/>
     </bean>
-
-    <bean id="messageFactory" class="com.exadel.borsch.managers.ManagerFactory"/>
 
     <bean id="webexpressionHandler"
           class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />

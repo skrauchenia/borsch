@@ -12,7 +12,7 @@ import java.util.*;
  * @author Vlad
  */
 @Service
-class SimplePriceManager implements PriceManager {
+public class SimplePriceManager implements PriceManager {
     private List<PriceList> prices;
     public SimplePriceManager() {
         // TODO read from file

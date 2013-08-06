@@ -1,18 +1,20 @@
 package com.exadel.borsch.managers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 /**
  * @author Vlad
  */
+@Scope(value = "singleton")
 public final class ManagerFactory {
 
     @Autowired
     private UserManager userManager;
     @Autowired
-    private OrderManager orderManager;
+    private static OrderManager orderManager;
     @Autowired
-    private PriceManager priceManager;
+    private static PriceManager priceManager;
 
     public UserManager getUserManager() {
         return userManager;

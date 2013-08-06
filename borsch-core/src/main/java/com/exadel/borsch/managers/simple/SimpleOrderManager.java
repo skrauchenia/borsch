@@ -13,7 +13,7 @@ import java.util.*;
  * @author Vlad
  */
 @Service
-class SimpleOrderManager implements OrderManager {
+public class SimpleOrderManager implements OrderManager {
     private List<Order> orders;
 
     public SimpleOrderManager() {
