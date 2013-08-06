@@ -8,7 +8,6 @@ import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,8 +25,7 @@ import java.util.UUID;
  */
 @Controller
 public class ReportController {
-    @Autowired
-    private ManagerFactory managerFactory;
+    private ManagerFactory managerFactory = new ManagerFactory();
 
     @Secured("ROLE_PRINT_ORDER")
     @ResponseBody

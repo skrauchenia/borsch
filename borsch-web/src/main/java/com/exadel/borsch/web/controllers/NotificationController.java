@@ -4,7 +4,6 @@ import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.notification.BrowserNotificationHolder;
 import com.exadel.borsch.web.users.UserUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,8 +17,7 @@ import java.security.Principal;
 @Controller
 public class NotificationController {
 
-    @Autowired
-    private ManagerFactory managerFactory;
+    private ManagerFactory managerFactory = new ManagerFactory();
 
     @ResponseBody
     @RequestMapping(value = "/notification", method = RequestMethod.POST)

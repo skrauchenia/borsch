@@ -1,12 +1,10 @@
 package com.exadel.borsch.managers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * @author Vlad
  */
-@Service
 public final class ManagerFactory {
 
     @Autowired

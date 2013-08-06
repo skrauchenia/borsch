@@ -27,8 +27,17 @@ public class EmailNotification extends Notification {
     private String username;
     private String password;
 
+    public EmailNotification() {
+        super();
+        init();
+    }
+
     public EmailNotification(String message) {
         super(message);
+        init();
+    }
+
+    private void init() {
         // Let the Spring load property file for us
         try {
             Resource resource = new ClassPathResource(MAILER_PROPERTY_FILE);

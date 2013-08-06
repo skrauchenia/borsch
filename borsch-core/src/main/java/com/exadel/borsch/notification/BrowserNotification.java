@@ -7,6 +7,9 @@ import com.exadel.borsch.dao.User;
  */
 public class BrowserNotification extends Notification {
 
+    public BrowserNotification() {
+    }
+
     public BrowserNotification(String message) {
         super(message);
     }

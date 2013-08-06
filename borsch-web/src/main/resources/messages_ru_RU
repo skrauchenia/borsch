@@ -1,0 +1,69 @@
+actions.add = Добавить
+actions.edit = Редактировать
+actions.remove = Удалить
+
+home.title = Старт
+home.day1 = Понедельник
+home.day2 = Вторник
+home.day3 = Среда
+home.day4 = Четверг
+home.day5 = Пятница
+home.day6 = Суббота
+home.day7 = Воскресенье
+home.order.title = Ваш заказ:
+home.order.edit = Редактировать
+
+navbar.home = Старт
+navbar.menu = Меню
+navbar.users = Пользователи
+navbar.notification = Уведомления
+navbar.report = Отчет по заказам
+navbar.user = Пользователь
+navbar.user.edit = Редактировать профиль
+navbar.user.logout = Выйти
+
+menu.table.number = #
+menu.table.name = Имя
+menu.table.price = Цена
+menu.order.add = <i class='icon-ok icon-white'></i> Добавить в заказ
+menu.order.remove = <i class='icon-remove icon-white'></i> Удалить из заказа
+
+users.table.number = #
+users.table.login = Логин
+users.table.name = Имя
+users.table.email = Email
+
+form.validation.size=Длина поля должна быть между 1 и 20 символами
+form.validation.notNull=Поле не может быть пустым
+form.validation.locale=Выберите язые
+form.validation.roles=Выберите хотя бы одну роль
+form.validation.notEmpty=Поле не может быть пустым
+form.submit.success=Данные отправлены
+form.submit.fail=Запрос не удался
+form.submit.fail.title=Ошибка!
+form.language=Язык
+form.name=Имя
+form.email=Нужны уведомления на email
+
+users.table.add.user = Добавить
+users.table.edit = Редактировать
+users.table.remove = Удалить
+users.table.modal.close = Закрыть
+users.table.modal.save = Сохранить изменения
+user.notification.attention =  Внимание!
+
+request.fail=Запрос прерван
+
+#Validation messages
+
+Size = Поле должно содержать не более {1} и не менее {2} символа
+NotEmpty = Поле не может быть пустым
+NotNull = Поле не может быть пустым
+
+#-----------
+
+menuItem.status.paid = Оплачено
+menuItem.status.unpaid = Неоплачено
+
+user.payment.notification = Проверьте Ваши заказы. Некоторые из них не оплачены.
+user.notification.order = Вам стоит СДЕЛАТЬ ЗАКАЗ!!!

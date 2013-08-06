@@ -9,9 +9,6 @@ import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.notification.BrowserNotification;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * @author Andrew Zhilka
  */
@@ -20,14 +17,13 @@ public class PayOrderNotifier extends NotifierTask {
     private ManagerFactory managerFactory;
 
     public PayOrderNotifier() {
-        super(new BrowserNotification("Check Your orders. Some of them are not paid"));
+        super(new BrowserNotification());
     }
 
     @Override
     public void runPeriodicCheck() {
         UserManager userManager = managerFactory.getUserManager();
         OrderManager orderManager = managerFactory.getOrderManager();
-        List<User> targetUsers = new LinkedList<>();
 
         for (User user : userManager.getAllUsers()) {
             Order weekOrder = orderManager.getCurrentOrderForUser(user);
@@ -40,10 +36,9 @@ public class PayOrderNotifier extends NotifierTask {
             }
 
             if (!isOrderPaid) {
-                targetUsers.add(user);
+                this.getNotification().setMessage(extractMessage("user.notification.payment", user.getLocale()));
+                this.getNotification().submit(user);
             }
         }
-
-        this.getNotification().submit(targetUsers);
     }
 }

@@ -26,6 +26,8 @@
         <property name="defaultEncoding" value="${source.encoding}"/>
     </bean>
 
+    <bean id="messageFactory" class="com.exadel.borsch.managers.ManagerFactory"/>
+
     <bean id="webexpressionHandler"
           class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
 </beans>

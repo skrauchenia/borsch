@@ -24,7 +24,7 @@ public class MakeOrderNotifier extends NotifierTask {
     private ManagerFactory managerFactory;
 
     public MakeOrderNotifier() {
-        super(new EmailNotification("You should MAKE YOUR ORDER!!!"));
+        super(new EmailNotification());
     }
 
     private boolean isWeekOrderComplete(Order order, DateTime startOfWeek, DateTime endOfWeek) {
@@ -51,16 +51,24 @@ public class MakeOrderNotifier extends NotifierTask {
         DateTime endOfWeek = startOfWeek.plusDays(DateTimeUtils.WORKING_DAYS_IN_WEEK);
         List<User> checkedUsers = new ArrayList<>();
 
+        String localizedMessage;
+
         for (Order order: menuManager.getAllOrders()) {
             checkedUsers.add(order.getOwner());
             if (!isWeekOrderComplete(order, startOfWeek, endOfWeek)) {
+                localizedMessage = extractMessage("user.notification.order", order.getOwner().getLocale());
+                getNotification().setMessage(localizedMessage);
                 getNotification().submit(order.getOwner());
             }
         }
 
         List<User> remainingUsers = new ArrayList<User>(userManager.getAllUsers());
         remainingUsers.removeAll(checkedUsers);
-        getNotification().submit(remainingUsers);
+        for (User user : remainingUsers) {
+            localizedMessage = extractMessage("user.notification.order", user.getLocale());
+            getNotification().setMessage(localizedMessage);
+            getNotification().submit(user);
+        }
     }
 
 }

@@ -10,6 +10,9 @@ import java.util.List;
 public abstract class Notification {
     private String message;
 
+    public Notification() {
+    }
+
     public Notification(String message) {
         this.message = message;
     }
