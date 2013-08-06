@@ -33,6 +33,11 @@
                                          </a>\
                                        </td>\
                                      </tr>";
+                var summaryTemplate = "<tr class='order-rows'>\
+                                         <td colspan='2'><spring:message code='home.order.sum'/></td>\
+                                         <td>{0}</td>\\n\
+                                         <td></td>\
+                                       </tr>";
         
                 // Some library functions
                 if (!String.prototype.format) {
@@ -51,6 +56,7 @@
                         $("#day" + i).removeClass();
                         $("#day" + i + "info").hide(400);
                     }
+                    updateOrders(id);
                     $("#day" + id).addClass("active");
                     $("#day" + id + "info").show(400, function() {
                         
@@ -87,28 +93,33 @@
                     var order = orderTemplate.format(0,
                         dish.name, dish.price, dish.id);
                     table.append($(order));
-                    renumerateOrders(day);
+                    updateOrders(day);
                 }
                 function removeOrder(day, orderId) {
                     var table = getTable(day);
                     table.find("#" + orderId).hide("fast", function() {
                         $(this).remove();
-                        renumerateOrders(day);
+                        updateOrders(day);
                     });
                 }
-                function renumerateOrders(day) {
+                function updateOrders(day) {
                     var empty = true;
                     var table = getTable(day);
+                    var sum = 0;
                     table.find("tr:gt(0)").each(function(idx) {
                         if (!$(this).attr("id")) {
                             $(this).remove();
                             return;
                         }
                         $(this).find("td:first").text(idx + 1);
+                        sum += +$(this).find("td:eq(2)").text();
                         empty = false;
                     });
                     if (empty)
                         table.append($(emptyOrderTemplate));
+                    else {
+                        table.append($(summaryTemplate.format(sum)));
+                    }
                 }
                 
                 function toggleOrderButton(button) {
@@ -151,7 +162,7 @@
                     return parseInt(dayInfo.attr("id").substr(3));
                 }
                 
-                $(".order-remove").on("click", function(e) {
+                $(".day-info").on("click", ".order-remove", function(e) {
                     e.preventDefault();
                     
                     var $this = $(this);
