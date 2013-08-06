@@ -17,16 +17,17 @@
             function markAsPaid(menuItemId, weekOrderId){
                 $.ajax({
                     url: "${contextPath}/report/setPaid/"+ weekOrderId + "/" + menuItemId,
-                    type: 'POST',
-                    success: function() {
-                        $("#orderNotPaid"+menuItemId).hide("slow");
-                        $("#orderPaid"+menuItemId).show("slow");
-                    },
-                    error: function() {
-                        $("#orderPaid"+menuItemId).hide("slow");
-                        $("#orderNotPaid"+menuItemId).show("slow");
-                    }
-                });
+                    type: 'POST'
+                }).done(function() {
+                            $("#orderNotPaid"+menuItemId).hide("slow");
+                            $("#orderPaid"+menuItemId).show("slow");
+                        })
+                  .fail(function(status, error) {
+                            console.log(status);
+                            alert(error);
+                            $("#orderPaid"+menuItemId).hide("slow");
+                            $("#orderNotPaid"+menuItemId).show("slow");
+                        });
             }
         </script>
     </jsp:attribute>

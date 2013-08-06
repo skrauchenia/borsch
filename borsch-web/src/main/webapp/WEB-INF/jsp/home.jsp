@@ -137,6 +137,18 @@
                 <c:forEach items="${order.order}" var="menuItem" varStatus="st">
                     <div id="day${st.index}info" class="span7 day-info hide">
                         <h3><spring:message code="home.order.title"/></h3>
+                        <c:choose>
+                            <c:when test="${menuItem.isPaid == true}">
+                                <span class="badge badge-success"><i class="icon-ok icon-white"></i></span>
+                                <spring:message code="menuItem.status.paid"/>
+                                </span>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="badge badge-warning">
+                                    <i class="icon-remove icon-white"></i><spring:message code="menuItem.status.unpaid"/>
+                                </span>
+                            </c:otherwise>
+                        </c:choose>
                         <hr/>
                         <table class="table table-striped">
                             <tr>

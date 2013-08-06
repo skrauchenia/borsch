@@ -35,7 +35,7 @@ public final class UserUtils {
         User user = getUserByPrincipal(principal);
         if (user != null) {
             if (!user.hasAccessRight(accessRight)) {
-                throw new AccessDeniedException("Access for login \"" + user.getLogin() + "\" is denied.");
+                throw new AccessDeniedException("Access is denied.");
             }
         } else {
             throw new AccessDeniedException("Access is denied.");

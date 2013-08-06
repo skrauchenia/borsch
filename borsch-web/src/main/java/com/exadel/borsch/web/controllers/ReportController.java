@@ -9,11 +9,13 @@ import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,16 +30,18 @@ public class ReportController {
     @Autowired
     private ManagerFactory managerFactory;
 
+    @Secured("ROLE_PRINT_ORDER")
+    @ResponseBody
     @RequestMapping(value = "/report/setPaid/{orderId}/{menuId}", method = RequestMethod.POST)
     public void processAjaxRequest(@PathVariable String orderId, @PathVariable String menuId) {
         OrderManager orderManager = managerFactory.getOrderManager();
-
         Order order = orderManager.getOrderById(UUID.fromString(orderId));
         MenuItem menuItem = order.getMenuById(UUID.fromString(menuId));
         menuItem.setIsPaid(true);
         orderManager.updateOrder(order);
     }
 
+    @Secured("ROLE_PRINT_ORDER")
     @RequestMapping("/report")
     public String processPageRequest(ModelMap model) {
         OrderManager orderManager = managerFactory.getOrderManager();
