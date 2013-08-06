@@ -33,4 +33,16 @@ public enum Course {
         }
         return course;
     }
+    public static Integer getIndex(Course course) {
+        switch (course.toString()) {
+            case "FIRST_COURSE":
+                return 0;
+            case "SECOND_COURSE":
+                return 1;
+            case "DESSERT":
+                return 2;
+            default:
+                throw new AssertionError();
+        }
+    }
 }

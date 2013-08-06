@@ -275,7 +275,7 @@ public class SimpleManagerFactory implements ManagerFactory {
                 }
             }
 
-            prices.add(toUpdate);
+            //prices.add(toUpdate);
         }
 
         @Override

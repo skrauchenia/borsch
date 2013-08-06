@@ -16,49 +16,79 @@
     </jsp:attribute>
     <jsp:attribute name="scripts">
         <script>
-            $('#save', window.parent.document).attr("disabled","");
             $("#emptyName").hide();
             $("#emptyPrice").hide();
             $("#notNumber").hide();
-//            var isFormValid = true;
-            function isNumber() {
+            function validate() {
+//                alert("aa");
+                var price = $("#price").val();
+                var name = $("#name").val();
+                if ((price.length === 0) || (isNaN(price)) || (name.length === 0)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            
+            if (!validate()) {
+                $('#save', window.parent.document).attr("disabled", "");
+            } else {
                 $('#save', window.parent.document).removeAttr("disabled");
+            }
+            var flagNum;
+            var flagName;
+            if(validate()) {
+                flagNum = flagName = true;
+            } else {
+                flagNum = false;
+            }            
+            function isNumber() {
+                flagNum = true;
+                $("#cgPrice").removeClass("error");
+                $("#cgPrice").removeClass("success");
                 $("#emptyPrice").hide();
                 $("#notNumber").hide();
                 var value = $("#price").val();
+//                alert(value);
                 if (isNaN(value)) {
                     $("#notNumber").show();
-                    isFormValid = false;
-                    $('#save', window.parent.document).attr("disabled","");
+                    $('#save', window.parent.document).attr("disabled", "");
+                    flagNum = false;
                 }
                 if (value.length === 0) {
                     $("#emptyPrice").show();
-                    isFormValid = false;
-                    $('#save', window.parent.document).attr("disabled","");
+                    $('#save', window.parent.document).attr("disabled", "");
+                    flagNum = false;
                 }
-//                isFormValid &= true;
-//                if (isFormValid) {
-//                    $('#save', window.parent.document).removeAttr("disabled");
-//                }
+                if(!flagNum) {
+                    $("#cgPrice").addClass("error");
+                } else {
+                    $("#cgPrice").addClass("success");
+                }
+                if(flagNum && flagName) {
+                    $('#save', window.parent.document).removeAttr("disabled");
+                }
             }
             function isEmptyName() {
-                $('#save', window.parent.document).removeAttr("disabled");
+                flagName = true;
+                $("#cgName").removeClass("error");
+                $("#cgName").removeClass("success");
                 $("#emptyName").hide();
                 var value = $("#name").val();
+//                alert(value);
                 if (value.length === 0) {
                     $("#emptyName").show();
-//                    isFormValid = false;
-                    $('#save', window.parent.document).attr("disabled","");
+                    $('#save', window.parent.document).attr("disabled", "");
+                    flagName = false;
                 }
-                
-//                isFormValid &= true;
-//                if (isFormValid) {
-//                    $('#save', window.parent.document).removeAttr("disabled");
-//                }
-            }
-            function validate() {
-                isEmptyName();
-                isNumber();
+                if(!flagName) {
+                    $("#cgName").addClass("error");
+                } else {
+                    $("#cgName").addClass("success");
+                }
+                if(flagNum && flagName) {
+                    $('#save', window.parent.document).removeAttr("disabled");
+                }
             }
         </script>
     </jsp:attribute>
@@ -67,7 +97,7 @@
             <input type="hidden" name="id" value="${id}"/>
             <input type="hidden" name="course" value="${course}"/>
             <div class="container">
-                <div class="offset2">
+                <div class="offset1">
                     <c:if test="${action eq 'add'}">
                         <h4 id="myModalLabel">Add dish:</h4>
                     </c:if>
@@ -75,17 +105,17 @@
                         <h4 id="myModalLabel">Edit dish:</h4>
                     </c:if>    
                 </div>
-                <div class="control-group">
+                <div class="control-group" id="cgName">
                     <label class="control-label" for="name">Name</label>
                     <div class="controls">
-                        <input type="text" id="name" name="name" value="${dish.name}" onkeyup="validate()"/>
+                        <input type="text" id="name" name="name" value="${dish.name}" onkeyup="isEmptyName()"/>
                         <span id="emptyName" class="label label-important">Can not be empty!</span>
                     </div>
                 </div>
-                <div class="control-group">
+                <div class="control-group" id="cgPrice">
                     <label class="control-label" for="price">Price</label>
                     <div class="controls">
-                        <input type="text" id="price" name="price" value="${dish.price}" onkeyup="validate()"/>
+                        <input type="text" id="price" name="price" value="${dish.price}" onkeyup="isNumber()"/>
                         <span id="notNumber" class="label label-important">Not a number!</span>
                         <span id="emptyPrice" class="label label-important">Can not be empty!</span>
                     </div>
