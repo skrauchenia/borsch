@@ -3,6 +3,7 @@ package com.exadel.borsch.managers.simple;
 import com.exadel.borsch.dao.AccessRight;
 import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.UserManager;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -11,6 +12,7 @@ import java.util.*;
  * @author Vlad
  */
 @Service
+@Scope(value = "singleton")
 public class SimpleUserManager implements UserManager {
     private List<User> users;
 

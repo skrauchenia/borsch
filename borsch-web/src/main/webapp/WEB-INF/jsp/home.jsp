@@ -204,7 +204,7 @@
                             </tr>
                             <c:if test="${empty menuItem.choices}">
                                 <tr class="order-rows">
-                                    <td colspan="4" class="centered-line">&lt;currently empty&gt;</td>
+                                    <td colspan="4" class="centered-line">&lt;<spring:message code="message.empty"/>&gt;</td>
                                 </tr>
                             </c:if>
                             <c:forEach items="${menuItem.choices}" var="item" varStatus="itemStatus">
@@ -230,14 +230,14 @@
                 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="myModalLabel">Customize order</h3>
+                        <h3 id="myModalLabel"><spring:message code="action.customize"/></h3>
                     </div>
                     <div class="modal-body">
                         <iframe src="" frameborder="0" width="99.6%" height="100%"></iframe>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                        <button class="btn btn-primary">Save changes</button>
+                        <button class="btn" data-dismiss="modal" aria-hidden="true"><spring:message code="action.close"/></button>
+                        <button class="btn btn-primary"><spring:message code="actiom.save.changes"/></button>
                     </div>
                 </div>
             </div>

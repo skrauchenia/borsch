@@ -4,6 +4,7 @@ import com.exadel.borsch.dao.Course;
 import com.exadel.borsch.dao.Dish;
 import com.exadel.borsch.dao.PriceList;
 import com.exadel.borsch.managers.PriceManager;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -12,6 +13,7 @@ import java.util.*;
  * @author Vlad
  */
 @Service
+@Scope(value = "singleton")
 public class SimplePriceManager implements PriceManager {
     private List<PriceList> prices;
     public SimplePriceManager() {

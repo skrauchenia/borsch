@@ -17,7 +17,7 @@ public class User extends Identifiable {
     private String email;
     private boolean needEmailNotification = true;
     private Set<AccessRight> accessRights = new HashSet<>();
-    private Locale locale = new Locale("ru_RU");
+    private Locale locale = new Locale("ru", "RU");
 
     public User() {
         super();

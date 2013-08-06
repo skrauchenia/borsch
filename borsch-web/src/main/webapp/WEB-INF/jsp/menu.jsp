@@ -9,6 +9,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <t:genericpage>
 
@@ -122,15 +123,15 @@
                         <div class="accordion-inner">
                             <table class="table table-condensed" id="firstCourseTable">
                                 <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Price</th>
+                                    <th><spring:message code="menu.table.number"/></th>
+                                    <th><spring:message code="menu.table.name"/></th>
+                                    <th><spring:message code="menu.table.price"/></th>
                                     <th></th>
                                     <th></th>
                                     <sec:authorize access="hasRole('ROLE_EDIT_PRICE')">
                                         <th>
                                             <button type="submit" class="btn btn-success" style="float: right" onclick="addDish('FIRST_COURSE')">
-                                                <i class="icon-plus icon-white"></i> Add
+                                                <i class="icon-plus icon-white"></i> <spring:message code="actions.add"/>
                                             </button>
                                         </th>
                                     </sec:authorize>
@@ -142,19 +143,19 @@
                                         <td id="dishPrice${dish.id}">${dish.price}</td>
                                         <td>
                                             <button type="submit" class="btn btn-success">
-                                                <i class="icon-ok icon-white"></i> Add to order
+                                                <i class="icon-ok icon-white"></i> <spring:message code="action.addtoOrder"/>
                                             </button>
                                             <button type="submit" class="btn btn-danger">
-                                                <i class="icon-remove icon-white"></i> Remove from order
+                                                <i class="icon-remove icon-white"></i> <spring:message code="action.removeFromOrder"/>
                                             </button>
                                         </td>
                                         <sec:authorize access="hasRole('ROLE_EDIT_PRICE')">
                                             <td>
                                                 <button type="submit" class="btn btn-info" id="editBtn${dish.id}" onclick="editDish('${dish.id}')">
-                                                    <i class="icon-pencil icon-white"></i> Edit
+                                                    <i class="icon-pencil icon-white"></i> <spring:message code="actions.edit"/>
                                                 </button>
                                                 <button type="submit" class="btn btn-danger" id="removeBtn${dish.id}" onclick="removeDish('${dish.id}')">
-                                                    <i class="icon-remove icon-white"></i> Remove
+                                                    <i class="icon-remove icon-white"></i> <spring:message code="actions.remove"/>
                                                 </button>
                                             </td>
                                         </sec:authorize>

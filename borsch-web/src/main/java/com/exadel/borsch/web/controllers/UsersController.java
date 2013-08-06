@@ -6,6 +6,7 @@ import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.web.users.UserUtils;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +31,8 @@ import java.util.UUID;
 public class UsersController {
 
     private static UserCommand userCommand = new UserCommand();
-    private ManagerFactory managerFactory = new ManagerFactory();
+    @Autowired
+    private ManagerFactory managerFactory;
 
     @Secured("ROLE_EDIT_PROFILE")
     @RequestMapping("/users")

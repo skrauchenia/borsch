@@ -8,6 +8,7 @@ import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.PriceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,7 +29,8 @@ import java.util.UUID;
 public class MenuController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MenuController.class);
-    private ManagerFactory managerFactory = new ManagerFactory();
+    @Autowired
+    private ManagerFactory managerFactory;
 
     @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/menu")

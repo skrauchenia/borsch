@@ -8,6 +8,7 @@ import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.PriceManager;
 import com.exadel.borsch.web.users.UserUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +26,8 @@ import java.util.UUID;
  */
 @Controller
 public class HomeController {
-    private ManagerFactory managerFactory = new ManagerFactory();
+    @Autowired
+    private ManagerFactory managerFactory;
 
     @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/home")
