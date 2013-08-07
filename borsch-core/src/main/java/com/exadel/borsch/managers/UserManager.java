@@ -1,6 +1,6 @@
 package com.exadel.borsch.managers;
 
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entiry.User;
 
 import java.util.List;
 

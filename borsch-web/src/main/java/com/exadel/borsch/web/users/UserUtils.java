@@ -1,7 +1,7 @@
 package com.exadel.borsch.web.users;
 
-import com.exadel.borsch.dao.AccessRight;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entiry.AccessRight;
+import com.exadel.borsch.entiry.User;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 

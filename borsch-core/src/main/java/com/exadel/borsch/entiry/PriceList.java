@@ -1,4 +1,4 @@
-package com.exadel.borsch.dao;
+package com.exadel.borsch.entiry;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;

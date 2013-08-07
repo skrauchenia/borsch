@@ -1,4 +1,4 @@
-package com.exadel.borsch.dao;
+package com.exadel.borsch.entiry;
 
 import org.joda.time.DateTime;
 

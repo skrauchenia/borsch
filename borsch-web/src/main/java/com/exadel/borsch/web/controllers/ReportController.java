@@ -1,9 +1,9 @@
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.dao.Dish;
-import com.exadel.borsch.dao.MenuItem;
-import com.exadel.borsch.dao.Order;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entiry.Dish;
+import com.exadel.borsch.entiry.MenuItem;
+import com.exadel.borsch.entiry.Order;
+import com.exadel.borsch.entiry.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.util.DateTimeUtils;

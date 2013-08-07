@@ -1,4 +1,4 @@
-package com.exadel.borsch.dao;
+package com.exadel.borsch.entiry;
 
 /**
  * @author Andrew Zhilka

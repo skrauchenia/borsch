@@ -1,6 +1,6 @@
 package com.exadel.borsch.web.users;
 
-import com.exadel.borsch.dao.AccessRight;
+import com.exadel.borsch.entiry.AccessRight;
 import org.springframework.security.core.GrantedAuthority;
 
 /**

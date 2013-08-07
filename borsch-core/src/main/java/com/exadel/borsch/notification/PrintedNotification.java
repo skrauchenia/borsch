@@ -1,6 +1,6 @@
 package com.exadel.borsch.notification;
 
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entiry.User;
 
 import javax.print.PrintService;
 import java.awt.*;

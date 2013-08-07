@@ -1,7 +1,7 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
-import com.exadel.borsch.dao.Order;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entiry.Order;
+import com.exadel.borsch.entiry.User;
 import com.exadel.borsch.managers.OrderManager;
 import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;

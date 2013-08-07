@@ -1,6 +1,6 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
-import com.exadel.borsch.dao.PriceList;
+import com.exadel.borsch.entiry.PriceList;
 import com.exadel.borsch.managers.PriceManager;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;

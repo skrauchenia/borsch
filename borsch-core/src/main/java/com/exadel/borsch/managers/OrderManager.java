@@ -1,7 +1,7 @@
 package com.exadel.borsch.managers;
 
-import com.exadel.borsch.dao.Order;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entiry.Order;
+import com.exadel.borsch.entiry.User;
 import org.joda.time.DateTime;
 
 import java.util.List;

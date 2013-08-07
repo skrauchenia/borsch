@@ -1,6 +1,6 @@
 package com.exadel.borsch.managers;
 
-import com.exadel.borsch.dao.PriceList;
+import com.exadel.borsch.entiry.PriceList;
 
 import java.util.List;
 
