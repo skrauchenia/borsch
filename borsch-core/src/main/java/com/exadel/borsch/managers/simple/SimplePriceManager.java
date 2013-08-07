@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * @author Vlad
  */
-@Service
+@Service("simplePriceManager")
 @Scope(value = "singleton")
 public class SimplePriceManager implements PriceManager {
     private List<PriceList> prices;

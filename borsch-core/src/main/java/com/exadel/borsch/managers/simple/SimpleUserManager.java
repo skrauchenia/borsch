@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * @author Vlad
  */
-@Service
+@Service("simpleUserManager")
 @Scope(value = "singleton")
 public class SimpleUserManager implements UserManager {
     private List<User> users;
@@ -74,8 +74,9 @@ public class SimpleUserManager implements UserManager {
     }
 
     @Override
-    public void addUser(User toAdd) {
+    public Long addUser(User toAdd) {
         users.add(toAdd);
+        return toAdd.getId();
     }
 
     @Override

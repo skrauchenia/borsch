@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * @author Vlad
  */
-@Service
+@Service("simpleOrderManager")
 @Scope(value = "singleton")
 public class SimpleOrderManager implements OrderManager {
     private List<Order> orders;

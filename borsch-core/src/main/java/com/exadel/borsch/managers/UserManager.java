@@ -12,7 +12,7 @@ public interface UserManager {
     User getUserByLogin(String login);
     void deleteUserById(Long userId);
     void updateUser(User toUpdate);
-    void addUser(User toAdd);
+    Long addUser(User toAdd);
     void addUsers(List<User> toAdd);
     List<User> getAllUsers();
 }
