@@ -247,8 +247,8 @@
                         <iframe src="" frameborder="0" width="99.6%" height="100%"></iframe>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn" data-dismiss="modal" aria-hidden="true"><spring:message code="action.close"/></button>
-                        <button class="btn btn-primary"><spring:message code="actiom.save.changes"/></button>
+                        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><spring:message code="action.close"/></button>
+                        <%--<button class="btn btn-primary"><spring:message code="actiom.save.changes"/></button>--%>
                     </div>
                 </div>
             </div>

@@ -39,7 +39,7 @@
                             <spring:message code="navbar.reports"/>
                             <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="position: absolute">
                             <li id="navReport"><a href="${contextPath}/report/current">
                                 <spring:message code="navbar.report"/></a></li>
                             <li id="navReportSummary"><a href="${contextPath}/report/summary">
