@@ -74,6 +74,11 @@ public class SimpleUserManager implements UserManager {
     }
 
     @Override
+    public void addUser(User toAdd) {
+        users.add(toAdd);
+    }
+
+    @Override
     public void addUsers(List<User> toAdd) {
         users.addAll(toAdd);
     }

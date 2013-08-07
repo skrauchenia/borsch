@@ -78,6 +78,20 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!-- JDBC congig -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.25</version>
+        </dependency>
+
         <!--JODA TIME-->
         <dependency>
             <groupId>joda-time</groupId>
