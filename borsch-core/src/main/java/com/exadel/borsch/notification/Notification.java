@@ -1,6 +1,7 @@
 package com.exadel.borsch.notification;
 
 import com.exadel.borsch.dao.User;
+
 import java.util.List;
 
 /**
@@ -8,6 +9,9 @@ import java.util.List;
  */
 public abstract class Notification {
     private String message;
+
+    public Notification() {
+    }
 
     public Notification(String message) {
         this.message = message;
@@ -25,7 +29,8 @@ public abstract class Notification {
 
     public void submit(List<User> targets) {
         for (User target: targets) {
-            if (target.getNeedEmailNotification()) {
+            if (!(this instanceof EmailNotification)
+                    || target.getNeedEmailNotification()) {
                 submit(target);
             }
         }

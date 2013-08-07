@@ -12,6 +12,11 @@ public final class DateTimeUtils {
     private DateTimeUtils() {
     }
 
+    public static DateTime getStartOfCurrentWeek() {
+        DateTime today = DateTime.now();
+        return today.minusDays(today.getDayOfWeek() - 1);
+    }
+
     public static DateTime getStartOfWeek(DateTime ref) {
         return ref.plusDays(DAYS_IN_WEEK - (ref.getDayOfWeek() - 1));
     }

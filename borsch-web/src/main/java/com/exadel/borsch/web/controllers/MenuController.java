@@ -5,10 +5,10 @@ import com.exadel.borsch.dao.Dish;
 import com.exadel.borsch.dao.PriceList;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.PriceManager;
-import com.exadel.borsch.managers.simple.SimpleManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,12 +29,13 @@ public class MenuController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MenuController.class);
     @Autowired
-    private ManagerFactory factory;
+    private ManagerFactory managerFactory;
 
+    @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/menu")
     public ModelAndView processPageRequest() {
         ModelAndView mav = new ModelAndView(ViewURLs.MENU_PAGE);
-        PriceManager manager = factory.getPriceManager();
+        PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
@@ -46,6 +47,8 @@ public class MenuController {
         }
         return mav;
     }
+
+    @Secured("ROLE_EDIT_PRICE")
     @RequestMapping("/edit/dish/add/{course}")
     public String processAddPageRequest(@PathVariable String course, ModelMap model) {
         model.addAttribute("course", course);
@@ -54,6 +57,7 @@ public class MenuController {
     }
 
     @ResponseBody
+    @Secured("ROLE_EDIT_PRICE")
     @RequestMapping(value = "/edit/dish/add/save", method = RequestMethod.POST)
     public DishJSON processSaveDishRequest(HttpServletRequest request) {
         String name = request.getParameter("name");
@@ -61,8 +65,7 @@ public class MenuController {
         String description = request.getParameter("description");
         String course = request.getParameter("course");
         Dish dish = new Dish(name, price, Course.getCourse(course), description);
-        ManagerFactory factory = new SimpleManagerFactory();
-        PriceManager manager = factory.getPriceManager();
+        PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         PriceList dishes = null;
         if ((prices != null) && (!prices.isEmpty())) {
@@ -75,10 +78,10 @@ public class MenuController {
         return DishJSON.mapDishToJSON(dish);
     }
 
+    @Secured("ROLE_EDIT_PRICE")
     @RequestMapping("/edit/dish/{id}/edit")
     public String processEditPageRequest(@PathVariable String id, ModelMap model) {
-        ManagerFactory factory = new SimpleManagerFactory();
-        PriceManager manager = factory.getPriceManager();
+        PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
@@ -88,15 +91,16 @@ public class MenuController {
         model.addAttribute("action", "edit");
         return ViewURLs.DISH_ADD_PAGE;
     }
+
     @ResponseBody
+    @Secured("ROLE_EDIT_PRICE")
     @RequestMapping(value = "/edit/dish/edit/save", method = RequestMethod.POST)
     public DishJSON processUpdateDishRequest(HttpServletRequest request) {
         String name = request.getParameter("name");
         String price = request.getParameter("price");
         String description = request.getParameter("description");
         String id = request.getParameter("id");
-        ManagerFactory factory = new SimpleManagerFactory();
-        PriceManager manager = factory.getPriceManager();
+        PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         Dish dish = new Dish();
         if ((prices != null) && (!prices.isEmpty())) {
@@ -109,10 +113,11 @@ public class MenuController {
         }
         return DishJSON.mapDishToJSON(dish);
     }
+
+    @Secured("ROLE_EDIT_PRICE")
     @RequestMapping("/edit/dish/{id}/remove")
     public String processRemoveDishRequest(@PathVariable String id) {
-        ManagerFactory factory = new SimpleManagerFactory();
-        PriceManager manager = factory.getPriceManager();
+        PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);

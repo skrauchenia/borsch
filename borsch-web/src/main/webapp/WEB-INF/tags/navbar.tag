@@ -10,7 +10,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <div class="container">
-    <div class="btn-group" style="float: right">
+    <div class="btn-group" style="float: right" id="userButton">
         <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
             <i class="icon-user icon-white"></i>
             <sec:authentication property="principal.user.name" />
@@ -36,6 +36,9 @@
                     </sec:authorize>
                     <sec:authorize access="hasRole('ROLE_PRINT_ORDER')">
                         <li id="navReport"><a href="${contextPath}/report"><spring:message code="navbar.report"/></a></li>
+                    </sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_PRINT_ORDER')">
+                        <li id="navReport"><a href="${contextPath}/report/summary"><spring:message code="navbar.reportSummary"/></a></li>
                     </sec:authorize>
                 </ul>
         </div>

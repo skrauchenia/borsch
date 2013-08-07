@@ -1,22 +1,18 @@
 package com.exadel.borsch.notification;
 
 import com.exadel.borsch.dao.User;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
+
+import javax.mail.*;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 /**
  * @author zubr
@@ -31,8 +27,17 @@ public class EmailNotification extends Notification {
     private String username;
     private String password;
 
+    public EmailNotification() {
+        super();
+        init();
+    }
+
     public EmailNotification(String message) {
         super(message);
+        init();
+    }
+
+    private void init() {
         // Let the Spring load property file for us
         try {
             Resource resource = new ClassPathResource(MAILER_PROPERTY_FILE);

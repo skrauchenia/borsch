@@ -19,6 +19,8 @@ public final class ViewURLs {
     public static final String WEEK_ORDER_REPORT = "orderReport";
     public static final String DISH_EDIT_PAGE = "dishEdit";
     public static final String DISH_ADD_PAGE = "dishAdd";
+    public static final String NOTIFICATION_REPORT = "notification";
+    public static final String ORDERS_SUMMARY_PAGE = "reportSummary";
     private ViewURLs() {
     }
 }

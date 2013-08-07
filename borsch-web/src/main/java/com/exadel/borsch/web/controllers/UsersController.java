@@ -5,21 +5,24 @@ import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.web.users.UserUtils;
-import java.security.Principal;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
-
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.UUID;
 
 /**
  * @author Vlad
@@ -31,6 +34,7 @@ public class UsersController {
     @Autowired
     private ManagerFactory managerFactory;
 
+    @Secured("ROLE_EDIT_PROFILE")
     @RequestMapping("/users")
     public String processPageRequest(Principal principal, Model model) {
         UserManager userManager = managerFactory.getUserManager();
@@ -38,11 +42,13 @@ public class UsersController {
         return ViewURLs.USERS_PAGE;
     }
 
+    @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/edit/user/{userId}")
     public String processEditPageRequest(@PathVariable String userId, ModelMap model, Principal principal) {
+        UUID uuidUserId = UUID.fromString(userId);
+        UserUtils.checkEditor(principal, uuidUserId);
         UserManager userManager = managerFactory.getUserManager();
-        User user = userManager.getUserById(UUID.fromString(userId));
-        UserUtils.checkEditor(principal, user.getId());
+        User user = userManager.getUserById(uuidUserId);
 
         userCommand.mapUserToUserCommand(user);
         model.addAttribute("userCommand", userCommand);
@@ -50,11 +56,14 @@ public class UsersController {
         return ViewURLs.USER_EDIT_PAGE;
     }
 
-    @RequestMapping("/edit/user/{userId}/edit")
+    @Secured("ROLE_EDIT_MENU_SELF")
+    @RequestMapping(value = "/edit/user/{userId}/edit", method = RequestMethod.POST)
     public String processUpdateUserRequest(@PathVariable String userId, ModelMap model,
-            @Valid UserCommand userCommand, BindingResult result) {
+            @Valid UserCommand userCommand, BindingResult result, Principal principal) {
+        UUID uuidUserId = UUID.fromString(userId);
+        UserUtils.checkEditor(principal, uuidUserId);
         UserManager userManager = managerFactory.getUserManager();
-        User user = userManager.getUserById(UUID.fromString(userId));
+        User user = userManager.getUserById(uuidUserId);
 
         boolean invalidForm = true;
 
@@ -82,9 +91,11 @@ public class UsersController {
 
         userCommand.setId(userId);
         model.addAttribute(userCommand);
+        model.addAttribute("allRights", AccessRight.getAllRightsToString().toArray(new String[]{""}));
         return ViewURLs.USER_EDIT_PAGE;
     }
 
+    @Secured("ROLE_EDIT_PROFILE")
     @RequestMapping(value = "/edit/user/{userId}/remove", method = RequestMethod.POST)
     public String processRemoveUserRequest(@PathVariable String userId, Principal principal) {
         UserUtils.hasRole(principal, AccessRight.ROLE_EDIT_PROFILE);

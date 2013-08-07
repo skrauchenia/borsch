@@ -8,22 +8,22 @@ import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.notification.EmailNotification;
 import com.exadel.borsch.util.DateTimeUtils;
+import org.joda.time.DateTime;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * @author zubr
  */
 @Service
 public class MakeOrderNotifier extends NotifierTask {
-    @Autowired
-    private ManagerFactory managerFactory;
+
+    private ManagerFactory managerFactory = new ManagerFactory();
 
     public MakeOrderNotifier() {
-        super(new EmailNotification("You should MAKE YOUR ORDER!!!"));
+        super(new EmailNotification());
     }
 
     private boolean isWeekOrderComplete(Order order, DateTime startOfWeek, DateTime endOfWeek) {
@@ -50,16 +50,24 @@ public class MakeOrderNotifier extends NotifierTask {
         DateTime endOfWeek = startOfWeek.plusDays(DateTimeUtils.WORKING_DAYS_IN_WEEK);
         List<User> checkedUsers = new ArrayList<>();
 
-        for (Order order: menuManager.getAllOrders()) {
+        String localizedMessage;
+
+        for (Order order: menuManager.getAllOrders(startOfWeek)) {
             checkedUsers.add(order.getOwner());
             if (!isWeekOrderComplete(order, startOfWeek, endOfWeek)) {
+                localizedMessage = extractMessage("user.notification.order", order.getOwner().getLocale());
+                getNotification().setMessage(localizedMessage);
                 getNotification().submit(order.getOwner());
             }
         }
 
         List<User> remainingUsers = new ArrayList<User>(userManager.getAllUsers());
         remainingUsers.removeAll(checkedUsers);
-        getNotification().submit(remainingUsers);
+        for (User user : remainingUsers) {
+            localizedMessage = extractMessage("user.notification.order", user.getLocale());
+            getNotification().setMessage(localizedMessage);
+            getNotification().submit(user);
+        }
     }
 
 }

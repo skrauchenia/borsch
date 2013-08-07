@@ -2,12 +2,13 @@ package com.exadel.borsch.web.users;
 
 import com.exadel.borsch.dao.AccessRight;
 import com.exadel.borsch.dao.User;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import java.security.Principal;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 /**
  * @author zubr
@@ -35,7 +36,7 @@ public final class UserUtils {
         User user = getUserByPrincipal(principal);
         if (user != null) {
             if (!user.hasAccessRight(accessRight)) {
-                throw new AccessDeniedException("Access for login \"" + user.getLogin() + "\" is denied.");
+                throw new AccessDeniedException("Access is denied.");
             }
         } else {
             throw new AccessDeniedException("Access is denied.");
