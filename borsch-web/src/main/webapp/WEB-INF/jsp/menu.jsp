@@ -175,11 +175,8 @@
                                             </td>
                                             <td id="dishPrice${dish.id}">${dish.price}</td>
                                             <td>
-                                                <button type="submit" class="btn btn-success">
+                                                <button type="submit" class="btn btn-success add-to-order">
                                                     <i class="icon-ok icon-white"></i> Add to order
-                                                </button>
-                                                <button type="submit" class="btn btn-danger">
-                                                    <i class="icon-remove icon-white"></i> Remove from order
                                                 </button>
                                             </td>
                                             <sec:authorize access="hasRole('ROLE_EDIT_PRICE')">
