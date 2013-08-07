@@ -14,20 +14,20 @@
         <script>
             $("#navReport").addClass("active");
 
-            function markAsPaid(menuItemId, weekOrderId){
+            function markAsPaid(menuItemId, weekOrderId) {
                 $.ajax({
-                    url: "${contextPath}/report/setPaid/"+ weekOrderId + "/" + menuItemId,
+                    url: "${contextPath}/report/setPaid/" + weekOrderId + "/" + menuItemId,
                     type: 'POST'
                 }).done(function() {
-                            $("#orderNotPaid"+menuItemId).hide("slow");
-                            $("#orderPaid"+menuItemId).show("slow");
-                        })
-                  .fail(function(status, error) {
-                            console.log(status);
-                            alert(error);
-                            $("#orderPaid"+menuItemId).hide("slow");
-                            $("#orderNotPaid"+menuItemId).show("slow");
-                        });
+                    $("#orderNotPaid" + menuItemId).hide("slow");
+                    $("#orderPaid" + menuItemId).show("slow");
+                })
+                        .fail(function(status, error) {
+                    console.log(status);
+                    alert(error);
+                    $("#orderPaid" + menuItemId).hide("slow");
+                    $("#orderNotPaid" + menuItemId).show("slow");
+                });
             }
         </script>
     </jsp:attribute>
@@ -62,17 +62,17 @@
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-success
-                                                        <c:if test="${order.menuItem.isPaid != true}">
-                                                         hide</c:if>" id="orderPaid${order.menuItem.id}" title="Order is paid" disabled>
-                                                            <i class="icon-ok icon-white"></i>
-                                                        </button>
-                                                        <button class="btn btn-danger
-                                                        <c:if test="${order.menuItem.isPaid == true}">
-                                                         hide</c:if>" id="orderNotPaid${order.menuItem.id}" title="Order is not paid"
-                                                                onclick="markAsPaid('${order.menuItem.id}',
-                                                                            '${order.weekOrderId}')">
-                                                            <i class="icon-remove icon-white"></i>
-                                                        </button>
+                                                            <c:if test="${order.menuItem.isPaid != true}">
+                                                                hide</c:if>" id="orderPaid${order.menuItem.id}" title="Order is paid" disabled>
+                                                                <i class="icon-ok icon-white"></i>
+                                                            </button>
+                                                            <button class="btn btn-danger
+                                                            <c:if test="${order.menuItem.isPaid == true}">
+                                                                hide</c:if>" id="orderNotPaid${order.menuItem.id}" title="Order is not paid"
+                                                            onclick="markAsPaid('${order.menuItem.id}',
+                        '${order.weekOrderId}')">
+                                                        <i class="icon-remove icon-white"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         </c:if>
@@ -84,6 +84,9 @@
                     <c:set var="dayNumber" value="${dayNumber + 1}" scope="page"/>
                 </c:forEach>
             </div>
+            <button type="submit" class="btn btn-info" onclick="document.location.href='${contextPath}/orderTable'" style="float: right">
+                <i class="icon-th-list icon-white"></i> Show table
+            </button>
         </div>
     </jsp:body>
 </t:genericpage>

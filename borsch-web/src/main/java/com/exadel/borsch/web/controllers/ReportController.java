@@ -5,6 +5,8 @@ import com.exadel.borsch.dao.Order;
 import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
+import com.exadel.borsch.managers.UserManager;
+import com.exadel.borsch.managers.simple.SimpleManagerFactory;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -70,6 +72,20 @@ public class ReportController {
         model.addAttribute("workingDays", DateTimeUtils.WORKING_DAYS_IN_WEEK);
 
         return ViewURLs.WEEK_ORDER_REPORT;
+    }
+    @Secured("ROLE_PRINT_ORDER")
+    @RequestMapping("/orderTable")
+    public String loadOrderTable(ModelMap model) {
+        ManagerFactory factory = new SimpleManagerFactory();
+        OrderManager orderManager = factory.getOrderManager();
+        UserManager userManager = factory.getUserManager();
+        List<User> users = userManager.getAllUsers();
+        ListMultimap<User, Order> orders = ArrayListMultimap.create();
+        for (User user : users) {
+            orders.put(user, orderManager.getCurrentOrderForUser(user));
+        }
+        model.addAttribute("orders", orders.asMap());
+        return ViewURLs.ORDER_TABLE;
     }
 
     public static class DailyOrder {
