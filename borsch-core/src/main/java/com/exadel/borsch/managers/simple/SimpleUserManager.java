@@ -29,7 +29,7 @@ public class SimpleUserManager implements UserManager {
         users.add(admin);
     }
     @Override
-    public User getUserById(UUID userId) {
+    public User getUserById(Long userId) {
         for (User user : users) {
             if (user.getId().equals(userId)) {
                 return user;
@@ -50,7 +50,7 @@ public class SimpleUserManager implements UserManager {
 
 
     @Override
-    public void deleteUserById(UUID userId) {
+    public void deleteUserById(Long userId) {
         ListIterator<User> iter = users.listIterator();
         while (iter.hasNext()) {
             User curUser = iter.next();

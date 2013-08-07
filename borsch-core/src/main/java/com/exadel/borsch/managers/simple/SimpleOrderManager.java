@@ -38,7 +38,7 @@ public class SimpleOrderManager implements OrderManager {
     }
 
     @Override
-    public void deleteOrderById(UUID id) {
+    public void deleteOrderById(Long id) {
         ListIterator<Order> iter = orders.listIterator();
         while (iter.hasNext()) {
             Order curOrder = iter.next();
@@ -50,7 +50,7 @@ public class SimpleOrderManager implements OrderManager {
     }
 
     @Override
-    public Order getOrderById(UUID id) {
+    public Order getOrderById(Long id) {
         for (Order order : orders) {
             if (order.getId().equals(id)) {
                 return order;

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.UUID;
 
 /**
  *
@@ -71,13 +70,13 @@ public class HomeController {
     @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/home/orders/{day}/{itemId}")
     public OrderResult processOrderModification(Principal principal, @PathVariable int day,
-        @PathVariable String itemId) {
+        @PathVariable Long itemId) {
 
         PriceManager priceManager = managerFactory.getPriceManager();
         OrderManager orderManager = managerFactory.getOrderManager();
         User user = UserUtils.getUserByPrincipal(principal);
 
-        Dish dish = priceManager.getCurrentPriceList().getDishById(UUID.fromString(itemId));
+        Dish dish = priceManager.getCurrentPriceList().getDishById(itemId);
         Order order = orderManager.getCurrentOrderForUser(user);
         if (dish == null || day < 0 || day >= order.getOrder().size()) {
             return new OrderResult("fail", null);

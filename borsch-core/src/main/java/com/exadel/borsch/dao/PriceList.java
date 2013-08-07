@@ -36,7 +36,7 @@ public class PriceList extends Identifiable {
         this.creationTime = creationTime;
     }
 
-    public Dish getDishById(UUID id) {
+    public Dish getDishById(Long id) {
         for (Dish dish : dishes) {
             if (dish.getId().equals(id)) {
                 return dish;

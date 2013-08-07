@@ -5,15 +5,14 @@ import com.exadel.borsch.dao.User;
 import org.joda.time.DateTime;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Andrey Zhilka
  */
 public interface OrderManager {
     void updateOrder(Order toUpdate);
-    void deleteOrderById(UUID id);
-    Order getOrderById(UUID id);
+    void deleteOrderById(Long id);
+    Order getOrderById(Long id);
     void addOrder(Order toAdd);
     List<Order> getAllOrders();
     List<Order> getAllOrders(DateTime startDate);

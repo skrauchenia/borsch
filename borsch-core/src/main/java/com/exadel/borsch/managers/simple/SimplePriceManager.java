@@ -50,7 +50,7 @@ public class SimplePriceManager implements PriceManager {
         prices.add(list);
     }
     @Override
-    public PriceList getPriceListById(UUID id) {
+    public PriceList getPriceListById(Long id) {
         for (PriceList priceList : prices) {
             if (priceList.getId().equals(id)) {
                 return priceList;
@@ -60,7 +60,7 @@ public class SimplePriceManager implements PriceManager {
     }
 
     @Override
-    public void deletePriceListById(UUID id) {
+    public void deletePriceListById(Long id) {
         ListIterator<PriceList> iter = prices.listIterator();
         while (iter.hasNext()) {
             PriceList curPriceList = iter.next();

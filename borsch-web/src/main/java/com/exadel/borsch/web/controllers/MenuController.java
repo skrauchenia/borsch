@@ -20,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Vlad
@@ -81,12 +80,12 @@ public class MenuController {
 
     @Secured("ROLE_EDIT_PRICE")
     @RequestMapping("/edit/dish/{id}/edit")
-    public String processEditPageRequest(@PathVariable String id, ModelMap model) {
+    public String processEditPageRequest(@PathVariable Long id, ModelMap model) {
         PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
-            Dish dish = dishes.getDishById(UUID.fromString(id));
+            Dish dish = dishes.getDishById(id);
             model.addAttribute("dish", dish);
         }
         model.addAttribute("action", "edit");
@@ -100,13 +99,13 @@ public class MenuController {
         String name = request.getParameter("name");
         String price = request.getParameter("price");
         String description = request.getParameter("description");
-        String id = request.getParameter("id");
+        Long id = Long.parseLong(request.getParameter("id"));
         PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         Dish dish = new Dish();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
-            dish = dishes.getDishById(UUID.fromString(id));
+            dish = dishes.getDishById(id);
             dish.setName(name);
             dish.setPrice(Integer.parseInt(price));
             dish.setDescription(description);
@@ -117,12 +116,12 @@ public class MenuController {
 
     @Secured("ROLE_EDIT_PRICE")
     @RequestMapping("/edit/dish/{id}/remove")
-    public String processRemoveDishRequest(@PathVariable String id) {
+    public String processRemoveDishRequest(@PathVariable Long id) {
         PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
-            Dish forRemove = dishes.getDishById(UUID.fromString(id));
+            Dish forRemove = dishes.getDishById(id);
             dishes.removeDish(forRemove);
         }
         return ViewURLs.MENU_PAGE;

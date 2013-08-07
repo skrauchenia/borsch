@@ -5,7 +5,6 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Andrey Zhilka
@@ -48,7 +47,7 @@ public class Order extends Identifiable {
         return Collections.unmodifiableList(order);
     }
 
-    public MenuItem getMenuById(UUID id) {
+    public MenuItem getMenuById(Long id) {
         for (MenuItem menu : order) {
             if (menu.getId().equals(id)) {
                 return menu;

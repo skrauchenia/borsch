@@ -3,15 +3,14 @@ package com.exadel.borsch.managers;
 import com.exadel.borsch.dao.User;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Andrey Zhilka
  */
 public interface UserManager {
-    User getUserById(UUID userId);
+    User getUserById(Long userId);
     User getUserByLogin(String login);
-    void deleteUserById(UUID userId);
+    void deleteUserById(Long userId);
     void updateUser(User toUpdate);
     void addUsers(List<User> toAdd);
     List<User> getAllUsers();

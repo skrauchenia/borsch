@@ -1,18 +1,16 @@
 package com.exadel.borsch.dao;
 
-import java.util.UUID;
-
 /**
  * @author Andrew Zhilka
  */
 public class Identifiable {
-    private UUID id = UUID.randomUUID();
+    private Long id;
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }
