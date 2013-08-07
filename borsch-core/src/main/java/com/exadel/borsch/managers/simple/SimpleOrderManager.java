@@ -72,7 +72,10 @@ public class SimpleOrderManager implements OrderManager {
     public List<Order> getAllOrders(DateTime startDate) {
         List<Order> appropriateOrders = new ArrayList<>();
         for (Order order : orders) {
-            if (order.getStartDate().equals(startDate)) {
+            DateTime orderStartDate = order.getStartDate();
+            if (orderStartDate.getDayOfMonth() == startDate.getDayOfMonth() &&
+                    orderStartDate.getMonthOfYear() == startDate.getMonthOfYear() &&
+                    orderStartDate.getYear() == startDate.getYear()) {
                 appropriateOrders.add(order);
             }
         }
