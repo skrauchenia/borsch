@@ -14,7 +14,7 @@ import java.util.List;
  * @author Vlad
  */
 @Service("jdbcOrderManager")
-@Scope(value = "singleton")
+@Scope("singleton")
 public class JdbcOrderManager extends JdbcDaoSupport implements OrderManager {
     @Override
     public void updateOrder(Order toUpdate) {

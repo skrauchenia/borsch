@@ -24,6 +24,22 @@ public class User extends Identifiable {
         accessRights.add(AccessRight.ROLE_EDIT_MENU_SELF);
     }
 
+    public User(Long id,
+                String login,
+                String name,
+                String email,
+                boolean needEmailNotification,
+                Set<AccessRight> accessRights,
+                Locale locale) {
+        this.id = id;
+        this.login = login;
+        this.name = name;
+        this.email = email;
+        this.needEmailNotification = needEmailNotification;
+        this.accessRights = accessRights;
+        this.locale = locale;
+    }
+
     public boolean getNeedEmailNotification() {
         return needEmailNotification;
     }

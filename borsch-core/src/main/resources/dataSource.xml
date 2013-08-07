@@ -13,15 +13,19 @@
         <property name="password" value="13758642"/>
     </bean>
 
-    <!--<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
-        <!--<property name="dataSource" ref="dataSource"/>-->
-    <!--</bean>-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
-    <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="fetchSize" value="20"/>
         <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="userDao" class="com.exadel.borsch.dao.impl.UserDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
 </beans>

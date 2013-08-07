@@ -12,7 +12,6 @@ public interface UserManager {
     User getUserByLogin(String login);
     void deleteUserById(Long userId);
     void updateUser(User toUpdate);
-    Long addUser(User toAdd);
-    void addUsers(List<User> toAdd);
+    void addUser(User toAdd);
     List<User> getAllUsers();
 }

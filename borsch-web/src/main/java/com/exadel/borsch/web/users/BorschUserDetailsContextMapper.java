@@ -32,7 +32,7 @@ public class BorschUserDetailsContextMapper implements UserDetailsContextMapper 
             user.setName(dco.getStringAttribute("cn"));
             user.setEmail(userName + "@exadel.com");
 
-            user.setId(daoManager.addUser(user));
+            daoManager.addUser(user);
         }
 
         return new BorschUserDetails(user);

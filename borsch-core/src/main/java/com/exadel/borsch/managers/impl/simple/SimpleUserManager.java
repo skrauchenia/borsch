@@ -18,7 +18,7 @@ public class SimpleUserManager implements UserManager {
 
     public SimpleUserManager() {
         // TODO read frome file
-        users = new ArrayList<>();
+        users = new ArrayList<User>();
 
         // Test data
         User admin = new User();
@@ -28,6 +28,7 @@ public class SimpleUserManager implements UserManager {
         admin.addAccessRights(Arrays.asList(AccessRight.values()));
         users.add(admin);
     }
+
     @Override
     public User getUserById(Long userId) {
         for (User user : users) {
@@ -74,14 +75,8 @@ public class SimpleUserManager implements UserManager {
     }
 
     @Override
-    public Long addUser(User toAdd) {
+    public void addUser(User toAdd) {
         users.add(toAdd);
-        return toAdd.getId();
-    }
-
-    @Override
-    public void addUsers(List<User> toAdd) {
-        users.addAll(toAdd);
     }
 
     @Override

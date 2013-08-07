@@ -9,7 +9,10 @@ import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * @author Vlad
@@ -23,6 +26,7 @@ public class SimpleOrderManager implements OrderManager {
         // TODO read frome file
         orders = new ArrayList<>();
     }
+
     @Override
     public void updateOrder(Order toUpdate) {
         ListIterator<Order> iter = orders.listIterator();
@@ -83,7 +87,7 @@ public class SimpleOrderManager implements OrderManager {
     @Override
     public List<Order> getOrdersForUser(User user) {
         List<Order> result = new ArrayList<>();
-        for (Order order: orders) {
+        for (Order order : orders) {
             if (order.getOwner().equals(user)) {
                 result.add(order);
             }

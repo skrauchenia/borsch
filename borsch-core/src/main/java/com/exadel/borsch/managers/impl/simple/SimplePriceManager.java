@@ -7,7 +7,10 @@ import com.exadel.borsch.managers.PriceManager;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * @author Vlad
@@ -16,6 +19,7 @@ import java.util.*;
 @Scope(value = "singleton")
 public class SimplePriceManager implements PriceManager {
     private List<PriceList> prices;
+
     public SimplePriceManager() {
         // TODO read from file
         prices = new ArrayList<>();
@@ -49,6 +53,7 @@ public class SimplePriceManager implements PriceManager {
         // Some useful list
         prices.add(list);
     }
+
     @Override
     public PriceList getPriceListById(Long id) {
         for (PriceList priceList : prices) {
