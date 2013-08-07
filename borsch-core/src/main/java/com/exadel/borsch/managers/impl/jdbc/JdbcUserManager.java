@@ -1,9 +1,10 @@
-package com.exadel.borsch.managers.jdbc;
+package com.exadel.borsch.managers.impl.jdbc;
 
 import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.UserManager;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import java.util.List;
  * */
 @Service("jdbcUserManager")
 @Scope(value = "singleton")
-public class JdbcUserManager extends AbstractJdbc implements UserManager {
+public class JdbcUserManager extends JdbcDaoSupport implements UserManager {
 
     public JdbcUserManager() {
         createAdmin();

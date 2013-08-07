@@ -1,4 +1,4 @@
-package com.exadel.borsch.managers.simple;
+package com.exadel.borsch.managers.impl.simple;
 
 import com.exadel.borsch.dao.Course;
 import com.exadel.borsch.dao.Dish;

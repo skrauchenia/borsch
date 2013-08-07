@@ -1,4 +1,4 @@
-package com.exadel.borsch.managers.jdbc;
+package com.exadel.borsch.managers.impl.jdbc;
 
 /**
  * @author Vlad
