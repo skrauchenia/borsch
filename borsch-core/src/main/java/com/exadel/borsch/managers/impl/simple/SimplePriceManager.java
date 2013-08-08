@@ -91,8 +91,46 @@ public class SimplePriceManager implements PriceManager {
                 return;
             }
         }
+    }
 
-        prices.add(toUpdate);
+    @Override
+    public void addDishToPriceList(Dish dish, PriceList priceList) {
+        priceList.addDish(dish);
+
+        ListIterator<PriceList> iter = prices.listIterator();
+        while (iter.hasNext()) {
+            PriceList curPriceList = iter.next();
+            if (curPriceList.getId().equals(priceList.getId())) {
+                iter.set(priceList);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void updateDishInPriceList(Dish dish, PriceList priceList) {
+        ListIterator<PriceList> iter = prices.listIterator();
+        while (iter.hasNext()) {
+            PriceList curPriceList = iter.next();
+            if (curPriceList.getId().equals(priceList.getId())) {
+                priceList.updateDish(dish);
+                iter.set(priceList);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void removeDishFromPriceList(Dish dish, PriceList priceList) {
+        ListIterator<PriceList> iter = prices.listIterator();
+        while (iter.hasNext()) {
+            PriceList curPriceList = iter.next();
+            if (curPriceList.getId().equals(priceList.getId())) {
+                priceList.removeDish(dish);
+                iter.set(priceList);
+                return;
+            }
+        }
     }
 
     @Override

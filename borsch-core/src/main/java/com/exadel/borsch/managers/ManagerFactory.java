@@ -17,7 +17,7 @@ public final class ManagerFactory {
     @Qualifier("simpleOrderManager")
     private OrderManager orderManager;
     @Autowired
-    @Qualifier("simplePriceManager")
+    @Qualifier("jdbcPriceManager")
     private PriceManager priceManager;
 
     public UserManager getUserManager() {

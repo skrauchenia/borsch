@@ -20,6 +20,16 @@ public class Dish extends Identifiable {
         this.course = course;
         this.description = description;
     }
+
+    public Dish(Long id, String name, String photoUrl, Integer price, String description, Course course) {
+        this.setId(id);
+        this.name = name;
+        this.photoUrl = photoUrl;
+        this.price = price;
+        this.description = description;
+        this.course = course;
+    }
+
     public String getName() {
         return name;
     }

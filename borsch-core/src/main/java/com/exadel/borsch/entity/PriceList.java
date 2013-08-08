@@ -18,6 +18,14 @@ public class PriceList extends Identifiable {
 
     public PriceList() {
         super();
+        this.creationTime = DateTime.now();
+        this.expirationTime = DateTime.now().plusWeeks(1);
+    }
+
+    public PriceList(Long id, DateTime creationTime, DateTime expirationTime) {
+        this.setId(id);
+        this.creationTime = creationTime;
+        this.expirationTime = expirationTime;
     }
 
     public DateTime getExpirationTime() {

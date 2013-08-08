@@ -1,5 +1,6 @@
 package com.exadel.borsch.managers;
 
+import com.exadel.borsch.entity.Dish;
 import com.exadel.borsch.entity.PriceList;
 
 import java.util.List;
@@ -13,5 +14,8 @@ public interface PriceManager {
     void deletePriceListById(Long id);
     void addPriceList(PriceList toAdd);
     void updatePriceList(PriceList toUpdate);
+    void addDishToPriceList(Dish dish, PriceList priceList);
+    void updateDishInPriceList(Dish dish, PriceList priceList);
+    void removeDishFromPriceList(Dish dish, PriceList priceList);
     List<PriceList> getAllPriceLists();
 }

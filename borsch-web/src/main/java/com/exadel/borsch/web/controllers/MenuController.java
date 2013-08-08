@@ -73,8 +73,7 @@ public class MenuController {
         } else {
             dishes = new PriceList();
         }
-        dishes.addDish(dish);
-        manager.updatePriceList(dishes);
+        manager.addDishToPriceList(dish,dishes);
         return DishJSON.mapDishToJSON(dish);
     }
 
@@ -109,7 +108,7 @@ public class MenuController {
             dish.setName(name);
             dish.setPrice(Integer.parseInt(price));
             dish.setDescription(description);
-            dishes.updateDish(dish);
+            manager.updateDishInPriceList(dish, dishes);
         }
         return DishJSON.mapDishToJSON(dish);
     }
@@ -122,7 +121,7 @@ public class MenuController {
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
             Dish forRemove = dishes.getDishById(id);
-            dishes.removeDish(forRemove);
+            manager.removeDishFromPriceList(forRemove, dishes);
         }
         return ViewURLs.MENU_PAGE;
     }
