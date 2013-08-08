@@ -42,20 +42,20 @@ public class ReportController {
 
     @Secured("ROLE_PRINT_ORDER")
     @RequestMapping("/report/{week}")
-    public String processPageRequest(ModelMap model, @PathVariable String week) {
+    public String processPageRequest(ModelMap model, @PathVariable Integer week) {
         OrderManager orderManager = managerFactory.getOrderManager();
         ListMultimap<Integer, DailyOrder> report = ArrayListMultimap.create();
         List<Order> allOrders;
 
         DateTime startOfWeek;
         switch (week) {
-            case "previous" :
-                startOfWeek = DateTimeUtils.getStartOfWeek(DateTime.now().minusDays(7));
+            case 0 : //previous week
+                startOfWeek = DateTimeUtils.getStartOfWeek(DateTime.now().minusDays(DateTimeUtils.DAYS_IN_WEEK ));
                 break;
-            case "current" :
+            case 1 : //current week
                 startOfWeek = DateTimeUtils.getStartOfCurrentWeek();
                 break;
-            case "next" :
+            case 2 : //next week
                 startOfWeek = DateTimeUtils.getStartOfNextWeek();
                 break;
             default:
@@ -74,15 +74,8 @@ public class ReportController {
             }
         }
 
-        List<List<DailyOrder>> reportFinalVersion = new ArrayList<List<DailyOrder>>();
-
-        for (int i = 0; i < DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
-            reportFinalVersion.add(report.get(i));
-        }
-
         model.addAttribute("week", week);
-        model.addAttribute("report", reportFinalVersion);
-        model.addAttribute("workingDays", DateTimeUtils.WORKING_DAYS_IN_WEEK);
+        model.addAttribute("report", report.asMap());
 
         return ViewURLs.WEEK_ORDER_REPORT;
     }
