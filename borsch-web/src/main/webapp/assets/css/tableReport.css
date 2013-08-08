@@ -1,0 +1,20 @@
+/* 
+    Document   : tableReport
+    Created on : Aug 7, 2013, 10:29:36 AM
+    Author     : Fedor
+    Description:
+        Purpose of the stylesheet follows.
+*/
+table {
+    border: 1px solid black; 
+    border-collapse: collapse; 
+    width: 100%; 
+    font-size: 10px;
+}
+.name-width {
+    width: 5%;
+}
+
+.days-width {
+    width: 19%;
+}

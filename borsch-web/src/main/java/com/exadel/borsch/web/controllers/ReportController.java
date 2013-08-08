@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 /**
@@ -62,7 +64,7 @@ public class ReportController {
             }
         }
 
-        List<List<DailyOrder>> reportFinalVersion = new ArrayList<List<DailyOrder>>();
+        List<List<DailyOrder>> reportFinalVersion = new ArrayList<>();
 
         for (int i = 0; i < DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
             reportFinalVersion.add(report.get(i));
@@ -80,11 +82,31 @@ public class ReportController {
         OrderManager orderManager = factory.getOrderManager();
         UserManager userManager = factory.getUserManager();
         List<User> users = userManager.getAllUsers();
-        ListMultimap<User, Order> orders = ArrayListMultimap.create();
+        ListMultimap<User, MenuItem> orders = ArrayListMultimap.create();
+        List<String> date = new ArrayList<>();
+        Map<Integer, Integer> totalPrice = new TreeMap<>();
+        boolean flag = true;
         for (User user : users) {
-            orders.put(user, orderManager.getCurrentOrderForUser(user));
+            List<MenuItem> items = orderManager.getCurrentOrderForUser(user).getOrder();
+            for (MenuItem item : items) {
+                if (flag) {
+                    date.add(item.getDate().dayOfMonth().get() + "."
+                            + item.getDate().monthOfYear().get() + "."
+                            + item.getDate().year().get());
+                }
+                int day = item.getDate().dayOfMonth().get();
+                if (!totalPrice.containsKey(day)) {
+                    totalPrice.put(day, item.getTotalPrice());
+                } else {
+                    totalPrice.put(day, totalPrice.get(day) + item.getTotalPrice());
+                }
+                orders.put(user, item);
+            }
+            flag = false;
         }
+        model.addAttribute("date", date);
         model.addAttribute("orders", orders.asMap());
+        model.addAttribute("totalPrice", totalPrice);
         return ViewURLs.ORDER_TABLE;
     }
 

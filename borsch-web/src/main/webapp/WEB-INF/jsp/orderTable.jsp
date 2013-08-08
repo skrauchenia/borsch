@@ -11,22 +11,53 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <link href="${contextPath}/assets/css/tableReport.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <table>
+        <table table border="1" cellpadding="1">
             <tr>
-                <th style="width: 20%">ФИО</th>
-                <th style="width: 20%">Понедельник</th>
-                <th>Вторник</th>
-                <th>Среда</th>
-                <th>Четверг</th>
-                <th>Пятница</th>
+                <th class="name-width" rowspan="2">ФИО</th>
+                    <c:forEach var="day" items="${date}">
+                    <th class="days-width" colspan="2">${day}</th>
+                    </c:forEach>
             </tr>
             <tr>
-                <td></td>
-                <td style="width: 20%">
-                    
-                </td>
+                <th>Заказ</th>
+                <th>Стоимость</th>
+                <th>Заказ</th>
+                <th>Стоимость</th>
+                <th>Заказ</th>
+                <th>Стоимость</th>
+                <th>Заказ</th>
+                <th>Стоимость</th>
+                <th>Заказ</th>
+                <th>Стоимость</th>
+            </tr>
+            <c:forEach var="element" items="${orders}" varStatus="st">
+                <c:set var="buf" value="0" scope="page"/>
+                <c:set var="user" value="${element.key}"/>
+                <c:set var="listMenuItem" value="${element.value}"/>
+                <tr>
+                    <td>${user.name}</td>
+                    <c:forEach var="menuItem" items="${listMenuItem}">
+                        <td>
+                            <c:set var="choices" value="${menuItem.choices}"/>
+                            <c:forEach var="dish" items="${choices}">
+                                ${dish.name}<br/>
+                            </c:forEach>
+                        <td>${menuItem.getTotalPrice()}</td>
+                        </td>
+                    </c:forEach>
+                </tr>
+            </c:forEach>
+            <tr>
+                <td>Итого</td>
+                <c:forEach var="element" items="${totalPrice}" varStatus="st">
+                    <c:set var="day" value="${element.key}"/>
+                    <c:set var="dayPrice" value="${element.value}"/>
+                    <td></td>
+                    <td>${dayPrice}</td>
+                </c:forEach>
             </tr>
         </table>
     </body>
