@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 /**
  *
@@ -69,8 +71,8 @@ public class HomeController {
 
     @ResponseBody
     @Secured("ROLE_EDIT_MENU_SELF")
-    @RequestMapping("/home/orders/{day}/{itemId}")
-    public OrderResult processOrderModification(Principal principal, @PathVariable int day,
+    @RequestMapping("/home/orders/{date}/{itemId}")
+    public OrderResult processOrderModification(Principal principal, @PathVariable String date,
         @PathVariable String itemId) {
 
         PriceManager priceManager = managerFactory.getPriceManager();
@@ -78,8 +80,10 @@ public class HomeController {
         User user = UserUtils.getUserByPrincipal(principal);
 
         Dish dish = priceManager.getCurrentPriceList().getDishById(UUID.fromString(itemId));
-        Order order = orderManager.getCurrentOrderForUser(user);
-        if (dish == null || day < 0 || day >= order.getOrder().size()) {
+        DateTime orderDate = DateTime.parse(date, DateTimeFormat.forPattern("dd-MM-yyy"));
+        Order order = orderManager.findOrderAtDateForUser(user, orderDate);
+        int day = orderDate.getDayOfWeek() - 1;
+        if (dish == null || order == null || day >= order.getOrder().size()) {
             return new OrderResult("fail", null);
         }
 
