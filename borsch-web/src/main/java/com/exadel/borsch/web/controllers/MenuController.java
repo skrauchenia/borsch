@@ -1,9 +1,9 @@
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.entiry.Course;
-import com.exadel.borsch.entiry.CourseList;
-import com.exadel.borsch.entiry.Dish;
-import com.exadel.borsch.entiry.PriceList;
+import com.exadel.borsch.entity.Course;
+import com.exadel.borsch.entity.CourseList;
+import com.exadel.borsch.entity.Dish;
+import com.exadel.borsch.entity.PriceList;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.PriceManager;
 import org.slf4j.Logger;

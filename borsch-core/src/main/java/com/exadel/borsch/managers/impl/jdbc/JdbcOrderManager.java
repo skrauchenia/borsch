@@ -1,11 +1,10 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
-import com.exadel.borsch.entiry.Order;
-import com.exadel.borsch.entiry.User;
+import com.exadel.borsch.entity.Order;
+import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.OrderManager;
 import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
  */
 @Service("jdbcOrderManager")
 @Scope("singleton")
-public class JdbcOrderManager extends JdbcDaoSupport implements OrderManager {
+public class JdbcOrderManager implements OrderManager {
     @Override
     public void updateOrder(Order toUpdate) {
 

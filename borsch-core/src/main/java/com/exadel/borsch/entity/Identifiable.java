@@ -1,10 +1,10 @@
-package com.exadel.borsch.entiry;
+package com.exadel.borsch.entity;
 
 /**
  * @author Andrew Zhilka
  */
 public class Identifiable {
-    protected Long id;
+    private Long id;
 
     public Long getId() {
         return id;

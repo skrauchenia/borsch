@@ -1,6 +1,6 @@
 package com.exadel.borsch.notification;
 
-import com.exadel.borsch.entiry.User;
+import com.exadel.borsch.entity.User;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;

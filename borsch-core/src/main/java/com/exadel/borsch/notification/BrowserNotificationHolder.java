@@ -1,6 +1,6 @@
 package com.exadel.borsch.notification;
 
-import com.exadel.borsch.entiry.User;
+import com.exadel.borsch.entity.User;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 

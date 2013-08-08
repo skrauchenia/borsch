@@ -1,8 +1,8 @@
 package com.exadel.borsch.managers.impl.simple;
 
-import com.exadel.borsch.entiry.Course;
-import com.exadel.borsch.entiry.Dish;
-import com.exadel.borsch.entiry.PriceList;
+import com.exadel.borsch.entity.Course;
+import com.exadel.borsch.entity.Dish;
+import com.exadel.borsch.entity.PriceList;
 import com.exadel.borsch.managers.PriceManager;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;

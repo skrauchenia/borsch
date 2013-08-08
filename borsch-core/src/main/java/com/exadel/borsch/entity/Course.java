@@ -1,4 +1,4 @@
-package com.exadel.borsch.entiry;
+package com.exadel.borsch.entity;
 
 /**
  * @author Tima

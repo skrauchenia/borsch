@@ -1,4 +1,4 @@
-package com.exadel.borsch.entiry;
+package com.exadel.borsch.entity;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;

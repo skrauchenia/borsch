@@ -1,9 +1,8 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
-import com.exadel.borsch.entiry.PriceList;
+import com.exadel.borsch.entity.PriceList;
 import com.exadel.borsch.managers.PriceManager;
 import org.springframework.context.annotation.Scope;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
  */
 @Service("jdbcPriceManager")
 @Scope(value = "singleton")
-public class JdbcPriceManager extends JdbcDaoSupport implements PriceManager {
+public class JdbcPriceManager implements PriceManager {
     @Override
     public PriceList getPriceListById(Long id) {
         return null;

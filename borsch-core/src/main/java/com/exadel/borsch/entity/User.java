@@ -1,4 +1,4 @@
-package com.exadel.borsch.entiry;
+package com.exadel.borsch.entity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public class User extends Identifiable {
                 boolean needEmailNotification,
                 Set<AccessRight> accessRights,
                 Locale locale) {
-        this.id = id;
+        this.setId(id);
         this.login = login;
         this.name = name;
         this.email = email;

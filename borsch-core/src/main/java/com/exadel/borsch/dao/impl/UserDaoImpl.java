@@ -1,42 +1,34 @@
 package com.exadel.borsch.dao.impl;
 
+import com.exadel.borsch.dao.BorschJdbcDaoSupport;
 import com.exadel.borsch.dao.UserDao;
-import com.exadel.borsch.entiry.AccessRight;
-import com.exadel.borsch.entiry.User;
+import com.exadel.borsch.entity.AccessRight;
+import com.exadel.borsch.entity.User;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Vlad
  */
-public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
+public class UserDaoImpl extends BorschJdbcDaoSupport implements UserDao {
 
-    private static final String QUERY_SELECT_USER = "SELECT "
-            + "u.id as idUser,"
-            + "u.login as login,"
-            + "u.name as name,"
-            + "u.needEmailNotification as needEmailNotification,"
-            + "u.accessRights as accessRights,"
-            + "u.locale as locale"
-            + "FROM User u ";
+    private static final String QUERY_SELECT_USER = "SELECT * FROM User ";
 
-    private static final String QUERY_INSERT_USER = "INSERT INTO User "
-            + "(login,name,email,needEmailNotification,accessRights,locale) "
-            + "VALUES (?,?,?,?,?,?) returning idUser";
+    private static final String QUERY_SELECT_USER_BY_ID = QUERY_SELECT_USER + "WHERE idUser=?";
+
+    private static final String QUERY_SELECT_USER_BY_LOGIN = QUERY_SELECT_USER + "WHERE login=?";
 
     private static final String QUERY_UPDATE_USER = "UPDATE User SET "
             + "login=?,name=?,email=?,needEmailNotification=?,accessRights=?,locale=? "
-            + "WHERE id=?";
+            + "WHERE idUser=?";
 
-    private static final String QUERY_DELETE_USER = "DELETE FROM User WHERE id=?";
+    private static final String QUERY_DELETE_USER = "DELETE FROM User WHERE idUser=?";
 
-    private final RowMapper<User> userRowMapper = new RowMapper<User>() {
+    private static final RowMapper<User> USER_ROW_MAPPER = new RowMapper<User>() {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new User(
@@ -46,18 +38,35 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
                     rs.getString("email"),
                     rs.getBoolean("needEmailNotification"),
                     parseAccessRights(rs.getString("accessRights")),
-                    new Locale(rs.getString("locale"))
+                    parseLocale(rs.getString("locale"))
             );
         }
-    }
+    };
+
     @Override
     public User getUserById(Long userId) {
-        return null;
+        try {
+            return getJdbcTemplate().queryForObject(
+                    QUERY_SELECT_USER_BY_ID,
+                    new Object[]{userId},
+                    USER_ROW_MAPPER
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public User getUserByLogin(String login) {
-        return null;
+        try {
+            return getJdbcTemplate().queryForObject(
+                    QUERY_SELECT_USER_BY_LOGIN,
+                    new Object[]{login},
+                    USER_ROW_MAPPER
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
@@ -84,25 +93,39 @@ public class UserDaoImpl extends JdbcDaoSupport implements UserDao {
 
     @Override
     public void save(User user) {
-        Long id = getJdbcTemplate().queryForLong(
-                QUERY_INSERT_USER,
-                user.getLogin(),
-                user.getName(),
-                user.getEmail(),
-                user.getNeedEmailNotification(),
-                user.getAccessRights().toString(),
-                user.getLocale().toString()
-        );
+        Map<String, Object> params = new HashMap<>();
+        params.put("login", user.getLogin());
+        params.put("name", user.getName());
+        params.put("email", user.getEmail());
+        params.put("needEmailNotification", user.getNeedEmailNotification());
+        params.put("accessRights", user.getAccessRights());
+        params.put("locale", user.getLocale().toString());
 
-        user.setId(id);
+        user.setId((Long) getJdbcInsert()
+                .withTableName("user")
+                .usingGeneratedKeyColumns("idUser")
+                .executeAndReturnKey(params));
     }
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        return getJdbcTemplate().query(
+                QUERY_SELECT_USER,
+                USER_ROW_MAPPER
+        );
     }
 
-    private Set<AccessRight> parseAccessRights(String parse) {
+    private static Set<AccessRight> parseAccessRights(String parse) {
+        StringTokenizer st = new StringTokenizer(parse, "[], ");
+        Set<AccessRight> rights = new HashSet<>();
+        while (st.hasMoreTokens()) {
+            rights.add(AccessRight.valueOf(st.nextToken()));
+        }
+        return rights;
+    }
 
+    private static Locale parseLocale(String locale) {
+        StringTokenizer st = new StringTokenizer(locale, "_");
+        return new Locale(st.nextToken(), st.nextToken());
     }
 }

@@ -1,13 +1,15 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
 import com.exadel.borsch.dao.UserDao;
-import com.exadel.borsch.entiry.User;
+import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.UserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,36 +24,39 @@ public class JdbcUserManager implements UserManager {
     @Autowired
     private UserDao userDao;
 
-
     @Override
+    @Transactional(readOnly = true)
     public User getUserById(Long userId) {
-        return null;
+        return userDao.getUserById(userId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUserByLogin(String login) {
-        return null;
+        return userDao.getUserByLogin(login);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void deleteUserById(Long userId) {
-
+        userDao.delete(userId);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void updateUser(User toUpdate) {
-
+        userDao.update(toUpdate);
     }
 
     @Override
-    public void addUser(final User toAdd) {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addUser(User toAdd) {
+        userDao.save(toAdd);
     }
 
     @Override
+    @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public List<User> getAllUsers() {
-        return null;
-    }
-
-    private void createAdmin() {
+        return userDao.getAllUsers();
     }
 }

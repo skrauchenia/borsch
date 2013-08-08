@@ -1,6 +1,6 @@
 package com.exadel.borsch.web.interceptors;
 
-import com.exadel.borsch.entiry.User;
+import com.exadel.borsch.entity.User;
 import com.exadel.borsch.web.users.UserUtils;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;

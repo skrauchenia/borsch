@@ -1,7 +1,7 @@
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.entiry.AccessRight;
-import com.exadel.borsch.entiry.User;
+import com.exadel.borsch.entity.AccessRight;
+import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.web.users.UserUtils;

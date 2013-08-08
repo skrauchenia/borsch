@@ -1,6 +1,6 @@
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.entiry.User;
+import com.exadel.borsch.entity.User;
 import com.exadel.borsch.notification.BrowserNotificationHolder;
 import com.exadel.borsch.web.users.UserUtils;
 import org.springframework.stereotype.Controller;

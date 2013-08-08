@@ -1,7 +1,7 @@
 package com.exadel.borsch.managers.impl.simple;
 
-import com.exadel.borsch.entiry.AccessRight;
-import com.exadel.borsch.entiry.User;
+import com.exadel.borsch.entity.AccessRight;
+import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.UserManager;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
