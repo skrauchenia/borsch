@@ -50,7 +50,7 @@ public class ReportController {
         DateTime startOfWeek;
         switch (week) {
             case 0 : //previous week
-                startOfWeek = DateTimeUtils.getStartOfWeek(DateTime.now().minusDays(DateTimeUtils.DAYS_IN_WEEK ));
+                startOfWeek = DateTimeUtils.getStartOfWeek(DateTime.now().minusDays(DateTimeUtils.DAYS_IN_WEEK));
                 break;
             case 1 : //current week
                 startOfWeek = DateTimeUtils.getStartOfCurrentWeek();
