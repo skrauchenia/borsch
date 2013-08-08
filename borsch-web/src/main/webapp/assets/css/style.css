@@ -56,11 +56,11 @@ body {
     display: table;
     width: 100%;
 }
-.navbar .nav li {
+.navbar .nav>li {
     display: table-cell;
-    width: 1%;
-    float: none;
+    width: 25%;
 }
+
 .navbar .nav li a {
     font-weight: bold;
     text-align: center;
@@ -76,6 +76,13 @@ body {
     border-radius: 0 3px 3px 0;
 }
 
+#myModal {
+    width: 800px;
+    margin-left: -400px;
+}
+#myModal .modal-body {
+    height: 800px;
+}
 table .centered-line {
     text-align: center;
 }

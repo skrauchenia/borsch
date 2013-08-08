@@ -8,11 +8,11 @@
 
 <t:genericpage>
     <jsp:attribute name="head">
-        <title>Order Report</title>
+        <title><spring:message code="orderReport.title"/></title>
     </jsp:attribute>
     <jsp:attribute name="scripts">
         <script>
-            $("#navReport").addClass("active");
+            $("#navReports").addClass("active");
 
             function markAsPaid(menuItemId, weekOrderId) {
                 $.ajax({
@@ -33,12 +33,14 @@
     </jsp:attribute>
     <jsp:body>
         <div class="container">
+            <h3 class="muted"><spring:message code="week.${week}"/></h3>
             <c:set var="dayNumber" value="0" scope="page"/>
             <div class="accordion" id="dayAccordion">
                 <c:forEach var="day" items="${report}">
                     <div class="accordion-group">
                         <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#dayAccordion" href="#collapse${dayNumber}">
+                            <a class="accordion-toggle" data-toggle="collapse"
+                               data-parent="#dayAccordion" href="#collapse${dayNumber}">
                                 <c:set var="dayOfWeek" value="home.day${(dayNumber % workingDays) + 1}"/>
                                 <spring:message code="${dayOfWeek}"/>
                             </a>
@@ -47,9 +49,9 @@
                             <div class="accordion-inner">
                                 <table class="table table-striped">
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Total</th>
-                                        <th>Payment status</th>
+                                        <th><spring:message code="menu.table.name"/></th>
+                                        <th><spring:message code="menu.table.total"/></th>
+                                        <th><spring:message code="menu.table.payment"/></th>
                                     </tr>
                                     <c:forEach var="order" items="${day}">
                                         <c:if test="${(dayNumber + 1) == order.weekDay}">
@@ -62,15 +64,19 @@
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-success
-                                                            <c:if test="${order.menuItem.isPaid != true}">
-                                                                hide</c:if>" id="orderPaid${order.menuItem.id}" title="Order is paid" disabled>
-                                                                <i class="icon-ok icon-white"></i>
-                                                            </button>
-                                                            <button class="btn btn-danger
-                                                            <c:if test="${order.menuItem.isPaid == true}">
-                                                                hide</c:if>" id="orderNotPaid${order.menuItem.id}" title="Order is not paid"
+                                                                    <c:if test="${order.menuItem.isPaid != true}">
+                                                                     hide</c:if>" id="orderPaid${order.menuItem.id}"
+                                                            title="<spring:message code="menu.table.payment.status.paid"/>"
+                                                            disabled>
+                                                        <i class="icon-ok icon-white"></i>
+                                                    </button>
+                                                    <button class="btn btn-danger
+                                                                    <c:if test="${order.menuItem.isPaid == true}">
+                                                                     hide</c:if>"
+                                                            id="orderNotPaid${order.menuItem.id}"
+                                                            title="<spring:message code="menu.table.payment.status.unpaid"/>"
                                                             onclick="markAsPaid('${order.menuItem.id}',
-                        '${order.weekOrderId}')">
+                                                                    '${order.weekOrderId}')">
                                                         <i class="icon-remove icon-white"></i>
                                                     </button>
                                                 </td>
@@ -87,6 +93,12 @@
             <button type="submit" class="btn btn-info" onclick="document.location.href='${contextPath}/orderTable'" style="float: right">
                 <i class="icon-th-list icon-white"></i> Show table
             </button>
+            <a class="btn btn-info" style="float: left" href="${contextPath}/report/previous"
+                    <c:if test="${week eq 'previous'}">disabled="true"</c:if>>
+                <spring:message code="week.previous"/></a>
+            <a class="btn btn-info" style="float: right" href="${contextPath}/report/next"
+               <c:if test="${week eq 'next'}">disabled="true"</c:if>>
+                <spring:message code="week.next"/></a>
         </div>
     </jsp:body>
 </t:genericpage>

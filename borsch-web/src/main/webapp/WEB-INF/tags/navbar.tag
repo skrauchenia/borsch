@@ -10,7 +10,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <div class="container">
-    <div class="btn-group" style="float: right">
+    <div class="btn-group" style="float: right" id="userButton">
         <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
             <i class="icon-user icon-white"></i>
             <sec:authentication property="principal.user.name" />
@@ -32,10 +32,20 @@
                     <li id="navHome"><a href="${contextPath}/home"><spring:message code="navbar.home"/></a></li>
                     <li id="navMenu"><a href="${contextPath}/menu"><spring:message code="navbar.menu"/></a></li>
                     <sec:authorize access="hasRole('ROLE_EDIT_PROFILE')">
-                        <li id="navUsers"><a href="${contextPath}/users"><spring:message code="navbar.users"/></a></li>
-                    </sec:authorize>
-                    <sec:authorize access="hasRole('ROLE_PRINT_ORDER')">
-                        <li id="navReport"><a href="${contextPath}/report"><spring:message code="navbar.report"/></a></li>
+                    <li id="navUsers"><a href="${contextPath}/users">
+                        <spring:message code="navbar.users"/></a></li>
+                    <li id="navReports" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <spring:message code="navbar.reports"/>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" style="position: absolute">
+                            <li id="navReport"><a href="${contextPath}/report/current">
+                                <spring:message code="navbar.report"/></a></li>
+                            <li id="navReportSummary"><a href="${contextPath}/report/summary">
+                                <spring:message code="navbar.reportSummary"/></a></li>
+                        </ul>
+                    </li>
                     </sec:authorize>
                 </ul>
         </div>

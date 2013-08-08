@@ -1,0 +1,10 @@
+.table, td, th {
+    border: 1px solid #000000;
+    margin-left: 3cm;
+    border-collapse: collapse;
+    padding: 3px, 20px;
+    width: 80%;
+}
+.notifications,.navbar, #userButton{
+    display: none;
+}

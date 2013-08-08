@@ -5,7 +5,6 @@ import com.exadel.borsch.dao.Dish;
 import com.exadel.borsch.dao.PriceList;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.PriceManager;
-import com.exadel.borsch.managers.simple.SimpleManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +29,13 @@ public class MenuController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MenuController.class);
     @Autowired
-    private ManagerFactory factory;
+    private ManagerFactory managerFactory;
 
     @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/menu")
     public ModelAndView processPageRequest() {
         ModelAndView mav = new ModelAndView(ViewURLs.MENU_PAGE);
-        PriceManager manager = factory.getPriceManager();
+        PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
@@ -66,8 +65,7 @@ public class MenuController {
         String description = request.getParameter("description");
         String course = request.getParameter("course");
         Dish dish = new Dish(name, price, Course.getCourse(course), description);
-        ManagerFactory factory = new SimpleManagerFactory();
-        PriceManager manager = factory.getPriceManager();
+        PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         PriceList dishes = null;
         if ((prices != null) && (!prices.isEmpty())) {
@@ -83,8 +81,7 @@ public class MenuController {
     @Secured("ROLE_EDIT_PRICE")
     @RequestMapping("/edit/dish/{id}/edit")
     public String processEditPageRequest(@PathVariable String id, ModelMap model) {
-        ManagerFactory factory = new SimpleManagerFactory();
-        PriceManager manager = factory.getPriceManager();
+        PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
@@ -103,8 +100,7 @@ public class MenuController {
         String price = request.getParameter("price");
         String description = request.getParameter("description");
         String id = request.getParameter("id");
-        ManagerFactory factory = new SimpleManagerFactory();
-        PriceManager manager = factory.getPriceManager();
+        PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         Dish dish = new Dish();
         if ((prices != null) && (!prices.isEmpty())) {
@@ -121,8 +117,7 @@ public class MenuController {
     @Secured("ROLE_EDIT_PRICE")
     @RequestMapping("/edit/dish/{id}/remove")
     public String processRemoveDishRequest(@PathVariable String id) {
-        ManagerFactory factory = new SimpleManagerFactory();
-        PriceManager manager = factory.getPriceManager();
+        PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);

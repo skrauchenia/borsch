@@ -21,6 +21,7 @@ public final class ViewURLs {
     public static final String DISH_ADD_PAGE = "dishAdd";
     public static final String NOTIFICATION_REPORT = "notification";
     public static final String ORDER_TABLE = "orderTable";
+    public static final String ORDERS_SUMMARY_PAGE = "reportSummary";
     private ViewURLs() {
     }
 }

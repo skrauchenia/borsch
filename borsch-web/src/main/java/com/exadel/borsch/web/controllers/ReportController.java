@@ -1,3 +1,4 @@
+
 package com.exadel.borsch.web.controllers;
 
 import com.exadel.borsch.dao.MenuItem;
@@ -6,7 +7,6 @@ import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.UserManager;
-import com.exadel.borsch.managers.simple.SimpleManagerFactory;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -78,9 +78,8 @@ public class ReportController {
     @Secured("ROLE_PRINT_ORDER")
     @RequestMapping("/orderTable")
     public String loadOrderTable(ModelMap model) {
-        ManagerFactory factory = new SimpleManagerFactory();
-        OrderManager orderManager = factory.getOrderManager();
-        UserManager userManager = factory.getUserManager();
+        OrderManager orderManager = managerFactory.getOrderManager();
+        UserManager userManager = managerFactory.getUserManager();
         List<User> users = userManager.getAllUsers();
         ListMultimap<User, MenuItem> orders = ArrayListMultimap.create();
         List<String> date = new ArrayList<>();
