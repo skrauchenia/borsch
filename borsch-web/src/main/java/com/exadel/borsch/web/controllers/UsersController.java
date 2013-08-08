@@ -80,7 +80,7 @@ public class UsersController {
 
         invalidForm &= result.hasFieldErrors("locale");
         if (!result.hasFieldErrors("locale")) {
-            user.setLocale(new Locale(userCommand.getLocale()));
+            userCommand.extractAndSetLocale(user);
         }
 
         user.setNeedEmailNotification(userCommand.getNeedEmailNotification());
@@ -160,10 +160,19 @@ public class UsersController {
             return Arrays.copyOf(rights, rights.length);
         }
 
+        public void extractAndSetLocale(User user) {
+            String[] locale = this.getLocale().split("_");
+            if (locale.length == 2) {
+                user.setLocale(new Locale(locale[0], locale[1]));
+            } else {
+                user.setLocale(new Locale(locale[0]));
+            }
+        }
+
         public void mapUserToUserCommand(User user) {
             this.name = user.getName();
             this.id = user.getId().toString();
-            this.locale = user.getLocale().getLanguage();
+            this.locale = user.getLocale().toString();
             this.needEmailNotification = user.getNeedEmailNotification();
             this.rights = user.getStringAccessRights().toArray(new String[]{""});
         }
