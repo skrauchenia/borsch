@@ -49,8 +49,8 @@ CREATE  TABLE `borsch`.`Dish` (
   `price` INT NOT NULL ,
   `description` VARCHAR(255) NOT NULL ,
   `course` VARCHAR(255) NOT NULL ,
-  `order` INT NOT NULL ,
-  `priceList` INT NOT NULL ,
+  `order` INT DEFAULT 0,
+  `priceList` INT DEFAULT 0 ,
   PRIMARY KEY (`idDish`) ,
   UNIQUE INDEX `idDish_UNIQUE` (`idDish` ASC), 
   CONSTRAINT `order`
