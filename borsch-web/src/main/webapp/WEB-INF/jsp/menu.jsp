@@ -11,6 +11,9 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<sec:authorize var="hasAdminRights" access="hasRole('ROLE_EDIT_PRICE')"/>
+<c:set var="showAdminControls" value="${hasAdminRights && empty param.internal}"/>
+
 <t:genericpage>
 
     <jsp:attribute name="head">
@@ -185,13 +188,13 @@
                                         <th>Name</th>
                                         <th>Price</th>
                                         <th></th>
-                                            <sec:authorize access="hasRole('ROLE_EDIT_PRICE')">
+                                        <c:if test="${showAdminControls}">
                                             <th>
                                                 <button type="submit" class="btn btn-success" style="float: right" onclick="addDish(${course})">
                                                     <i class="icon-plus icon-white"></i> Add
                                                 </button>
                                             </th>
-                                        </sec:authorize>
+                                        </c:if>
                                     </tr>
                                     <c:forEach var="dish" items="${dish}" varStatus="st">
                                         <tr id="row${dish.id}">
@@ -212,7 +215,7 @@
                                                     <i class="icon-ok icon-white"></i> Add to order
                                                 </button>
                                             </td>
-                                            <sec:authorize access="hasRole('ROLE_EDIT_PRICE')">
+                                            <c:if test="${showAdminControls}">
                                                 <td>
                                                     <button type="submit" class="btn btn-info" id="editBtn${dish.id}" onclick="editDish('${dish.id}')">
                                                         <i class="icon-pencil icon-white"></i> Edit
@@ -221,7 +224,7 @@
                                                         <i class="icon-remove icon-white"></i> Remove
                                                     </button>
                                                 </td>
-                                            </sec:authorize>
+                                            </c:if>
                                         </tr>
                                     </c:forEach>
                                 </table>
