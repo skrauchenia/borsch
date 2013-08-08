@@ -80,7 +80,12 @@ public class UsersController {
 
         invalidForm &= result.hasFieldErrors("locale");
         if (!result.hasFieldErrors("locale")) {
-            user.setLocale(new Locale(userCommand.getLocale()));
+            String[] locale = userCommand.getLocale().split("_");
+            if (locale.length == 2) {
+                user.setLocale(new Locale(locale[0], locale[1]));
+            } else {
+                user.setLocale(new Locale(locale[0]));
+            }
         }
 
         user.setNeedEmailNotification(userCommand.getNeedEmailNotification());

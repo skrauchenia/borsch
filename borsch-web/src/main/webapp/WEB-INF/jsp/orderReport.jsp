@@ -41,7 +41,7 @@
                         <div class="accordion-heading">
                             <a class="accordion-toggle" data-toggle="collapse"
                                data-parent="#dayAccordion" href="#collapse${dayNumber}">
-                                <c:set var="dayOfWeek" value="home.day${(dayNumber % workingDays) + 1}"/>
+                                <c:set var="dayOfWeek" value="home.day${day.key + 1}"/>
                                 <spring:message code="${dayOfWeek}"/>
                             </a>
                         </div>
@@ -53,7 +53,7 @@
                                         <th><spring:message code="menu.table.total"/></th>
                                         <th><spring:message code="menu.table.payment"/></th>
                                     </tr>
-                                    <c:forEach var="order" items="${day}">
+                                    <c:forEach var="order" items="${day.value}">
                                         <c:if test="${(dayNumber + 1) == order.weekDay}">
                                             <tr>
                                                 <td>
@@ -90,12 +90,12 @@
                     <c:set var="dayNumber" value="${dayNumber + 1}" scope="page"/>
                 </c:forEach>
             </div>
-            <a class="btn btn-info" style="float: left" href="${contextPath}/report/previous"
-                    <c:if test="${week eq 'previous'}">disabled="true"</c:if>>
-                <spring:message code="week.previous"/></a>
-            <a class="btn btn-info" style="float: right" href="${contextPath}/report/next"
-               <c:if test="${week eq 'next'}">disabled="true"</c:if>>
-                <spring:message code="week.next"/></a>
+            <a class="btn btn-info" style="float: left" href="${contextPath}/report/${week - 1}"
+                    <c:if test="${week eq 0}">disabled="true"</c:if>>
+                <spring:message code="week.0"/></a>
+            <a class="btn btn-info" style="float: right" href="${contextPath}/report/${week + 1}"
+               <c:if test="${week eq 2}">disabled="true"</c:if>>
+                <spring:message code="week.2"/></a>
         </div>
     </jsp:body>
 </t:genericpage>
