@@ -7,7 +7,6 @@ import org.joda.time.DateTime;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,12 +21,14 @@ public class MenuItemDaoImpl extends BorschJdbcDaoSupport implements MenuItemDao
 
     private static final String QUERY_SELECT_MENU_ITEM = "SELECT * FROM MenuItem ";
 
-    private static final String QUERY_SELECT_MENU_ITEM_BY_ID = QUERY_SELECT_MENU_ITEM +"WHERE idMenuItem=?";
+    private static final String QUERY_SELECT_MENU_ITEM_BY_ID = QUERY_SELECT_MENU_ITEM + "WHERE idMenuItem=?";
 
-    private static final String QUERY_SELECT_MENU_ITEM_BY_ORDER_ID = QUERY_SELECT_MENU_ITEM +"WHERE idOrder=?";
+    private static final String QUERY_SELECT_MENU_ITEM_BY_ORDER_ID = QUERY_SELECT_MENU_ITEM + "WHERE idOrder=?";
 
     private static final String QUERY_UPDATE_MENU_ITEM = "UDPATE MenuItem SET "
             + "date=?, isPaid=? WHERE idMenuItem=?";
+
+    private static final String QUERY_SET_ORDER_ID = "UDPATE MenuItem SET orderId=? WHERE idMenuItem=?";
 
     private static final String QUERY_DELETE_MENU_ITEM = "DELETE FROM MenuIterm WHERE idMenuItem=?";
 
@@ -95,6 +96,15 @@ public class MenuItemDaoImpl extends BorschJdbcDaoSupport implements MenuItemDao
         return getJdbcTemplate().query(
                 QUERY_SELECT_MENU_ITEM_BY_ORDER_ID,
                 MENU_ITEM_ROW_MAPPER
+        );
+    }
+
+    @Override
+    public void setOrderId(Long menuItemId, Long orderId) {
+        getJdbcTemplate().update(
+                QUERY_SET_ORDER_ID,
+                orderId,
+                menuItemId
         );
     }
 }

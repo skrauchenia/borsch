@@ -49,12 +49,12 @@ CREATE  TABLE `borsch`.`Dish` (
   `price` INT NOT NULL ,
   `description` VARCHAR(255) NOT NULL ,
   `course` VARCHAR(255) NOT NULL ,
-  `order` INT DEFAULT 0,
+  `menuItemId` INT DEFAULT 0,
   `priceList` INT DEFAULT 0 ,
   PRIMARY KEY (`idDish`) ,
   UNIQUE INDEX `idDish_UNIQUE` (`idDish` ASC), 
-  CONSTRAINT `order`
-    FOREIGN KEY (`order` )
+  CONSTRAINT `menuItemId`
+    FOREIGN KEY (`menuItemId` )
     REFERENCES `borsch`.`order` (`idOrder` ),
   CONSTRAINT `priceList`
     FOREIGN KEY (`priceList` )

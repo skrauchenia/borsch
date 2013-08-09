@@ -13,4 +13,5 @@ public interface MenuItemDao {
     void delete(Long id);
     void update(MenuItem menuItem);
     List<MenuItem> getAllByOrderId(Long orderId);
+    void setOrderId(Long menuItemId, Long orderId);
 }
