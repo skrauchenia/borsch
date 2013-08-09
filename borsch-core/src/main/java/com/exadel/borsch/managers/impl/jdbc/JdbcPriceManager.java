@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * @author Vlad
@@ -51,38 +52,53 @@ public class JdbcPriceManager implements PriceManager {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void deletePriceListById(Long id) {
         priceDao.delete(id);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void addPriceList(PriceList toAdd) {
         priceDao.save(toAdd);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void updatePriceList(PriceList toUpdate) {
         priceDao.update(toUpdate);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void addDishToPriceList(Dish dish, PriceList priceList) {
-        dishDao.
+        dishDao.saveWithPriceListId(dish, priceList.getId());
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void updateDishInPriceList(Dish dish, PriceList priceList) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        dishDao.update(dish);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void removeDishFromPriceList(Dish dish, PriceList priceList) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        dishDao.delete(dish.getId());
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public List<PriceList> getAllPriceLists() {
-        return priceDao.getAll();
+        List<PriceList> priceLists = priceDao.getAll();
+        ListIterator<PriceList> it = priceLists.listIterator();
+
+        while (it.hasNext()) {
+            PriceList curPriceList = it.next();
+
+            curPriceList.addDishes(dishDao.getAllByPriceListId(curPriceList.getId()));
+        }
+
+        return priceLists;
     }
 }

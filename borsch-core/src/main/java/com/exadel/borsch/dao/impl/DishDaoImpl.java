@@ -18,17 +18,17 @@ import java.util.Map;
  */
 public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
 
-    private static String QUERY_SELECT_DISH = "SELECT * FROM Dish ";
+    private static final String QUERY_SELECT_DISH = "SELECT * FROM Dish ";
 
-    private static String QUERY_SELECT_DISH_BY_ID = QUERY_SELECT_DISH + "WHERE idDish=?";
+    private static final String QUERY_SELECT_DISH_BY_ID = QUERY_SELECT_DISH + "WHERE idDish=?";
 
-    private static String QUERY_SELECT_DISH_BY_ORDER_ID = QUERY_SELECT_DISH + "WHERE order=?";
+    private static final String QUERY_SELECT_DISH_BY_ORDER_ID = QUERY_SELECT_DISH + "WHERE order=?";
 
-    private static String QUERY_SELECT_DISH_BY_PRICE_LIST_ID = QUERY_SELECT_DISH + "WHERE priceList=?";
+    private static final String QUERY_SELECT_DISH_BY_PRICE_LIST_ID = QUERY_SELECT_DISH + "WHERE priceList=?";
 
-    private static String QUERY_DELETE_DISH = "DELETE FROM Dish idDish=?";
+    private static final String QUERY_DELETE_DISH = "DELETE FROM Dish idDish=?";
 
-    private static String QUERY_UPDATE_DISH = "UPDATE Dish SET "
+    private static final String QUERY_UPDATE_DISH = "UPDATE Dish SET "
             + "name=?,photoUrl=?,price=?,description=?,course=? WHERE idDish=?";
 
     private static final RowMapper<Dish> DISH_ROW_MAPPER = new RowMapper<Dish>() {
@@ -89,7 +89,8 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
                 dish.getPhotoUrl(),
                 dish.getPrice(),
                 dish.getDescription(),
-                dish.getCourse().toString()
+                dish.getCourse().toString(),
+                dish.getId()
         );
     }
 
@@ -97,6 +98,7 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
     public List<Dish> getAllByOrderId(Long orderId) {
         return getJdbcTemplate().query(
                 QUERY_SELECT_DISH_BY_ORDER_ID,
+                new Object[]{orderId},
                 DISH_ROW_MAPPER
         );
     }
@@ -105,7 +107,40 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
     public List<Dish> getAllByPriceListId(Long priceListId) {
         return getJdbcTemplate().query(
                 QUERY_SELECT_DISH_BY_PRICE_LIST_ID,
+                new Object[]{priceListId},
                 DISH_ROW_MAPPER
         );
+    }
+
+    @Override
+    public void saveWithOrderId(Dish dish, Long orderId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", dish.getName());
+        params.put("photoUrl", dish.getName());
+        params.put("price", dish.getPrice());
+        params.put("description", dish.getDescription());
+        params.put("course", dish.getCourse().toString());
+        params.put("order", orderId);
+
+        dish.setId((Long) getJdbcInsert()
+                .withTableName("dish")
+                .usingGeneratedKeyColumns("idDish")
+                .executeAndReturnKey(params));
+    }
+
+    @Override
+    public void saveWithPriceListId(Dish dish, Long priceListId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", dish.getName());
+        params.put("photoUrl", dish.getName());
+        params.put("price", dish.getPrice());
+        params.put("description", dish.getDescription());
+        params.put("course", dish.getCourse().toString());
+        params.put("priceList", priceListId);
+
+        dish.setId((Long) getJdbcInsert()
+                .withTableName("dish")
+                .usingGeneratedKeyColumns("idDish")
+                .executeAndReturnKey(params));
     }
 }

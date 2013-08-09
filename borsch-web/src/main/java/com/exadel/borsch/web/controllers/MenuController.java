@@ -73,7 +73,7 @@ public class MenuController {
         } else {
             dishes = new PriceList();
         }
-        manager.addDishToPriceList(dish,dishes);
+        manager.addDishToPriceList(dish, dishes);
         return DishJSON.mapDishToJSON(dish);
     }
 

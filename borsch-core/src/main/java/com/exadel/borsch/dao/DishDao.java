@@ -14,4 +14,6 @@ public interface DishDao {
     void update(Dish dish);
     List<Dish> getAllByOrderId(Long orderId);
     List<Dish> getAllByPriceListId(Long priceListId);
+    void saveWithOrderId(Dish dish, Long orderId);
+    void saveWithPriceListId(Dish dish, Long priceListId);
 }

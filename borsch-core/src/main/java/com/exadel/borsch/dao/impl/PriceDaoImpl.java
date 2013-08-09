@@ -62,8 +62,8 @@ public class PriceDaoImpl extends BorschJdbcDaoSupport implements PriceDao {
     @Override
     public void save(PriceList priceList) {
         Map<String, Object> params = new HashMap<>();
-        params.put("creationTime",priceList.getCreationTime().toDate());
-        params.put("expirationTime",priceList.getExpirationTime().toDate());
+        params.put("creationTime", priceList.getCreationTime().toDate());
+        params.put("expirationTime", priceList.getExpirationTime().toDate());
 
         priceList.setId((Long) getJdbcInsert()
                 .withTableName("PriceList")
