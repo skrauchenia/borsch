@@ -45,4 +45,8 @@
         <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
+    <bean id="menuItemDao" class="com.exadel.borsch.dao.impl.MenuItemDaoImpl">
+        <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
 </beans>

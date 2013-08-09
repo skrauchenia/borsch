@@ -1,5 +1,6 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
+import com.exadel.borsch.entity.MenuItem;
 import com.exadel.borsch.entity.Order;
 import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.OrderManager;
@@ -15,8 +16,10 @@ import java.util.List;
 @Service("jdbcOrderManager")
 @Scope("singleton")
 public class JdbcOrderManager implements OrderManager {
+
+
     @Override
-    public void updateOrder(Order toUpdate) {
+    public void updateOrder(Order toUpdate, MenuItem menuItem) {
 
     }
 

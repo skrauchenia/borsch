@@ -28,7 +28,7 @@ public class SimpleOrderManager implements OrderManager {
     }
 
     @Override
-    public void updateOrder(Order toUpdate) {
+    public void updateOrder(Order toUpdate, MenuItem menuItem) {
         ListIterator<Order> iter = orders.listIterator();
         while (iter.hasNext()) {
             Order curOrder = iter.next();

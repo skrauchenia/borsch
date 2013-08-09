@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * @author Andrew Zhilka
  */
-@Service
+@Service("simpleOrderChangeManager")
 @Scope(value = "singleton")
 public class SimpleOrderChangeManager implements OrderChangeManager {
     private List<OrderChange> changes = new ArrayList<>();
