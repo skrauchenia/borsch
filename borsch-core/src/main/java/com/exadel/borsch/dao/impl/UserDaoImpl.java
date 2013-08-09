@@ -5,6 +5,7 @@ import com.exadel.borsch.dao.UserDao;
 import com.exadel.borsch.entity.AccessRight;
 import com.exadel.borsch.entity.User;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -42,6 +43,13 @@ public class UserDaoImpl extends BorschJdbcDaoSupport implements UserDao {
             );
         }
     };
+
+    public UserDaoImpl(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+        setJdbcInsert(getJdbcInsert()
+                .withTableName("user")
+                .usingGeneratedKeyColumns("idUser"));
+    }
 
     @Override
     public User getUserById(Long userId) {
@@ -102,8 +110,6 @@ public class UserDaoImpl extends BorschJdbcDaoSupport implements UserDao {
         params.put("locale", user.getLocale().toString());
 
         user.setId((Long) getJdbcInsert()
-                .withTableName("user")
-                .usingGeneratedKeyColumns("idUser")
                 .executeAndReturnKey(params));
     }
 

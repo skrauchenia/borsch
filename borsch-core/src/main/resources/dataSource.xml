@@ -29,23 +29,16 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="jdbcInsert" class="org.springframework.jdbc.core.simple.SimpleJdbcInsert">
+    <bean id="userDao" class="com.exadel.borsch.dao.impl.UserDaoImpl">
         <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
-    <bean id="userDao" class="com.exadel.borsch.dao.impl.UserDaoImpl">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
-        <property name="jdbcInsert" ref="jdbcInsert"/>
-    </bean>
-
     <bean id="dishDao" class="com.exadel.borsch.dao.impl.DishDaoImpl">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
-        <property name="jdbcInsert" ref="jdbcInsert"/>
+        <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
     <bean id="priceDao" class="com.exadel.borsch.dao.impl.PriceDaoImpl">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
-        <property name="jdbcInsert" ref="jdbcInsert"/>
+        <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
 </beans>

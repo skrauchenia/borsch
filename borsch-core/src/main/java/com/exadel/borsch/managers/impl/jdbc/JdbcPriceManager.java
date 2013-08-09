@@ -48,6 +48,13 @@ public class JdbcPriceManager implements PriceManager {
     @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public PriceList getCurrentPriceList() {
         List<PriceList> priceLists = priceDao.getAll();
+        if (priceLists.isEmpty()) {
+            PriceList newPriceList = new PriceList();
+
+            priceDao.save(newPriceList);
+
+            priceLists.add(newPriceList);
+        }
         return priceLists.get(priceLists.size() - 1);
     }
 

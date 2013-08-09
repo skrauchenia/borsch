@@ -5,6 +5,7 @@ import com.exadel.borsch.dao.DishDao;
 import com.exadel.borsch.entity.Course;
 import com.exadel.borsch.entity.Dish;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -22,11 +23,11 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
 
     private static final String QUERY_SELECT_DISH_BY_ID = QUERY_SELECT_DISH + "WHERE idDish=?";
 
-    private static final String QUERY_SELECT_DISH_BY_ORDER_ID = QUERY_SELECT_DISH + "WHERE order=?";
+    private static final String QUERY_SELECT_DISH_BY_ORDER_ID = QUERY_SELECT_DISH + "WHERE orderId=?";
 
     private static final String QUERY_SELECT_DISH_BY_PRICE_LIST_ID = QUERY_SELECT_DISH + "WHERE priceList=?";
 
-    private static final String QUERY_DELETE_DISH = "DELETE FROM Dish idDish=?";
+    private static final String QUERY_DELETE_DISH = "DELETE FROM Dish WHERE idDish=?";
 
     private static final String QUERY_UPDATE_DISH = "UPDATE Dish SET "
             + "name=?,photoUrl=?,price=?,description=?,course=? WHERE idDish=?";
@@ -44,6 +45,13 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
             );
         }
     };
+
+    public DishDaoImpl(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+        setJdbcInsert(getJdbcInsert()
+                .withTableName("dish")
+                .usingGeneratedKeyColumns("idDish"));
+    }
 
     @Override
     public Dish getById(Long id) {
@@ -68,8 +76,6 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
         params.put("course", dish.getCourse().toString());
 
         dish.setId((Long) getJdbcInsert()
-                .withTableName("dish")
-                .usingGeneratedKeyColumns("idDish")
                 .executeAndReturnKey(params));
     }
 
@@ -120,11 +126,9 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
         params.put("price", dish.getPrice());
         params.put("description", dish.getDescription());
         params.put("course", dish.getCourse().toString());
-        params.put("order", orderId);
+        params.put("orderId", orderId);
 
         dish.setId((Long) getJdbcInsert()
-                .withTableName("dish")
-                .usingGeneratedKeyColumns("idDish")
                 .executeAndReturnKey(params));
     }
 
@@ -139,8 +143,6 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
         params.put("priceList", priceListId);
 
         dish.setId((Long) getJdbcInsert()
-                .withTableName("dish")
-                .usingGeneratedKeyColumns("idDish")
                 .executeAndReturnKey(params));
     }
 }
