@@ -5,7 +5,7 @@
 <%@tag description="Tag for showing new notifications for User" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<div>
+<div class="notifications">
     <div class="alert alert-danger hide fade in span4 offset4">
         <button type="button" class="close" data-dismiss="alert" onclick="notificationLookup()">&times;</button>
         <strong><spring:message code="user.notification.attention"/></strong>

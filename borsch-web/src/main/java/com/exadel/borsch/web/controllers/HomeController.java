@@ -8,6 +8,8 @@ import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.PriceManager;
 import com.exadel.borsch.web.users.UserUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -68,17 +70,20 @@ public class HomeController {
 
     @ResponseBody
     @Secured("ROLE_EDIT_MENU_SELF")
-    @RequestMapping("/home/orders/{day}/{itemId}")
-    public OrderResult processOrderModification(Principal principal, @PathVariable int day,
+    @RequestMapping("/home/orders/{date}/{itemId}")
+    public OrderResult processOrderModification(Principal principal, @PathVariable String date,
         @PathVariable Long itemId) {
 
         PriceManager priceManager = managerFactory.getPriceManager();
         OrderManager orderManager = managerFactory.getOrderManager();
         User user = UserUtils.getUserByPrincipal(principal);
 
+
         Dish dish = priceManager.getCurrentPriceList().getDishById(itemId);
-        Order order = orderManager.getCurrentOrderForUser(user);
-        if (dish == null || day < 0 || day >= order.getOrder().size()) {
+        DateTime orderDate = DateTime.parse(date, DateTimeFormat.forPattern("dd-MM-yyy"));
+        Order order = orderManager.findOrderAtDateForUser(user, orderDate);
+        int day = orderDate.getDayOfWeek() - 1;
+        if (dish == null || order == null || day >= order.getOrder().size()) {
             return new OrderResult("fail", null);
         }
 

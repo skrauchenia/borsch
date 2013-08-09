@@ -86,10 +86,10 @@ public class PriceList extends Identifiable {
         dishes.add(dish);
     }
 
-    public ListMultimap<Course, Dish> getCourses() {
-        ListMultimap<Course, Dish> courses = ArrayListMultimap.create();
+    public ListMultimap<Integer, Dish> getCourses() {
+        ListMultimap<Integer, Dish> courses = ArrayListMultimap.create();
         for (Dish dish : dishes) {
-            courses.put(dish.getCourse(), dish);
+            courses.put(Course.getIndex(dish.getCourse()), dish);
         }
         return courses;
     }

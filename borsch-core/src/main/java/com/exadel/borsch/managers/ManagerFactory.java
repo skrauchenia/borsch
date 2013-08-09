@@ -19,6 +19,8 @@ public final class ManagerFactory {
     @Autowired
     @Qualifier("jdbcPriceManager")
     private PriceManager priceManager;
+    @Autowired
+    private OrderChangeManager changeManager;
 
     public UserManager getUserManager() {
         return userManager;
@@ -30,5 +32,9 @@ public final class ManagerFactory {
 
     public PriceManager getPriceManager() {
         return priceManager;
+    }
+
+    public OrderChangeManager getChangeManager() {
+        return changeManager;
     }
 }

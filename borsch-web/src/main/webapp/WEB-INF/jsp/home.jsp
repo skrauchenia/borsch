@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
 
 <t:genericpage>
@@ -79,7 +80,8 @@
                 
                 // Order management
                 function processOrder(day, orderId, button) {
-                    $.post("${contextPath}/home/orders/" + day + "/" + orderId, {}, function(result) {
+                    var date = getTable(day).parent().find(".btn:last").data("date");
+                    $.post("${contextPath}/home/orders/" + date + "/" + orderId, {}, function(result) {
                         if (result.status === "added") {
                             addOrder(day, result.dish);
                         }
@@ -232,7 +234,8 @@
                             </c:forEach>
                         </table>
                         <hr/>
-                        <a href="#" role="button" class="btn btn-primary order-edit" style="float: right">
+                        <joda:format var="itemDate" value="${menuItem.date}" pattern="dd-MM-yyyy"/>
+                        <a href="#" role="button" class="btn btn-primary order-edit" data-date="${itemDate}" style="float: right">
                             <spring:message code="home.order.edit"/>
                         </a>
                     </div>
@@ -247,8 +250,8 @@
                         <iframe src="" frameborder="0" width="99.6%" height="100%"></iframe>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn" data-dismiss="modal" aria-hidden="true"><spring:message code="action.close"/></button>
-                        <button class="btn btn-primary"><spring:message code="actiom.save.changes"/></button>
+                        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><spring:message code="action.close"/></button>
+                        <%--<button class="btn btn-primary"><spring:message code="actiom.save.changes"/></button>--%>
                     </div>
                 </div>
             </div>

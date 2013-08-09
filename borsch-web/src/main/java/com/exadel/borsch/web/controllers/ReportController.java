@@ -1,10 +1,8 @@
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.entity.Dish;
-import com.exadel.borsch.entity.MenuItem;
-import com.exadel.borsch.entity.Order;
-import com.exadel.borsch.entity.User;
+import com.exadel.borsch.entity.*;
 import com.exadel.borsch.managers.ManagerFactory;
+import com.exadel.borsch.managers.OrderChangeManager;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
@@ -41,13 +39,27 @@ public class ReportController {
     }
 
     @Secured("ROLE_PRINT_ORDER")
-    @RequestMapping("/report")
-    public String processPageRequest(ModelMap model) {
+    @RequestMapping("/report/{week}")
+    public String processPageRequest(ModelMap model, @PathVariable Integer week) {
         OrderManager orderManager = managerFactory.getOrderManager();
         ListMultimap<Integer, DailyOrder> report = ArrayListMultimap.create();
         List<Order> allOrders;
 
-        DateTime startOfWeek = DateTimeUtils.getStartOfNextWeek();
+        DateTime startOfWeek;
+        switch (week) {
+            case 0 : //previous week
+                startOfWeek = DateTimeUtils.getStartOfWeek(DateTime.now().minusDays(DateTimeUtils.DAYS_IN_WEEK));
+                break;
+            case 1 : //current week
+                startOfWeek = DateTimeUtils.getStartOfCurrentWeek();
+                break;
+            case 2 : //next week
+                startOfWeek = DateTimeUtils.getStartOfNextWeek();
+                break;
+            default:
+                startOfWeek = DateTimeUtils.getStartOfCurrentWeek();
+                break;
+        }
         allOrders = orderManager.getAllOrders(startOfWeek);
 
         for (Order order : allOrders) {
@@ -60,14 +72,8 @@ public class ReportController {
             }
         }
 
-        List<List<DailyOrder>> reportFinalVersion = new ArrayList<List<DailyOrder>>();
-
-        for (int i = 0; i < DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
-            reportFinalVersion.add(report.get(i));
-        }
-
-        model.addAttribute("report", reportFinalVersion);
-        model.addAttribute("workingDays", DateTimeUtils.WORKING_DAYS_IN_WEEK);
+        model.addAttribute("week", week);
+        model.addAttribute("report", report.asMap());
 
         return ViewURLs.WEEK_ORDER_REPORT;
     }
@@ -104,6 +110,21 @@ public class ReportController {
 
         return ViewURLs.ORDERS_SUMMARY_PAGE;
     }
+
+    @RequestMapping("/report/changes")
+    public String processChangesRequest(ModelMap model) {
+        OrderChangeManager changeManager = managerFactory.getChangeManager();
+        ListMultimap<Integer, OrderChange> report = ArrayListMultimap.create();
+        List<OrderChange> changes = changeManager.getActualChanges();
+
+        for (OrderChange change : changes) {
+            report.put(change.getDateOfChange().getDayOfWeek(), change);
+        }
+
+        model.addAttribute("report", report.asMap());
+        return ViewURLs.CHANGES_REPORT;
+    }
+
 
     public static class DailyOrder {
         private Integer weekDay;

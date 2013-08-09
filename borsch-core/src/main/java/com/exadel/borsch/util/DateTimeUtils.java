@@ -12,16 +12,28 @@ public final class DateTimeUtils {
     private DateTimeUtils() {
     }
 
+    public static boolean sameDates(DateTime firstDate, DateTime secondDate) {
+        return (firstDate.getDayOfMonth() == secondDate.getDayOfMonth()
+                && firstDate.getMonthOfYear() == secondDate.getMonthOfYear()
+                && firstDate.getYear() == secondDate.getYear());
+    }
+
+    public static boolean isDateBefore(DateTime date, DateTime datePoint) {
+        return (date.getYear() > datePoint.getYear()
+                || date.getMonthOfYear() > date.getMonthOfYear()
+                || date.getDayOfMonth() > date.getDayOfMonth());
+    }
+
     public static DateTime getStartOfCurrentWeek() {
         DateTime today = DateTime.now();
         return today.minusDays(today.getDayOfWeek() - 1);
     }
 
     public static DateTime getStartOfWeek(DateTime ref) {
-        return ref.plusDays(DAYS_IN_WEEK - (ref.getDayOfWeek() - 1));
+        return ref.minusDays((ref.getDayOfWeek() - 1));
     }
 
     public static DateTime getStartOfNextWeek() {
-        return getStartOfWeek(DateTime.now());
+        return getStartOfWeek(DateTime.now()).plusDays(DAYS_IN_WEEK);
     }
 }
