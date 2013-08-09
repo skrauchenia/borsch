@@ -110,4 +110,16 @@ public class SimpleOrderManager implements OrderManager {
         }
         return userOrders.get(0);
     }
+
+    @Override
+    public Order findOrderAtDateForUser(User user, DateTime date) {
+        List<Order> userOrders = getOrdersForUser(user);
+        date = DateTimeUtils.getStartOfWeek(date);
+        for (Order order: userOrders) {
+            if (DateTimeUtils.sameDates(order.getStartDate(), date)) {
+                return order;
+            }
+        }
+        return null;
+    }
 }
