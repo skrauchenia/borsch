@@ -1,10 +1,10 @@
-.reportSummary {
+.table, td, th {
     border: 1px solid #000000;
-    border-collapse: separate;
-    *border-collapse: collapse;
-    margin-left: 10cm;
-    width: 50%;
+    margin-left: 3cm;
+    border-collapse: collapse;
+    padding: 3px, 20px;
+    width: 80%;
 }
-.navbar, #userButton{
+.notifications,.navbar, #userButton{
     display: none;
 }

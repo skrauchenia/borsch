@@ -1,7 +1,6 @@
 package com.exadel.borsch.web.controllers;
 
 import com.exadel.borsch.entity.Course;
-import com.exadel.borsch.entity.CourseList;
 import com.exadel.borsch.entity.Dish;
 import com.exadel.borsch.entity.PriceList;
 import com.exadel.borsch.managers.ManagerFactory;
@@ -40,7 +39,7 @@ public class MenuController {
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
 //            ListMultimap<Course, Dish> courses = dishes.getCourses();
-            mav.addObject("courseList", new CourseList(dishes));
+              mav.addObject("courseList", dishes.getCourses().asMap());
 //            mav.addObject("firstCourse", courses.get(Course.FIRST_COURSE));
 //            mav.addObject("secondCourse", courses.get(Course.SECOND_COURSE));
 //            mav.addObject("dessert", courses.get(Course.SECOND_COURSE));
@@ -73,6 +72,7 @@ public class MenuController {
         } else {
             dishes = new PriceList();
         }
+
         manager.addDishToPriceList(dish, dishes);
         return DishJSON.mapDishToJSON(dish);
     }
@@ -131,7 +131,7 @@ public class MenuController {
         private String name;
         private Integer price;
         private String description;
-        private String course;
+        private String index;
 
         public String getId() {
             return id;
@@ -165,12 +165,12 @@ public class MenuController {
             this.description = description;
         }
 
-        public String getCourse() {
-            return course;
+        public String getIndex() {
+            return index;
         }
 
-        public void setCourse(String course) {
-            this.course = course;
+        public void setIndex(String index) {
+            this.index = index;
         }
 
         public static DishJSON mapDishToJSON(Dish dish) {
@@ -180,7 +180,7 @@ public class MenuController {
             json.setId(dish.getId().toString());
             json.setDescription(dish.getDescription());
             json.setPrice(dish.getPrice());
-            json.setCourse(dish.getCourse().getName());
+            json.setIndex(String.valueOf(Course.getIndex(dish.getCourse())));
             return json;
         }
     }
