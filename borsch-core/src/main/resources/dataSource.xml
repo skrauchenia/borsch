@@ -41,4 +41,8 @@
         <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
+    <bean id="orderDao" class="com.exadel.borsch.dao.impl.OrderDaoImpl">
+        <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
 </beans>
