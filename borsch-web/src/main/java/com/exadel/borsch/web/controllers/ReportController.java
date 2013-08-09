@@ -1,10 +1,8 @@
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.dao.Dish;
-import com.exadel.borsch.dao.MenuItem;
-import com.exadel.borsch.dao.Order;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.dao.*;
 import com.exadel.borsch.managers.ManagerFactory;
+import com.exadel.borsch.managers.OrderChangeManager;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
@@ -112,6 +110,21 @@ public class ReportController {
 
         return ViewURLs.ORDERS_SUMMARY_PAGE;
     }
+
+    @RequestMapping("/report/changes")
+    public String processChangesRequest(ModelMap model) {
+        OrderChangeManager changeManager = managerFactory.getChangeManager();
+        ListMultimap<Integer, OrderChange> report = ArrayListMultimap.create();
+        List<OrderChange> changes = changeManager.getActualChanges();
+
+        for (OrderChange change : changes) {
+            report.put(change.getDateOfChange().getDayOfWeek(), change);
+        }
+
+        model.addAttribute("report", report.asMap());
+        return ViewURLs.CHANGES_REPORT;
+    }
+
 
     public static class DailyOrder {
         private Integer weekDay;

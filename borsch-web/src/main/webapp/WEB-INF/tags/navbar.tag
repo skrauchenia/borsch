@@ -44,6 +44,8 @@
                                 <spring:message code="navbar.report"/></a></li>
                             <li id="navReportSummary"><a href="${contextPath}/report/summary">
                                 <spring:message code="navbar.reportSummary"/></a></li>
+                            <li id="navChangeReport"><a href="${contextPath}/report/changes">
+                                <spring:message code="navbar.changes"/></a></li>
                         </ul>
                     </li>
                     </sec:authorize>
