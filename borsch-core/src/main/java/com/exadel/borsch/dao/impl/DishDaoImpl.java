@@ -32,6 +32,10 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
     private static final String QUERY_UPDATE_DISH = "UPDATE Dish SET "
             + "name=?,photoUrl=?,price=?,description=?,course=? WHERE idDish=?";
 
+    private static final String QUERY_UPDATE_DISH_WITH_MENU_ITEM = "UPDATE Dish SET menuItemId=? WHERE idDish=?";
+
+    private static final String QUERY_UPDATE_DISH_WITH_PRICE_LIST = "UPDATE Dish SET priceList=? WHERE idDish=?";
+
     private static final RowMapper<Dish> DISH_ROW_MAPPER = new RowMapper<Dish>() {
         @Override
         public Dish mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -101,7 +105,7 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
     }
 
     @Override
-    public List<Dish> getAllByOrderId(Long orderId) {
+    public List<Dish> getAllByMenuItemId(Long orderId) {
         return getJdbcTemplate().query(
                 QUERY_SELECT_DISH_BY_ORDER_ID,
                 new Object[]{orderId},
@@ -119,30 +123,20 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
     }
 
     @Override
-    public void saveWithOrderId(Dish dish, Long orderId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("name", dish.getName());
-        params.put("photoUrl", dish.getName());
-        params.put("price", dish.getPrice());
-        params.put("description", dish.getDescription());
-        params.put("course", dish.getCourse().toString());
-        params.put("orderId", orderId);
-
-        dish.setId((Long) getJdbcInsert()
-                .executeAndReturnKey(params));
+    public void setMenuItem(Long dishId, Long menuItemId) {
+        getJdbcTemplate().update(
+                QUERY_UPDATE_DISH_WITH_MENU_ITEM,
+                dishId,
+                menuItemId
+        );
     }
 
     @Override
-    public void saveWithPriceListId(Dish dish, Long priceListId) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("name", dish.getName());
-        params.put("photoUrl", dish.getName());
-        params.put("price", dish.getPrice());
-        params.put("description", dish.getDescription());
-        params.put("course", dish.getCourse().toString());
-        params.put("priceList", priceListId);
-
-        dish.setId((Long) getJdbcInsert()
-                .executeAndReturnKey(params));
+    public void setPriceList(Long dishId, Long priceListId) {
+        getJdbcTemplate().update(
+                QUERY_UPDATE_DISH_WITH_PRICE_LIST,
+                dishId,
+                priceListId
+        );
     }
 }

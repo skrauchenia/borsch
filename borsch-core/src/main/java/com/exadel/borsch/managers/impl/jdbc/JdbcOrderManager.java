@@ -54,4 +54,9 @@ public class JdbcOrderManager implements OrderManager {
     public Order getCurrentOrderForUser(User user) {
         return null;
     }
+
+    @Override
+    public Order findOrderAtDateForUser(User user, DateTime date) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

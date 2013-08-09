@@ -79,7 +79,8 @@ public class JdbcPriceManager implements PriceManager {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void addDishToPriceList(Dish dish, PriceList priceList) {
-        dishDao.saveWithPriceListId(dish, priceList.getId());
+        dishDao.save(dish);
+        dishDao.setPriceList(dish.getId(), priceList.getId());
     }
 
     @Override
