@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -57,6 +58,6 @@ public class JdbcUserManager implements UserManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+        return Collections.unmodifiableList(userDao.getAllUsers());
     }
 }
