@@ -7,6 +7,7 @@ import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.PriceManager;
+import com.exadel.borsch.util.DateTimeUtils;
 import com.exadel.borsch.web.users.UserUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.security.Principal;
 import java.util.List;
 
+import org.joda.time.Weeks;
+
 /**
  *
  * @author Vlad
@@ -30,6 +33,22 @@ public class HomeController {
     @Autowired
     private ManagerFactory managerFactory;
 
+    public void fillInPageModel(Model model, Principal principal, DateTime date) {
+        OrderManager orderManager = managerFactory.getOrderManager();
+        User user = UserUtils.getUserByPrincipal(principal);
+
+        DateTime prevWeek = date.minusWeeks(1);
+        if (orderManager.findOrderAtDateForUser(user, prevWeek) != null) {
+            model.addAttribute("prevWeek", prevWeek.toString("dd-MM-yyy"));
+        }
+        DateTime nextWeek = date.plusWeeks(1);
+        if (orderManager.findOrderAtDateForUser(user, nextWeek) != null) {
+            model.addAttribute("nextWeek", nextWeek.toString("dd-MM-yyy"));
+        }
+        model.addAttribute("currentWeekCode",
+                Weeks.weeksBetween(DateTimeUtils.getStartOfNextWeek(), date).getWeeks() + 2);
+    }
+
     @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/home")
     public String processPageRequest(Model model, Principal principal) {
@@ -38,12 +57,55 @@ public class HomeController {
 
         Order order = orderManager.getCurrentOrderForUser(user);
         model.addAttribute(order);
-//        if (order.getOrder().get(0).getChoices().isEmpty()) {
-//            Dish testDish = managerFactory.getPriceManager().getCurrentPriceList().getDishes().get(0);
-//            order.getOrder().get(0).addDish(testDish);
-//        }
+
+        fillInPageModel(model, principal, DateTimeUtils.getStartOfNextWeek());
 
         return ViewURLs.HOME_PAGE;
+    }
+
+    @Secured("ROLE_EDIT_MENU_SELF")
+    @RequestMapping("/home/{date}")
+    public String processPageRequestForDate(Model model, Principal principal,
+        @PathVariable String date) {
+        OrderManager orderManager = managerFactory.getOrderManager();
+        User user = UserUtils.getUserByPrincipal(principal);
+
+        DateTime orderDate = DateTime.parse(date, DateTimeFormat.forPattern("dd-MM-yyy"));
+        Order order = orderManager.findOrderAtDateForUser(user, orderDate);
+        if (order == null) {
+            return "redirect:/home";
+        }
+
+        fillInPageModel(model, principal, orderDate);
+
+        model.addAttribute(order);
+        return ViewURLs.HOME_PAGE;
+    }
+
+    @RequestMapping("/gentestorders")
+    public String processGenTestOrders() {
+        OrderManager orderManager = managerFactory.getOrderManager();
+        // Test data
+        User admin = managerFactory.getUserManager().getUserByLogin("rod");
+        Order testOrder1 = orderManager.getCurrentOrderForUser(admin);
+        testOrder1.setStartDate(testOrder1.getStartDate().minusWeeks(1));
+        testOrder1.setEndDate(testOrder1.getEndDate().minusWeeks(1));
+        for (MenuItem item: testOrder1.getOrder())
+            item.setDate(item.getDate().minusWeeks(1));
+        orderManager.deleteOrderById(testOrder1.getId());
+
+        Order testOrder2 = orderManager.getCurrentOrderForUser(admin);
+        testOrder2.setStartDate(testOrder2.getStartDate().minusWeeks(2));
+        testOrder2.setEndDate(testOrder2.getEndDate().minusWeeks(2));
+        for (MenuItem item: testOrder2.getOrder())
+            item.setDate(item.getDate().minusWeeks(2));
+        orderManager.deleteOrderById(testOrder2.getId());
+
+        orderManager.getCurrentOrderForUser(admin);
+        orderManager.addOrder(testOrder1);
+        orderManager.addOrder(testOrder2);
+
+        return "redirect:/home";
     }
 
     @Secured("ROLE_EDIT_MENU_SELF")
@@ -90,10 +152,12 @@ public class HomeController {
         MenuItem menuItem = order.getOrder().get(day);
         if (menuItem.getChoices().contains(dish)) {
             menuItem.removeDish(dish);
+            orderManager.removeDishFormMenuItem(menuItem, dish);
             return new OrderResult("removed", dish);
         }
 
         menuItem.addDish(dish);
+        orderManager.addDishFormMenuItem(menuItem, dish);
         return new OrderResult("added", dish);
     }
 

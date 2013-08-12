@@ -1,5 +1,6 @@
 package com.exadel.borsch.managers;
 
+import com.exadel.borsch.entity.Dish;
 import com.exadel.borsch.entity.MenuItem;
 import com.exadel.borsch.entity.Order;
 import com.exadel.borsch.entity.User;
@@ -20,4 +21,6 @@ public interface OrderManager {
     List<Order> getOrdersForUser(User user);
     Order getCurrentOrderForUser(User user);
     Order findOrderAtDateForUser(User user, DateTime date);
+    void removeDishFormMenuItem(MenuItem menuItem, Dish dish);
+    void addDishFormMenuItem(MenuItem menuItem, Dish dish);
 }

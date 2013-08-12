@@ -1,8 +1,10 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
+import com.exadel.borsch.dao.DishDao;
 import com.exadel.borsch.dao.MenuItemDao;
 import com.exadel.borsch.dao.OrderDao;
 import com.exadel.borsch.dao.UserDao;
+import com.exadel.borsch.entity.Dish;
 import com.exadel.borsch.entity.MenuItem;
 import com.exadel.borsch.entity.Order;
 import com.exadel.borsch.entity.User;
@@ -38,6 +40,9 @@ public class JdbcOrderManager implements OrderManager {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private DishDao dishDao;
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void updateOrder(Order toUpdate, MenuItem menuItem) {
@@ -53,7 +58,11 @@ public class JdbcOrderManager implements OrderManager {
     @Override
     @Transactional(readOnly = true)
     public Order getOrderById(Long id) {
-        return orderDao.getById(id);
+        Order order = orderDao.getById(id);
+
+        order.addMenuItems(getMenuItemsForOrder(id));
+
+        return order;
     }
 
     @Override
@@ -70,9 +79,7 @@ public class JdbcOrderManager implements OrderManager {
 
         for (Order curOrder : orders) {
             curOrder.addMenuItems(
-                    menuItemDao.getAllByOrderId(
-                            curOrder.getId()
-                    )
+                    getMenuItemsForOrder(curOrder.getId())
             );
             curOrder.setOwner(
                     userDao.getUserById(
@@ -96,9 +103,7 @@ public class JdbcOrderManager implements OrderManager {
             DateTime curStartDate = curOrder.getStartDate();
             if (DateTimeUtils.sameDates(startDate, curStartDate)) {
                 curOrder.addMenuItems(
-                        menuItemDao.getAllByOrderId(
-                                curOrder.getId()
-                        )
+                       getMenuItemsForOrder(curOrder.getId())
                 );
                 curOrder.setOwner(
                         userDao.getUserById(
@@ -120,9 +125,7 @@ public class JdbcOrderManager implements OrderManager {
 
         for (Order order : orders) {
             order.addMenuItems(
-                    menuItemDao.getAllByOrderId(
-                            order.getId()
-                    )
+                    getMenuItemsForOrder(order.getId())
             );
             order.setOwner(user);
         }
@@ -133,7 +136,7 @@ public class JdbcOrderManager implements OrderManager {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Order getCurrentOrderForUser(User user) {
-        List<Order> userOrders = getOrdersForUser(user);
+        List<Order> userOrders = orderDao.getByOwnerId(user.getId());
         if (userOrders.isEmpty()
                 || Weeks.weeksBetween(userOrders.get(0).getStartDate(),
                                         DateTimeUtils.getStartOfNextWeek()).getWeeks() >= 1) {
@@ -154,7 +157,15 @@ public class JdbcOrderManager implements OrderManager {
             }
             return order;
         }
-        return userOrders.get(0);
+        Order curOrder = userOrders.get(0);
+
+        curOrder.addMenuItems(
+                    getMenuItemsForOrder(curOrder.getId())
+        );
+
+        curOrder.setOwner(user);
+
+        return curOrder;
     }
 
     @Override
@@ -162,13 +173,32 @@ public class JdbcOrderManager implements OrderManager {
     public Order findOrderAtDateForUser(User user, DateTime date) {
         List<Order> userOrders = getOrdersForUser(user);
         date = DateTimeUtils.getStartOfWeek(date);
-        for (Order order: userOrders) {
+        for (Order order : userOrders) {
             if (DateTimeUtils.sameDates(order.getStartDate(), date)) {
+                order.addMenuItems(
+                        menuItemDao.getAllByOrderId(
+                                order.getId()
+                        )
+                );
+                order.setOwner(user);
                 return order;
             }
         }
         return null;
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void removeDishFormMenuItem(MenuItem menuItem, Dish dish) {
+        dishDao.setMenuItem(dish.getId(), null);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addDishFormMenuItem(MenuItem menuItem, Dish dish) {
+        dishDao.setMenuItem(dish.getId(), menuItem.getId());
+    }
+
     /**
      * @return Map<Long, Long> - key -> orderId, value -> userId
      * */
@@ -176,5 +206,18 @@ public class JdbcOrderManager implements OrderManager {
         return Entry.parseToMap(
                 orderDao.getUsersIdForOrdersId()
         );
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.NEVER)
+    private List<MenuItem> getMenuItemsForOrder(Long orderId) {
+        List<MenuItem> menuItems = menuItemDao.getAllByOrderId(orderId);
+
+        for (MenuItem menuItem : menuItems) {
+            menuItem.addChoices(
+                    dishDao.getAllByMenuItemId(menuItem.getId())
+            );
+        }
+
+        return menuItems;
     }
 }

@@ -2,6 +2,7 @@ package com.exadel.borsch.managers.impl.jdbc;
 
 import com.exadel.borsch.dao.DishDao;
 import com.exadel.borsch.dao.PriceDao;
+import com.exadel.borsch.entity.Course;
 import com.exadel.borsch.entity.Dish;
 import com.exadel.borsch.entity.PriceList;
 import com.exadel.borsch.managers.PriceManager;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
@@ -46,7 +48,7 @@ public class JdbcPriceManager implements PriceManager {
     }
 
     @Override
-    @Transactional(readOnly = true, propagation = Propagation.NEVER)
+    @Transactional(propagation = Propagation.REQUIRED)
     public PriceList getCurrentPriceList() {
         List<PriceList> priceLists = priceDao.getAll();
         if (priceLists.isEmpty()) {
@@ -55,6 +57,12 @@ public class JdbcPriceManager implements PriceManager {
             priceDao.save(newPriceList);
 
             priceLists.add(newPriceList);
+        }
+
+        for (PriceList priceList : priceLists) {
+            priceList.addDishes(
+                    dishDao.getAllByPriceListId(priceList.getId())
+            );
         }
         return priceLists.get(priceLists.size() - 1);
     }
@@ -100,6 +108,10 @@ public class JdbcPriceManager implements PriceManager {
     @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public List<PriceList> getAllPriceLists() {
         List<PriceList> priceLists = priceDao.getAll();
+
+        if (priceLists.isEmpty()) {
+            priceLists.add(init());
+        }
         ListIterator<PriceList> it = priceLists.listIterator();
 
         while (it.hasNext()) {
@@ -109,5 +121,38 @@ public class JdbcPriceManager implements PriceManager {
         }
 
         return Collections.unmodifiableList(priceLists);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    private PriceList init() {
+        PriceList newList = new PriceList();
+
+        priceDao.save(newList);
+        //CHECKSTYLE:OFF
+        Object[][] listData = {
+                {Course.DESSERT, "Торт", "Отличный старый добрый торт! Прямо из пекарни! (столовая)", "cake.jpg.to", 59600},
+                {Course.DESSERT, "Блинчики с джемом", "Очень вкусные, и в отличие от блинчиков с ветчиной - не содержат кошек!", "pancakes.jpg.to", 10000},
+                {Course.FIRST_COURSE, "Боорщъ", "Просто борщ", "borsch.jpg.to", 7950},
+                {Course.FIRST_COURSE, "Суп", "Это не борщ. Не заказывайте.", "soup.jpg.to", 7000},
+                {Course.SECOND_COURSE, "Макароны", "Длинные такие, твердые.", "spaghetti.jpg.to", 3700},
+                {Course.SECOND_COURSE, "Картофель фри", "Mega edition. Специально от нашей столовой! Почти как в макдональдсе!", "potatoes.jpg.to", 4200},
+                {Course.SECOND_COURSE, "Драники", "Настоящие белорусские! Без пояснений", "draniki.jpg.to", 5400},
+                {Course.SECOND_COURSE, "Котлеты", "Из них делают блины. В том числе.", "http://котлет.jpg.to/", 19000}
+        };
+        for (int i = 0; i < listData.length; i++) {
+            Dish dish = new Dish();
+            dish.setCourse((Course) listData[i][0]);
+            dish.setName((String) listData[i][1]);
+            dish.setDescription((String) listData[i][2]);
+            dish.setPhotoUrl((String) listData[i][3]);
+            dish.setPrice((int) listData[i][4]);
+
+            dishDao.save(dish);
+            dishDao.setPriceList(dish.getId(), newList.getId());
+
+            newList.addDish(dish);
+        }
+        //CHECKSTYLE:ON
+        return newList;
     }
 }
