@@ -13,7 +13,7 @@ CREATE  TABLE `borsch`.`User` (
   PRIMARY KEY (`idUser`) ,
   UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) );
 
-CREATE  TABLE `borsch`.`Order` (
+CREATE  TABLE `borsch`.`Orders` (
   `idOrder` INT NOT NULL AUTO_INCREMENT ,
   `startDate` DATETIME NOT NULL ,
   `endDate` DATETIME NOT NULL ,
@@ -33,7 +33,7 @@ CREATE  TABLE `borsch`.`MenuItem` (
   UNIQUE INDEX `idMenuItem_UNIQUE` (`idMenuItem` ASC) ,
   CONSTRAINT `idOrder`
     FOREIGN KEY (`idOrder` )
-    REFERENCES `borsch`.`order` (`idOrder` ));
+    REFERENCES `borsch`.`orders` (`idOrder` ));
 
 CREATE  TABLE `borsch`.`PriceList` (
   `idPriceList` INT NOT NULL AUTO_INCREMENT ,
@@ -55,7 +55,7 @@ CREATE  TABLE `borsch`.`Dish` (
   UNIQUE INDEX `idDish_UNIQUE` (`idDish` ASC), 
   CONSTRAINT `menuItemId`
     FOREIGN KEY (`menuItemId` )
-    REFERENCES `borsch`.`order` (`idOrder` ),
+    REFERENCES `borsch`.`MenuItem` (`idMenuItem` ),
   CONSTRAINT `priceList`
     FOREIGN KEY (`priceList` )
     REFERENCES `borsch`.`PriceList` (`idPriceList` ));
