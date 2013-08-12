@@ -1,5 +1,6 @@
 package com.exadel.borsch.dao;
 
+import com.exadel.borsch.entity.AccessRight;
 import com.exadel.borsch.entity.User;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface UserDao {
     void update(User user);
     void save(User user);
     List<User> getAllUsers();
+    List<User> getAllUsers(AccessRight accessRight);
 }

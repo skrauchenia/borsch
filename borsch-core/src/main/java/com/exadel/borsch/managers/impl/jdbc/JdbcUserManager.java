@@ -1,6 +1,7 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
 import com.exadel.borsch.dao.UserDao;
+import com.exadel.borsch.entity.AccessRight;
 import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.UserManager;
 import org.slf4j.Logger;
@@ -59,5 +60,11 @@ public class JdbcUserManager implements UserManager {
     @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public List<User> getAllUsers() {
         return Collections.unmodifiableList(userDao.getAllUsers());
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.NEVER)
+    public List<User> getAllUsers(AccessRight accessRight) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

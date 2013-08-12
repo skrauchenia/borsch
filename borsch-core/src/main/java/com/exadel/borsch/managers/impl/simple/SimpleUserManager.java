@@ -83,4 +83,10 @@ public class SimpleUserManager implements UserManager {
     public List<User> getAllUsers() {
         return Collections.unmodifiableList(users);
     }
+
+    @Override
+    public List<User> getAllUsers(AccessRight accessRight) {
+        // unused in this implementstion
+        return null;
+    }
 }

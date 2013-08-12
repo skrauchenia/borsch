@@ -23,11 +23,15 @@ public class UserDaoImpl extends BorschJdbcDaoSupport implements UserDao {
 
     private static final String QUERY_SELECT_USER_BY_LOGIN = QUERY_SELECT_USER + "WHERE login=?";
 
+    private static final String QUERY_SELECT_USER_BY_ACCESS_RIGHT = QUERY_SELECT_USER + "WHERE accessRight LIKE ?";
+
     private static final String QUERY_UPDATE_USER = "UPDATE User SET "
             + "login=?,name=?,email=?,needEmailNotification=?,accessRights=?,locale=? "
             + "WHERE idUser=?";
 
     private static final String QUERY_DELETE_USER = "DELETE FROM User WHERE idUser=?";
+
+    private static final String PERCENT = "%";
 
     private static final RowMapper<User> USER_ROW_MAPPER = new RowMapper<User>() {
         @Override
@@ -117,6 +121,16 @@ public class UserDaoImpl extends BorschJdbcDaoSupport implements UserDao {
     public List<User> getAllUsers() {
         return getJdbcTemplate().query(
                 QUERY_SELECT_USER,
+                USER_ROW_MAPPER
+        );
+    }
+
+    @Override
+    public List<User> getAllUsers(AccessRight accessRight) {
+        String editAccessRight = PERCENT + accessRight.toString() + PERCENT;
+        return getJdbcTemplate().query(
+                QUERY_SELECT_USER_BY_ACCESS_RIGHT,
+                new Object[]{editAccessRight},
                 USER_ROW_MAPPER
         );
     }
