@@ -57,7 +57,11 @@ public class JdbcOrderManager implements OrderManager {
     @Override
     @Transactional(readOnly = true)
     public Order getOrderById(Long id) {
-        return orderDao.getById(id);
+        Order order = orderDao.getById(id);
+
+        order.addMenuItems(getMenuItemsForOrder(id));
+
+        return order;
     }
 
     @Override
