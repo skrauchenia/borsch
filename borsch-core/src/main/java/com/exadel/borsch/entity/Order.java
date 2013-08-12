@@ -19,6 +19,12 @@ public class Order extends Identifiable {
         super();
     }
 
+    public Order(Long id, DateTime startDate, DateTime endDate) {
+        this.setId(id);
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public DateTime getStartDate() {
         return startDate;
     }

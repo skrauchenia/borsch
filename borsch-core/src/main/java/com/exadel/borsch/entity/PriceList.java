@@ -1,5 +1,6 @@
 package com.exadel.borsch.entity;
 
+import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -18,8 +19,8 @@ public class PriceList extends Identifiable {
 
     public PriceList() {
         super();
-        this.creationTime = DateTime.now();
-        this.expirationTime = DateTime.now().plusWeeks(1);
+        this.creationTime = DateTimeUtils.getStartOfCurrentWeek();
+        this.expirationTime = creationTime.plusWeeks(1);
     }
 
     public PriceList(Long id, DateTime creationTime, DateTime expirationTime) {

@@ -35,7 +35,7 @@ public class ReportController {
         Order order = orderManager.getOrderById(orderId);
         MenuItem menuItem = order.getMenuById(menuId);
         menuItem.setIsPaid(true);
-        orderManager.updateOrder(order);
+        orderManager.updateOrder(order, menuItem);
     }
 
     @Secured("ROLE_PRINT_ORDER")

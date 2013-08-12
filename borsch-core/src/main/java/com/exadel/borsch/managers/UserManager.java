@@ -1,5 +1,6 @@
 package com.exadel.borsch.managers;
 
+import com.exadel.borsch.entity.AccessRight;
 import com.exadel.borsch.entity.User;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface UserManager {
     void updateUser(User toUpdate);
     void addUser(User toAdd);
     List<User> getAllUsers();
+    List<User> getAllUsers(AccessRight accessRight);
 }

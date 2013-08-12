@@ -20,6 +20,12 @@ public class MenuItem extends Identifiable {
         super();
     }
 
+    public MenuItem(Long id, DateTime date, boolean paid) {
+        setId(id);
+        this.date = date;
+        this.isPaid = paid;
+    }
+
     public Integer getTotalPrice() {
         Integer total = 0;
         for (Dish dish : choices) {

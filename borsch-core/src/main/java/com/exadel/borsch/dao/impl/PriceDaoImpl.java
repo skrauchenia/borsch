@@ -5,6 +5,7 @@ import com.exadel.borsch.dao.PriceDao;
 import com.exadel.borsch.entity.PriceList;
 import org.joda.time.DateTime;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -38,6 +39,13 @@ public class PriceDaoImpl extends BorschJdbcDaoSupport implements PriceDao {
         }
     };
 
+    public PriceDaoImpl(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+        setJdbcInsert(getJdbcInsert()
+                .withTableName("PriseList")
+                .usingGeneratedKeyColumns("idPriceList"));
+    }
+
     @Override
     public PriceList getById(Long id) {
         try {
@@ -66,8 +74,6 @@ public class PriceDaoImpl extends BorschJdbcDaoSupport implements PriceDao {
         params.put("expirationTime", priceList.getExpirationTime().toDate());
 
         priceList.setId((Long) getJdbcInsert()
-                .withTableName("PriceList")
-                .usingGeneratedKeyColumns("idPriceList")
                 .executeAndReturnKey(params));
     }
 

@@ -1,5 +1,6 @@
 package com.exadel.borsch.managers;
 
+import com.exadel.borsch.entity.MenuItem;
 import com.exadel.borsch.entity.Order;
 import com.exadel.borsch.entity.User;
 import org.joda.time.DateTime;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author Andrey Zhilka
  */
 public interface OrderManager {
-    void updateOrder(Order toUpdate);
+    void updateOrder(Order toUpdate, MenuItem menuItem);
     void deleteOrderById(Long id);
     Order getOrderById(Long id);
     void addOrder(Order toAdd);

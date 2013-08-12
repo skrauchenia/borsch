@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -48,6 +49,13 @@ public class JdbcPriceManager implements PriceManager {
     @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public PriceList getCurrentPriceList() {
         List<PriceList> priceLists = priceDao.getAll();
+        if (priceLists.isEmpty()) {
+            PriceList newPriceList = new PriceList();
+
+            priceDao.save(newPriceList);
+
+            priceLists.add(newPriceList);
+        }
         return priceLists.get(priceLists.size() - 1);
     }
 
@@ -72,7 +80,8 @@ public class JdbcPriceManager implements PriceManager {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void addDishToPriceList(Dish dish, PriceList priceList) {
-        dishDao.saveWithPriceListId(dish, priceList.getId());
+        dishDao.save(dish);
+        dishDao.setPriceList(dish.getId(), priceList.getId());
     }
 
     @Override
@@ -99,6 +108,6 @@ public class JdbcPriceManager implements PriceManager {
             curPriceList.addDishes(dishDao.getAllByPriceListId(curPriceList.getId()));
         }
 
-        return priceLists;
+        return Collections.unmodifiableList(priceLists);
     }
 }

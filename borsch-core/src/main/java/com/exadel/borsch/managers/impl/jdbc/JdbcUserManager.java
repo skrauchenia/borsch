@@ -1,6 +1,7 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
 import com.exadel.borsch.dao.UserDao;
+import com.exadel.borsch.entity.AccessRight;
 import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.UserManager;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -57,6 +59,12 @@ public class JdbcUserManager implements UserManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+        return Collections.unmodifiableList(userDao.getAllUsers());
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.NEVER)
+    public List<User> getAllUsers(AccessRight accessRight) {
+        return userDao.getAllUsers(accessRight);
     }
 }

@@ -38,10 +38,10 @@ public class HomeController {
 
         Order order = orderManager.getCurrentOrderForUser(user);
         model.addAttribute(order);
-        if (order.getOrder().get(0).getChoices().isEmpty()) {
-            Dish testDish = managerFactory.getPriceManager().getCurrentPriceList().getDishes().get(0);
-            order.getOrder().get(0).addDish(testDish);
-        }
+//        if (order.getOrder().get(0).getChoices().isEmpty()) {
+//            Dish testDish = managerFactory.getPriceManager().getCurrentPriceList().getDishes().get(0);
+//            order.getOrder().get(0).addDish(testDish);
+//        }
 
         return ViewURLs.HOME_PAGE;
     }

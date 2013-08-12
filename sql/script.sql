@@ -9,7 +9,7 @@ CREATE  TABLE `borsch`.`User` (
   `email` VARCHAR(255) NOT NULL ,
   `needEmailNotification` TINYINT(1) NOT NULL ,
   `accessRights` VARCHAR(255) NOT NULL ,
-  `locale` VARCHAR(10) NOT NULL DEFAULT `ru_RU`,
+  `locale` VARCHAR(10) NOT NULL DEFAULT "ru_RU",
   PRIMARY KEY (`idUser`) ,
   UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) );
 
@@ -33,7 +33,7 @@ CREATE  TABLE `borsch`.`MenuItem` (
   UNIQUE INDEX `idMenuItem_UNIQUE` (`idMenuItem` ASC) ,
   CONSTRAINT `idOrder`
     FOREIGN KEY (`idOrder` )
-    REFERENCES `borsch`.`order` (`idOrder` ));
+    REFERENCES `borsch`.`orders` (`idOrder` ));
 
 CREATE  TABLE `borsch`.`PriceList` (
   `idPriceList` INT NOT NULL AUTO_INCREMENT ,
