@@ -65,6 +65,6 @@ public class JdbcUserManager implements UserManager {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public List<User> getAllUsers(AccessRight accessRight) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return userDao.getAllUsers(accessRight);
     }
 }
