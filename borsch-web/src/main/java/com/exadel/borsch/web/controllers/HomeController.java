@@ -90,10 +90,12 @@ public class HomeController {
         MenuItem menuItem = order.getOrder().get(day);
         if (menuItem.getChoices().contains(dish)) {
             menuItem.removeDish(dish);
+            orderManager.removeDishFormMenuItem(menuItem, dish);
             return new OrderResult("removed", dish);
         }
 
         menuItem.addDish(dish);
+        orderManager.addDishFormMenuItem(menuItem, dish);
         return new OrderResult("added", dish);
     }
 

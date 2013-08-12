@@ -170,7 +170,7 @@
                 <c:forEach var="element" items="${courseList}" varStatus="stAcc">
                     <div class="accordion-group">
                         <c:set var="course" value="${element.key}"/>
-                        <c:set var="dish" value="${element.value}"/>
+                        <c:set var="dishes" value="${element.value}"/>
                         <div class="accordion-heading">
                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse${stAcc.index}">
                                 <c:choose>
@@ -196,7 +196,7 @@
                                             </th>
                                         </c:if>
                                     </tr>
-                                    <c:forEach var="dish" items="${dish}" varStatus="st">
+                                    <c:forEach var="dish" items="${dishes}" varStatus="st">
                                         <tr id="row${dish.id}">
                                             <td id="index${dish.id}">${st.index+1}</td>
                                             <td>

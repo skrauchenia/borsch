@@ -1,5 +1,6 @@
 package com.exadel.borsch.managers.impl.simple;
 
+import com.exadel.borsch.entity.Dish;
 import com.exadel.borsch.entity.MenuItem;
 import com.exadel.borsch.entity.Order;
 import com.exadel.borsch.entity.User;
@@ -125,5 +126,15 @@ public class SimpleOrderManager implements OrderManager {
             }
         }
         return null;
+    }
+
+    @Override
+    public void removeDishFormMenuItem(MenuItem menuItem, Dish dish) {
+        // unused in this impl
+    }
+
+    @Override
+    public void addDishFormMenuItem(MenuItem menuItem, Dish dish) {
+        // unused in this impl
     }
 }

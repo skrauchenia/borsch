@@ -42,7 +42,7 @@ public class PriceDaoImpl extends BorschJdbcDaoSupport implements PriceDao {
     public PriceDaoImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
         setJdbcInsert(getJdbcInsert()
-                .withTableName("PriseList")
+                .withTableName("PriceList")
                 .usingGeneratedKeyColumns("idPriceList"));
     }
 

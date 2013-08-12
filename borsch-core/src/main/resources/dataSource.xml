@@ -49,8 +49,7 @@
         <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
-    <bean id="orderChangeDao" class="com.exadel.borsch.dao.impl.OrderChangeDaoImpl">
-        <property name="jdbcTemplate" ref="jdbcTemplate"/>
-        <property name="jdbcInsert" ref="jdbcInsert"/>
-    </bean>
+    <!--<bean id="orderChangeDao" class="com.exadel.borsch.dao.impl.OrderChangeDaoImpl">-->
+        <!--<constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>-->
+    <!--</bean>-->
 </beans>

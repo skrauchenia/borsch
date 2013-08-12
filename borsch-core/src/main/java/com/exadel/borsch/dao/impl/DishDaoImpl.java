@@ -23,7 +23,7 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
 
     private static final String QUERY_SELECT_DISH_BY_ID = QUERY_SELECT_DISH + "WHERE idDish=?";
 
-    private static final String QUERY_SELECT_DISH_BY_ORDER_ID = QUERY_SELECT_DISH + "WHERE orderId=?";
+    private static final String QUERY_SELECT_DISH_BY_MENU_ITEM_ID = QUERY_SELECT_DISH + "WHERE menuItemId=?";
 
     private static final String QUERY_SELECT_DISH_BY_PRICE_LIST_ID = QUERY_SELECT_DISH + "WHERE priceList=?";
 
@@ -107,7 +107,7 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
     @Override
     public List<Dish> getAllByMenuItemId(Long orderId) {
         return getJdbcTemplate().query(
-                QUERY_SELECT_DISH_BY_ORDER_ID,
+                QUERY_SELECT_DISH_BY_MENU_ITEM_ID,
                 new Object[]{orderId},
                 DISH_ROW_MAPPER
         );
@@ -126,8 +126,8 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
     public void setMenuItem(Long dishId, Long menuItemId) {
         getJdbcTemplate().update(
                 QUERY_UPDATE_DISH_WITH_MENU_ITEM,
-                dishId,
-                menuItemId
+                menuItemId,
+                dishId
         );
     }
 
@@ -135,8 +135,8 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
     public void setPriceList(Long dishId, Long priceListId) {
         getJdbcTemplate().update(
                 QUERY_UPDATE_DISH_WITH_PRICE_LIST,
-                dishId,
-                priceListId
+                priceListId,
+                dishId
         );
     }
 }
