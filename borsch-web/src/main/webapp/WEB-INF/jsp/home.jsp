@@ -184,6 +184,8 @@
     <jsp:body>
         <div class="container">
             <br/>
+            <h3 class="muted"><spring:message code="week.${currentWeekCode}"/></h3>
+            <br/>
             <div class="container-fluid">
                 <div class="span2">
                     <ul class="nav nav-pills nav-stacked" id="days">
@@ -255,6 +257,16 @@
                     </div>
                 </div>
             </div>
+        
+            <br/>
+            <c:if test="${not empty prevWeek}">
+            <a class="btn btn-info" style="float: left" href="${contextPath}/home/${prevWeek}">
+                <spring:message code="week.0"/></a>
+            </c:if>
+            <c:if test="${not empty nextWeek}">
+            <a class="btn btn-info" style="float: right" href="${contextPath}/home/${nextWeek}">
+                <spring:message code="week.2"/></a>
+            </c:if>
         </div>
     </jsp:body>
         
