@@ -9,7 +9,7 @@ CREATE  TABLE `borsch`.`User` (
   `email` VARCHAR(255) NOT NULL ,
   `needEmailNotification` TINYINT(1) NOT NULL ,
   `accessRights` VARCHAR(255) NOT NULL ,
-  `locale` VARCHAR(10) NOT NULL ,
+  `locale` VARCHAR(10) NOT NULL DEFAULT "ru_RU",
   PRIMARY KEY (`idUser`) ,
   UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) );
 
@@ -17,7 +17,7 @@ CREATE  TABLE `borsch`.`Order` (
   `idOrder` INT NOT NULL AUTO_INCREMENT ,
   `startDate` DATETIME NOT NULL ,
   `endDate` DATETIME NOT NULL ,
-  `owner` INT NOT NULL ,
+  `owner` INT ,
   PRIMARY KEY (`idOrder`) ,
   UNIQUE INDEX `owner_idx` (`owner` ASC) ,
   CONSTRAINT `owner`
@@ -28,7 +28,7 @@ CREATE  TABLE `borsch`.`MenuItem` (
   `idMenuItem` INT NOT NULL AUTO_INCREMENT ,
   `date` DATETIME NOT NULL ,
   `isPaid` TINYINT(1) NOT NULL ,
-  `idOrder` INT NOT NULL ,
+  `idOrder` INT ,
   PRIMARY KEY (`idMenuItem`) ,
   UNIQUE INDEX `idMenuItem_UNIQUE` (`idMenuItem` ASC) ,
   CONSTRAINT `idOrder`
@@ -50,7 +50,7 @@ CREATE  TABLE `borsch`.`Dish` (
   `description` VARCHAR(255) NOT NULL ,
   `course` VARCHAR(255) NOT NULL ,
   `menuItemId` INT ,
-  `priceList` INT  ,
+  `priceList` INT ,
   PRIMARY KEY (`idDish`) ,
   UNIQUE INDEX `idDish_UNIQUE` (`idDish` ASC), 
   CONSTRAINT `menuItemId`
