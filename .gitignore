@@ -1,6 +1,9 @@
 *.class
 logger.txt
 
+# SQL Model
+*.mwb
+
 # Maven
 borsch-core/target
 borsch-web/target

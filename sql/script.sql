@@ -9,11 +9,11 @@ CREATE  TABLE `borsch`.`User` (
   `email` VARCHAR(255) NOT NULL ,
   `needEmailNotification` TINYINT(1) NOT NULL ,
   `accessRights` VARCHAR(255) NOT NULL ,
-  `locale` VARCHAR(10) NOT NULL ,
+  `locale` VARCHAR(10) NOT NULL DEFAULT `ru_RU`,
   PRIMARY KEY (`idUser`) ,
   UNIQUE INDEX `idUser_UNIQUE` (`idUser` ASC) );
 
-CREATE  TABLE `borsch`.`Order` (
+CREATE  TABLE `borsch`.`Orders` (
   `idOrder` INT NOT NULL AUTO_INCREMENT ,
   `startDate` DATETIME NOT NULL ,
   `endDate` DATETIME NOT NULL ,
@@ -49,16 +49,35 @@ CREATE  TABLE `borsch`.`Dish` (
   `price` INT NOT NULL ,
   `description` VARCHAR(255) NOT NULL ,
   `course` VARCHAR(255) NOT NULL ,
-  `order` INT DEFAULT 0,
+  `menuItemId` INT DEFAULT 0,
   `priceList` INT DEFAULT 0 ,
   PRIMARY KEY (`idDish`) ,
   UNIQUE INDEX `idDish_UNIQUE` (`idDish` ASC), 
   CONSTRAINT `order`
-    FOREIGN KEY (`order` )
-    REFERENCES `borsch`.`order` (`idOrder` ),
+    FOREIGN KEY (`menuItemId` )
+    REFERENCES `borsch`.`orders` (`idOrder` ),
   CONSTRAINT `priceList`
     FOREIGN KEY (`priceList` )
     REFERENCES `borsch`.`PriceList` (`idPriceList` ));
+
+CREATE TABLE `borsch`.`OrderChanges` (
+	`changeId` INT NOT NULL AUTO_INCREMENT ,
+	`changedDishId` INT NOT NULL ,
+	`actedUserId` INT NOT NULL ,
+	`menuItemId` INT NOT NULL ,
+	`committedAction` VARCHAR(255) NOT NULL ,
+	PRIMARY KEY (`changeId`) ,
+	UNIQUE INDEX `changeId_UNIQUE` (`changeId` ASC) ,
+	CONSTRAINT `changedDishId`
+		FOREIGN KEY (`changedDishId`)
+		REFERENCES `borsch`.`Dish`(`idDish`) ,
+	CONSTRAINT `actedUserId`
+		FOREIGN KEY (`actedUserId`)
+		REFERENCES `borsch`.`User`(`idUser`) ,
+	CONSTRAINT `menuItemId`
+		FOREIGN KEY (`menuItemId`)
+		REFERENCES `borsch`.`MenuItem`(`idMenuItem`)
+);
 
 INSERT INTO `borsch`.`User` (`login`,`name`,`email`,`needEmailNotification`,`accessRights`,`locale`) 
 VALUES ("admin","Administrator The Great"
@@ -66,3 +85,4 @@ VALUES ("admin","Administrator The Great"
 		,true
 		,"[ROLE_EDIT_MENU_SELF, ROLE_EDIT_MENU_OTHER, ROLE_EDIT_PRICE, ROLE_PRINT_ORDER, ROLE_EDIT_PROFILE]"
 		,"en_US");
+	

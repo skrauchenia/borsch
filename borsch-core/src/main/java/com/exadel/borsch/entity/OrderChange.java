@@ -8,25 +8,16 @@ import org.joda.time.DateTime;
 public class OrderChange extends Identifiable {
     private String changedDishId;
     private String actedUserId;
-    private String dishName;
-    private String userName;
+    private String menuItemId;
     private DateTime dateOfChange;
     private ChangeAction committedAction;
 
-    public String getDishName() {
-        return dishName;
+    public DateTime getDateOfChange() {
+        return dateOfChange;
     }
 
-    public void setDishName(String dishName) {
-        this.dishName = dishName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setDateOfChange(DateTime dateOfChange) {
+        this.dateOfChange = dateOfChange;
     }
 
     public String getChangedDishId() {
@@ -45,19 +36,19 @@ public class OrderChange extends Identifiable {
         this.actedUserId = actedUserId;
     }
 
-    public DateTime getDateOfChange() {
-        return dateOfChange;
-    }
-
-    public void setDateOfChange(DateTime dateOfChange) {
-        this.dateOfChange = dateOfChange;
-    }
-
     public ChangeAction getCommittedAction() {
         return committedAction;
     }
 
     public void setCommittedAction(ChangeAction committedAction) {
         this.committedAction = committedAction;
+    }
+
+    public String getMenuItemId() {
+        return menuItemId;
+    }
+
+    public void setMenuItemId(String menuItemId) {
+        this.menuItemId = menuItemId;
     }
 }
