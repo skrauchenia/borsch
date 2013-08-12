@@ -57,7 +57,7 @@
                                         <c:if test="${(dayNumber + 1) == order.weekDay}">
                                             <tr>
                                                 <td>
-                                                    <c:out value="${order.user.name}"/>n
+                                                    <c:out value="${order.user.name}"/>
                                                 </td>
                                                 <td>
                                                     <c:out value="${order.total}"/>

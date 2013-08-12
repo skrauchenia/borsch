@@ -9,7 +9,8 @@ import java.util.List;
 /**
  * @author Andrey Zhilka
  */
-public class Order extends Identifiable {
+public class Order {
+    private Long id;
     private List<MenuItem> order = new ArrayList<>();
     private DateTime startDate;
     private DateTime endDate;
@@ -23,6 +24,14 @@ public class Order extends Identifiable {
         this.setId(id);
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public DateTime getStartDate() {

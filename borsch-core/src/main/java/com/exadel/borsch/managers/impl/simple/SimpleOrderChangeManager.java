@@ -51,7 +51,7 @@ public class SimpleOrderChangeManager implements OrderChangeManager {
     }
 
     @Override
-    public void deleteChangeById(UUID id) {
+    public void deleteChangeById(Long id) {
         ListIterator<OrderChange> it = changes.listIterator();
         while (it.hasNext()) {
             OrderChange curChange = it.next();

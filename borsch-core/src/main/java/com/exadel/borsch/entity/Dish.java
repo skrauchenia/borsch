@@ -4,7 +4,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 
-public class Dish extends Identifiable {
+public class Dish {
+    private Long id;
     private String name;
     private String photoUrl;
     private Integer price;
@@ -28,6 +29,14 @@ public class Dish extends Identifiable {
         this.price = price;
         this.description = description;
         this.course = course;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -11,7 +11,8 @@ import java.util.List;
 /**
  * @author Andrey Zhilka
  */
-public class MenuItem extends Identifiable {
+public class MenuItem {
+    private Long id;
     private DateTime date;
     private List<Dish> choices = new ArrayList<>();
     private boolean isPaid = false;
@@ -24,6 +25,14 @@ public class MenuItem extends Identifiable {
         setId(id);
         this.date = date;
         this.isPaid = paid;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Integer getTotalPrice() {

@@ -7,12 +7,16 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * @author Andrey Zhilka
  */
-public class PriceList extends Identifiable {
+public class PriceList {
+    private Long id;
     private List<Dish> dishes = new ArrayList<>();
     private DateTime creationTime;
     private DateTime expirationTime;
@@ -27,6 +31,14 @@ public class PriceList extends Identifiable {
         this.setId(id);
         this.creationTime = creationTime;
         this.expirationTime = expirationTime;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public DateTime getExpirationTime() {

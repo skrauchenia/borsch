@@ -10,6 +10,7 @@ import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.exadel.borsch.util.Entry;
 import org.joda.time.DateTime;
+import org.joda.time.Weeks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -133,7 +134,9 @@ public class JdbcOrderManager implements OrderManager {
     @Transactional(propagation = Propagation.REQUIRED)
     public Order getCurrentOrderForUser(User user) {
         List<Order> userOrders = getOrdersForUser(user);
-        if (userOrders.isEmpty()) {
+        if (userOrders.isEmpty()
+                || Weeks.weeksBetween(userOrders.get(0).getStartDate(),
+                                        DateTimeUtils.getStartOfNextWeek()).getWeeks() >= 1) {
             Order order = new Order();
             order.setOwner(user);
             order.setStartDate(DateTimeUtils.getStartOfNextWeek());

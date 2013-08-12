@@ -17,7 +17,7 @@ CREATE  TABLE `borsch`.`Orders` (
   `idOrder` INT NOT NULL AUTO_INCREMENT ,
   `startDate` DATETIME NOT NULL ,
   `endDate` DATETIME NOT NULL ,
-  `owner` INT NOT NULL ,
+  `owner` INT ,
   PRIMARY KEY (`idOrder`) ,
   UNIQUE INDEX `owner_idx` (`owner` ASC) ,
   CONSTRAINT `owner`
@@ -28,7 +28,7 @@ CREATE  TABLE `borsch`.`MenuItem` (
   `idMenuItem` INT NOT NULL AUTO_INCREMENT ,
   `date` DATETIME NOT NULL ,
   `isPaid` TINYINT(1) NOT NULL ,
-  `idOrder` INT NOT NULL ,
+  `idOrder` INT ,
   PRIMARY KEY (`idMenuItem`) ,
   UNIQUE INDEX `idMenuItem_UNIQUE` (`idMenuItem` ASC) ,
   CONSTRAINT `idOrder`
@@ -62,9 +62,11 @@ CREATE  TABLE `borsch`.`Dish` (
 
 CREATE TABLE `borsch`.`OrderChanges` (
 	`changeId` INT NOT NULL AUTO_INCREMENT ,
-	`changedDishId` INT NOT NULL ,
-	`actedUserId` INT NOT NULL ,
-	`menuItemId` INT NOT NULL ,
+	`changedDishId` INT ,
+	`actedUserId` INT ,
+	`menuItemId` INT ,
+	`dateOfChange` DATETIME NOT NULL ,	
+	`startOfWeek` DATETIME NOT NULL ,
 	`committedAction` VARCHAR(255) NOT NULL ,
 	PRIMARY KEY (`changeId`) ,
 	UNIQUE INDEX `changeId_UNIQUE` (`changeId` ASC) ,

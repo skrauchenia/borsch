@@ -174,9 +174,9 @@
                         <div class="accordion-heading">
                             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse${stAcc.index}">
                                 <c:choose>
-                                    <c:when test="${course eq 0}">First course:</c:when>
-                                    <c:when test="${course eq 1}">Second course:</c:when>
-                                    <c:when test="${course eq 2}">Dessert:</c:when>   
+                                    <c:when test="${course eq 0}"><spring:message code="menu.course.first"/></c:when>
+                                    <c:when test="${course eq 1}"><spring:message code="menu.course.second"/></c:when>
+                                    <c:when test="${course eq 2}"><spring:message code="menu.course.dessert"/></c:when>
                                 </c:choose>
                             </a>
                         </div>
@@ -184,14 +184,14 @@
                             <div class="accordion-inner">
                                 <table class="table table-condensed" id="${course}Table">
                                     <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Price</th>
+                                        <th><spring:message code="menu.table.number"/></th>
+                                        <th><spring:message code="menu.table.name"/></th>
+                                        <th><spring:message code="menu.table.price"/></th>
                                         <th></th>
                                         <c:if test="${showAdminControls}">
                                             <th>
                                                 <button type="submit" class="btn btn-success" style="float: right" onclick="addDish(${course})">
-                                                    <i class="icon-plus icon-white"></i> Add
+                                                    <i class="icon-plus icon-white"></i> <spring:message code="actions.add"/>
                                                 </button>
                                             </th>
                                         </c:if>
@@ -212,16 +212,16 @@
                                                         data-loading-text="<spring:message code="menu.order.processing"/>"
                                                         data-added-text="<spring:message code="menu.order.added"/>"
                                                         data-removed-text="<spring:message code="menu.order.removed"/>">
-                                                    <i class="icon-ok icon-white"></i> Add to order
+                                                    <i class="icon-ok icon-white"></i> <spring:message code="action.addtoOrder"/>
                                                 </button>
                                             </td>
                                             <c:if test="${showAdminControls}">
                                                 <td>
                                                     <button type="submit" class="btn btn-info" id="editBtn${dish.id}" onclick="editDish('${dish.id}')">
-                                                        <i class="icon-pencil icon-white"></i> Edit
+                                                        <i class="icon-pencil icon-white"></i> <spring:message code="actions.edit"/>
                                                     </button>
                                                     <button type="submit" class="btn btn-danger" id="removeBtn${dish.id}" onclick="removeDish('${dish.id}')">
-                                                        <i class="icon-remove icon-white"></i> Remove
+                                                        <i class="icon-remove icon-white"></i> <spring:message code="actions.remove"/>
                                                     </button>
                                                 </td>
                                             </c:if>
@@ -237,7 +237,7 @@
         <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel">Dish</h3>
+                <h3 id="myModalLabel"><spring:message code="menu.table.dish"/></h3>
             </div>
             <div class="modal-body offset1" >
                 <iframe src="" style="zoom:0.60;" frameborder="0" height="600px" width="99.6%" scrolling="no"></iframe>
@@ -245,7 +245,7 @@
             <div class="modal-footer">
                 <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"><i class="icon-ban-circle icon-white"></i> Cancel</button>
                 <button id="save" class="btn btn-success" type="button" onclick="dishAction()">
-                    <i class="icon-ok icon-white"></i> Save
+                    <i class="icon-ok icon-white"></i> <spring:message code="actions.save"/>
                 </button>
             </div>
         </div>

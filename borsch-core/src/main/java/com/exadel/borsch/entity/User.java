@@ -8,10 +8,11 @@ import java.util.*;
 /**
  * @author Andrey Zhilka
  */
-public class User extends Identifiable {
+public class User {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
+    private Long id;
     private String login;
     private String name;
     private String email;
@@ -38,6 +39,14 @@ public class User extends Identifiable {
         this.needEmailNotification = needEmailNotification;
         this.accessRights = accessRights;
         this.locale = locale;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public boolean getNeedEmailNotification() {
