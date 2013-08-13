@@ -7,6 +7,7 @@ import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.PriceManager;
+import com.exadel.borsch.notifier.PayOrderNotifier;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.exadel.borsch.web.users.UserUtils;
 import org.joda.time.DateTime;
@@ -32,6 +33,8 @@ import org.joda.time.Weeks;
 public class HomeController {
     @Autowired
     private ManagerFactory managerFactory;
+    @Autowired
+    private PayOrderNotifier notifier;
 
     public void fillInPageModel(Model model, Principal principal, DateTime date) {
         OrderManager orderManager = managerFactory.getOrderManager();

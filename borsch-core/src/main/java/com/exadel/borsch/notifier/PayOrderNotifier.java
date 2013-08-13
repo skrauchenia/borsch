@@ -7,20 +7,27 @@ import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.notification.BrowserNotification;
+import com.exadel.borsch.util.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Andrew Zhilka
  */
+@Service
 public class PayOrderNotifier extends NotifierTask {
     @Autowired
     private ManagerFactory managerFactory;
+    private static final int SCHEDULED_HOURS = 2;
 
     public PayOrderNotifier() {
         super(new BrowserNotification());
     }
 
     @Override
+    @Scheduled(fixedRate = SCHEDULED_HOURS * DateTimeUtils.MINUTES_IN_HOUR
+            * DateTimeUtils.SECOND_IN_MINUTE * DateTimeUtils.MILLIS_IN_SECOND)
     public void runPeriodicCheck() {
         UserManager userManager = managerFactory.getUserManager();
         OrderManager orderManager = managerFactory.getOrderManager();
