@@ -23,7 +23,12 @@ public final class BrowserNotificationHolder {
     }
 
     public static String getOldestNotification(User target) {
-        return notifications.get(target).remove(0);   //get and remove oldest notification
+        String notification = "";
+
+        if (!notifications.isEmpty() && !notifications.get(target).isEmpty()) {
+            notification = notifications.get(target).remove(0);   //get and remove oldest notification
+        }
+        return notification;
     }
 
     public static List<String> popNotifications(User target) {

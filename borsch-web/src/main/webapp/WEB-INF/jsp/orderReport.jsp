@@ -54,32 +54,32 @@
                                         <th><spring:message code="menu.table.payment"/></th>
                                     </tr>
                                     <c:forEach var="order" items="${day.value}">
-                                            <tr>
-                                                <td>
-                                                    <c:out value="${order.user.name}"/>
-                                                </td>
-                                                <td>
-                                                    <c:out value="${order.total}"/>
-                                                </td>
-                                                <td>
-                                                    <button class="btn btn-success
-                                                                    <c:if test="${order.menuItem.isPaid != true}">
-                                                                     hide</c:if>" id="orderPaid${order.menuItem.id}"
-                                                            title="<spring:message code="menu.table.payment.status.paid"/>"
-                                                            disabled>
-                                                        <i class="icon-ok icon-white"></i>
-                                                    </button>
-                                                    <button class="btn btn-danger
-                                                                    <c:if test="${order.menuItem.isPaid == true}">
-                                                                     hide</c:if>"
-                                                            id="orderNotPaid${order.menuItem.id}"
-                                                            title="<spring:message code="menu.table.payment.status.unpaid"/>"
-                                                            onclick="markAsPaid('${order.menuItem.id}',
-                                                                    '${order.weekOrderId}')">
-                                                        <i class="icon-remove icon-white"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td>
+                                                <c:out value="${order.user.name}"/>
+                                            </td>
+                                            <td>
+                                                <c:out value="${order.total}"/>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-success
+                                                                <c:if test="${order.menuItem.isPaid != true}">
+                                                                 hide</c:if>" id="orderPaid${order.menuItem.id}"
+                                                        title="<spring:message code="menu.table.payment.status.paid"/>"
+                                                        disabled>
+                                                    <i class="icon-ok icon-white"></i>
+                                                </button>
+                                                <button class="btn btn-danger
+                                                                <c:if test="${order.menuItem.isPaid == true}">
+                                                                 hide</c:if>"
+                                                        id="orderNotPaid${order.menuItem.id}"
+                                                        title="<spring:message code="menu.table.payment.status.unpaid"/>"
+                                                        onclick="markAsPaid('${order.menuItem.id}',
+                                                                '${order.weekOrderId}')">
+                                                    <i class="icon-remove icon-white"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
                                     </c:forEach>
                                 </table>
                             </div>
