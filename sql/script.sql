@@ -45,20 +45,28 @@ CREATE  TABLE `borsch`.`PriceList` (
 CREATE  TABLE `borsch`.`Dish` (
   `idDish` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(255) NOT NULL ,
-  `photoUrl` VARCHAR(255) NOT NULL ,
+  `photoUrl` VARCHAR(255) ,
   `price` INT NOT NULL ,
   `description` VARCHAR(255) NOT NULL ,
   `course` VARCHAR(255) NOT NULL ,
-  `menuItemId` INT ,
   `priceList` INT ,
   PRIMARY KEY (`idDish`) ,
   UNIQUE INDEX `idDish_UNIQUE` (`idDish` ASC), 
-  CONSTRAINT `menuItemId`
-    FOREIGN KEY (`menuItemId` )
-    REFERENCES `borsch`.`orders` (`idOrder` ),
   CONSTRAINT `priceList`
     FOREIGN KEY (`priceList` )
     REFERENCES `borsch`.`PriceList` (`idPriceList` ));
+
+CREATE  TABLE `borsch`.`choises` (
+  `menuItem` INT NOT NULL ,
+  `dish` INT NOT NULL ,
+  INDEX `menuItem_idx` (`menuItem` ASC) ,
+  INDEX `dish_idx` (`dish` ASC) ,
+  CONSTRAINT `menuItem`
+    FOREIGN KEY (`menuItem` )
+    REFERENCES `borsch`.`menuitem` (`idMenuItem` ) ,
+  CONSTRAINT `dish`
+    FOREIGN KEY (`dish` )
+    REFERENCES `borsch`.`dish` (`idDish` ) );
 
 CREATE TABLE `borsch`.`OrderChanges` (
 	`changeId` INT NOT NULL AUTO_INCREMENT ,
