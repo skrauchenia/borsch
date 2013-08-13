@@ -1,3 +1,4 @@
+
 <%--
     Document   : navbar
     Created on : Jul 23, 2013, 5:54:57 PM
@@ -28,28 +29,29 @@
     <h3 class="muted">Borsch</h3>
     <div id="myNav" class="navbar">
         <div class="navbar-inner">
-                <ul class="nav">
-                    <li id="navHome"><a href="${contextPath}/home"><spring:message code="navbar.home"/></a></li>
-                    <li id="navMenu"><a href="${contextPath}/menu"><spring:message code="navbar.menu"/></a></li>
+            <ul class="nav">
+                <li id="navHome"><a href="${contextPath}/home"><spring:message code="navbar.home"/></a></li>
+                <li id="navMenu"><a href="${contextPath}/menu"><spring:message code="navbar.menu"/></a></li>
                     <sec:authorize access="hasRole('ROLE_EDIT_PROFILE')">
                     <li id="navUsers"><a href="${contextPath}/users">
-                        <spring:message code="navbar.users"/></a></li>
+                            <spring:message code="navbar.users"/></a></li>
+                    <li class="nav">
                     <li id="navReports" class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <spring:message code="navbar.reports"/>
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" style="position: absolute">
-                            <li id="navReport"><a href="${contextPath}/report/1">
-                                <spring:message code="navbar.report"/></a></li>
-                            <li id="navReportSummary"><a href="${contextPath}/report/summary">
-                                <spring:message code="navbar.reportSummary"/></a></li>
-                            <li id="navChangeReport"><a href="${contextPath}/report/changes">
-                                <spring:message code="navbar.changes"/></a></li>
+                        <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown"><spring:message code="navbar.reports"/> <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation" class="left">
+                                <a role="menuitem" class="left" tabindex="-1" href="${contextPath}/report/1"><spring:message code="navbar.report"/></a>
+                            </li>
+                            <li role="presentation" class="left">
+                                <a role="menuitem" class="left" tabindex="-1" href="${contextPath}/report/summary"><spring:message code="navbar.reportSummary"/></a>
+                            </li>
+                            <li role="presentation" class="left">
+                                <a role="menuitem" class="left" tabindex="-1" href="${contextPath}/orderTable"><spring:message code="navbar.reportTable"/></a>
+                            </li>
                         </ul>
                     </li>
-                    </sec:authorize>
-                </ul>
+                </sec:authorize>
+            </ul>
         </div>
     </div>
 </div>

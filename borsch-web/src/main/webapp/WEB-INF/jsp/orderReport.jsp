@@ -14,20 +14,20 @@
         <script>
             $("#navReports").addClass("active");
 
-            function markAsPaid(menuItemId, weekOrderId){
+            function markAsPaid(menuItemId, weekOrderId) {
                 $.ajax({
-                    url: "${contextPath}/report/setPaid/"+ weekOrderId + "/" + menuItemId,
+                    url: "${contextPath}/report/setPaid/" + weekOrderId + "/" + menuItemId,
                     type: 'POST'
                 }).done(function() {
-                            $("#orderNotPaid"+menuItemId).hide("slow");
-                            $("#orderPaid"+menuItemId).show("slow");
-                        })
-                  .fail(function(status, error) {
-                            console.log(status);
-                            alert(error);
-                            $("#orderPaid"+menuItemId).hide("slow");
-                            $("#orderNotPaid"+menuItemId).show("slow");
-                        });
+                    $("#orderNotPaid" + menuItemId).hide("slow");
+                    $("#orderPaid" + menuItemId).show("slow");
+                })
+                        .fail(function(status, error) {
+                    console.log(status);
+                    alert(error);
+                    $("#orderPaid" + menuItemId).hide("slow");
+                    $("#orderNotPaid" + menuItemId).show("slow");
+                });
             }
         </script>
     </jsp:attribute>
