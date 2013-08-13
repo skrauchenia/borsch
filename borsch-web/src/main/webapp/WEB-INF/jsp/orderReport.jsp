@@ -90,24 +90,12 @@
                     <c:set var="dayNumber" value="${dayNumber + 1}" scope="page"/>
                 </c:forEach>
             </div>
-<<<<<<< HEAD
-            <button type="submit" class="btn btn-info" onclick="document.location.href='${contextPath}/orderTable'" style="float: right">
-                <i class="icon-th-list icon-white"></i> Show table
-            </button>
             <a class="btn btn-info" style="float: left" href="${contextPath}/report/previous"
-                    <c:if test="${week eq 'previous'}">disabled="true"</c:if>>
-                <spring:message code="week.previous"/></a>
-            <a class="btn btn-info" style="float: right" href="${contextPath}/report/next"
-               <c:if test="${week eq 'next'}">disabled="true"</c:if>>
-                <spring:message code="week.next"/></a>
-=======
-            <a class="btn btn-info" style="float: left" href="${contextPath}/report/${week - 1}"
                     <c:if test="${week eq 0}">disabled="true"</c:if>>
                 <spring:message code="week.0"/></a>
-            <a class="btn btn-info" style="float: right" href="${contextPath}/report/${week + 1}"
+            <a class="btn btn-info" style="float: right" href="${contextPath}/report/next"
                <c:if test="${week eq 2}">disabled="true"</c:if>>
                 <spring:message code="week.2"/></a>
->>>>>>> master
         </div>
     </jsp:body>
 </t:genericpage>

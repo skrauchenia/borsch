@@ -1,7 +1,6 @@
-
-
 package com.exadel.borsch.web.controllers;
 
+import com.exadel.borsch.dao.Dish;
 import com.exadel.borsch.dao.MenuItem;
 import com.exadel.borsch.dao.Order;
 import com.exadel.borsch.dao.User;
@@ -21,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
+import org.joda.time.DateTime;
 
 /**
  * @author Andrey Zhilka
@@ -76,6 +77,7 @@ public class ReportController {
 
         return ViewURLs.WEEK_ORDER_REPORT;
     }
+
     @Secured("ROLE_PRINT_ORDER")
     @RequestMapping("/orderTable")
     public String loadOrderTable(ModelMap model) {
@@ -110,13 +112,86 @@ public class ReportController {
         return ViewURLs.ORDER_TABLE;
     }
 
+    @Secured("ROLE_PRINT_ORDER")
+    @RequestMapping("/report/{week}")
+    public String processPageRequest(ModelMap model, @PathVariable Integer week) {
+        OrderManager orderManager = managerFactory.getOrderManager();
+        ListMultimap<Integer, DailyOrder> report = ArrayListMultimap.create();
+        List<Order> allOrders;
+
+        DateTime startOfWeek;
+        switch (week) {
+            case 0: //previous week
+                startOfWeek = DateTimeUtils.getStartOfWeek(DateTime.now().minusDays(DateTimeUtils.DAYS_IN_WEEK));
+                break;
+            case 1: //current week
+                startOfWeek = DateTimeUtils.getStartOfCurrentWeek();
+                break;
+            case 2: //next week
+                startOfWeek = DateTimeUtils.getStartOfNextWeek();
+                break;
+            default:
+                startOfWeek = DateTimeUtils.getStartOfCurrentWeek();
+                break;
+        }
+        allOrders = orderManager.getAllOrders(startOfWeek);
+
+        for (Order order : allOrders) {
+            for (MenuItem item : order.getOrder()) {
+                if (item.getChoices().isEmpty()) {
+                    continue;
+                }
+                DailyOrder daySummary = DailyOrder.mapOrderAndItemToDailyOrder(item, order);
+                report.put(item.getDate().getDayOfWeek() - 1, daySummary);
+            }
+        }
+
+        model.addAttribute("week", week);
+        model.addAttribute("report", report.asMap());
+
+        return ViewURLs.WEEK_ORDER_REPORT;
+    }
+
+    @Secured("ROLE_PRINT_ORDER")
+    @RequestMapping("/report/summary")
+    public String processSummaryRequest(ModelMap model) {
+        OrderManager orderManager = managerFactory.getOrderManager();
+        int today = DateTime.now().getDayOfWeek();
+        Map<Integer, Map<String, Integer>> summary = new TreeMap<>();
+        for (int i = today; i <= DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
+            summary.put(i, new HashMap<String, Integer>());
+        }
+        DateTime startOfWeek = DateTimeUtils.getStartOfCurrentWeek();
+        for (Order order : orderManager.getAllOrders(startOfWeek)) {
+            for (MenuItem item : order.getOrder()) {
+                if (item.getDate().isBeforeNow()) {
+                    continue; // do not show past orders
+                }
+                Integer dayOfWeek = item.getDate().getDayOfWeek();
+                Map<String, Integer> dayOrders = summary.get(dayOfWeek);
+                for (Dish dish : item.getChoices()) {
+                    String dishName = dish.getName();
+                    if (!dayOrders.containsKey(dishName)) {
+                        dayOrders.put(dishName, 1);
+                    } else {
+                        dayOrders.put(dishName, dayOrders.get(dishName) + 1);
+                    }
+                }
+            }
+        }
+
+        model.addAttribute("summary", summary);
+
+        return ViewURLs.ORDERS_SUMMARY_PAGE;
+    }
+
     public static class DailyOrder {
+
         private Integer weekDay;
         private User user;
         private MenuItem menuItem;
         private Integer total;
         private UUID weekOrderId;
-
 
         public Integer getWeekDay() {
             return weekDay;
@@ -169,4 +244,3 @@ public class ReportController {
         }
     }
 }
-

@@ -9,7 +9,8 @@ table {
     border: 1px solid black; 
     border-collapse: collapse; 
     width: 100%; 
-    font-size: 10px;
+    font-size: 8px;
+    line-height: normal;
 }
 .name-width {
     width: 5%;
@@ -17,4 +18,7 @@ table {
 
 .days-width {
     width: 19%;
+}
+.dish-name {
+    word-wrap: break-word;
 }
