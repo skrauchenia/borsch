@@ -1,7 +1,12 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
+import com.exadel.borsch.dao.ChoisesDao;
+import com.exadel.borsch.dao.MenuItemDao;
+import com.exadel.borsch.dao.OrderDao;
 import com.exadel.borsch.dao.UserDao;
 import com.exadel.borsch.entity.AccessRight;
+import com.exadel.borsch.entity.MenuItem;
+import com.exadel.borsch.entity.Order;
 import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.UserManager;
 import org.slf4j.Logger;
@@ -26,6 +31,15 @@ public class JdbcUserManager implements UserManager {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private OrderDao orderDao;
+
+    @Autowired
+    private MenuItemDao menuItemDao;
+
+    @Autowired
+    private ChoisesDao choisesDao;
+
     @Override
     @Transactional(readOnly = true)
     public User getUserById(Long userId) {
@@ -41,6 +55,16 @@ public class JdbcUserManager implements UserManager {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteUserById(Long userId) {
+
+        for (Order order : orderDao.getByOwnerId(userId)) {
+            for (MenuItem menuItem : menuItemDao.getAllByOrderId(order.getId())) {
+                choisesDao.deleteAllByMenuItemId(menuItem.getId());
+            }
+            menuItemDao.deleteAllByOrderId(order.getId());
+        }
+
+        orderDao.deleteAllByUserId(userId);
+
         userDao.delete(userId);
     }
 

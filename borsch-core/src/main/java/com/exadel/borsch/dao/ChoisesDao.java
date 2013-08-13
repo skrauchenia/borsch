@@ -6,4 +6,5 @@ package com.exadel.borsch.dao;
 public interface ChoisesDao {
     void save(Long menuItemId, Long dishId);
     void delete(Long dishId);
+    void deleteAllByMenuItemId(Long menuItemId);
 }

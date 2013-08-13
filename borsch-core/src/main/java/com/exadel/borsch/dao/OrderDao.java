@@ -17,4 +17,5 @@ public interface OrderDao {
     void setOwnerId(Long orderId, Long ownerId);
     List<Order> getAll();
     List<Entry> getUsersIdForOrdersId();
+    void deleteAllByUserId(Long userId);
 }

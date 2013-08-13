@@ -14,6 +14,8 @@ public class ChoisesDaoImpl extends BorschJdbcDaoSupport implements ChoisesDao {
 
     private static final String QUERY_DELETE_DISH = "DELETE FROM Choises WHERE dish=?";
 
+    private static final String QUERY_DELETE_DISH_BY_MENU_ITEM_ID = "DELETE FROM Choises WHERE menuItem=?";
+
     public ChoisesDaoImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
         setJdbcInsert(getJdbcInsert()
@@ -35,6 +37,14 @@ public class ChoisesDaoImpl extends BorschJdbcDaoSupport implements ChoisesDao {
         getJdbcTemplate().update(
                 QUERY_DELETE_DISH,
                 dishId
+        );
+    }
+
+    @Override
+    public void deleteAllByMenuItemId(Long menuItemId) {
+        getJdbcTemplate().update(
+                QUERY_DELETE_DISH_BY_MENU_ITEM_ID,
+                menuItemId
         );
     }
 }

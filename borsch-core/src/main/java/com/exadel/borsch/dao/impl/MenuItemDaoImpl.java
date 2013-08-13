@@ -30,7 +30,9 @@ public class MenuItemDaoImpl extends BorschJdbcDaoSupport implements MenuItemDao
 
     private static final String QUERY_SET_ORDER_ID = "UPDATE MenuItem SET idOrder=? WHERE idMenuItem=?";
 
-    private static final String QUERY_DELETE_MENU_ITEM = "DELETE FROM MenuIterm WHERE idMenuItem=?";
+    private static final String QUERY_DELETE_MENU_ITEM = "DELETE FROM MenuItem WHERE idMenuItem=?";
+
+    private static final String QUERY_DELETE_MENU_ITEM_BY_ORDER_ID = "DELETE FROM MenuItem WHERE idOrder=?";
 
     private static final RowMapper<MenuItem> MENU_ITEM_ROW_MAPPER = new RowMapper<MenuItem>() {
         @Override
@@ -106,6 +108,14 @@ public class MenuItemDaoImpl extends BorschJdbcDaoSupport implements MenuItemDao
                 QUERY_SET_ORDER_ID,
                 orderId,
                 menuItemId
+        );
+    }
+
+    @Override
+    public void deleteAllByOrderId(Long orderId) {
+        getJdbcTemplate().update(
+                QUERY_DELETE_MENU_ITEM_BY_ORDER_ID,
+                orderId
         );
     }
 }

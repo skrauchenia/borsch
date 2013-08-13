@@ -26,8 +26,9 @@ public class PayOrderNotifier extends NotifierTask {
     }
 
     @Override
-    @Scheduled(fixedRate = SCHEDULED_HOURS * DateTimeUtils.MINUTES_IN_HOUR
-            * DateTimeUtils.SECOND_IN_MINUTE * DateTimeUtils.MILLIS_IN_SECOND)
+//    @Scheduled(fixedRate = SCHEDULED_HOURS * DateTimeUtils.MINUTES_IN_HOUR
+//            * DateTimeUtils.SECOND_IN_MINUTE * DateTimeUtils.MILLIS_IN_SECOND)
+    @Scheduled(fixedRate = 4*1000*60)
     public void runPeriodicCheck() {
         UserManager userManager = managerFactory.getUserManager();
         OrderManager orderManager = managerFactory.getOrderManager();

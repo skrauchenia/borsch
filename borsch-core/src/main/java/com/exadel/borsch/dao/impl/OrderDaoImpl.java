@@ -30,6 +30,8 @@ public class OrderDaoImpl extends BorschJdbcDaoSupport implements OrderDao {
 
     private static final String QUERY_DELETE_ORDER = "DELETE FROM Orders WHERE idOrder=?";
 
+    private static final String QUERY_DELETE_ORDER_BY_USER_ID = "DELETE FROM Orders WHERE owner=?";
+
     private static final String QUERY_UPDATE_ORDER = "UPDATE Orders SET "
             + "startDate=? endDate=? WHERE idOrder=?";
 
@@ -136,6 +138,14 @@ public class OrderDaoImpl extends BorschJdbcDaoSupport implements OrderDao {
         return getJdbcTemplate().query(
                 QUERY_SELECT_ENTRY,
                 ENTRY_ROW_MAPPER
+        );
+    }
+
+    @Override
+    public void deleteAllByUserId(Long userId) {
+        getJdbcTemplate().update(
+                QUERY_DELETE_ORDER_BY_USER_ID,
+                userId
         );
     }
 }
