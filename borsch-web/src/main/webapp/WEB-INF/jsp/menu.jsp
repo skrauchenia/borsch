@@ -243,7 +243,7 @@
                 <iframe src="" style="zoom:0.60;" frameborder="0" height="600px" width="99.6%" scrolling="no"></iframe>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"><i class="icon-ban-circle icon-white"></i> Cancel</button>
+                <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true"><i class="icon-ban-circle icon-white"></i> <spring:message code="actions.cancel"/></button>
                 <button id="save" class="btn btn-success" type="button" onclick="dishAction()">
                     <i class="icon-ok icon-white"></i> <spring:message code="actions.save"/>
                 </button>

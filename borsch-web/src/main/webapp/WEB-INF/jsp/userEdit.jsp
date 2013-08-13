@@ -107,7 +107,7 @@
                 </sec:authorize>
                 <div class="control-group">
                     <div class="controls">
-                        <button type="button" class="btn" onclick="validate()">Submit</button>
+                        <button type="button" class="btn" onclick="validate()"><spring:message code="actions.submit"/></button>
                     </div>
                 </div>
             </form:form>
