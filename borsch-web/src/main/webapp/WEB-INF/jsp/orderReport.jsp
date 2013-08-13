@@ -54,7 +54,6 @@
                                         <th><spring:message code="menu.table.payment"/></th>
                                     </tr>
                                     <c:forEach var="order" items="${day.value}">
-                                        <c:if test="${(dayNumber + 1) == order.weekDay}">
                                             <tr>
                                                 <td>
                                                     <c:out value="${order.user.name}"/>
@@ -81,7 +80,6 @@
                                                     </button>
                                                 </td>
                                             </tr>
-                                        </c:if>
                                     </c:forEach>
                                 </table>
                             </div>
