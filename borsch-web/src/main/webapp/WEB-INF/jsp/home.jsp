@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
 
 <t:genericpage>
@@ -79,7 +80,8 @@
                 
                 // Order management
                 function processOrder(day, orderId, button) {
-                    $.post("${contextPath}/home/orders/" + day + "/" + orderId, {}, function(result) {
+                    var date = getTable(day).parent().find(".btn:last").data("date");
+                    $.post("${contextPath}/home/orders/" + date + "/" + orderId, {}, function(result) {
                         if (result.status === "added") {
                             addOrder(day, result.dish);
                         }
@@ -182,6 +184,8 @@
     <jsp:body>
         <div class="container">
             <br/>
+            <h3 class="muted"><spring:message code="week.${currentWeekCode}"/></h3>
+            <br/>
             <div class="container-fluid">
                 <div class="span2">
                     <ul class="nav nav-pills nav-stacked" id="days">
@@ -232,7 +236,8 @@
                             </c:forEach>
                         </table>
                         <hr/>
-                        <a href="#" role="button" class="btn btn-primary order-edit" style="float: right">
+                        <joda:format var="itemDate" value="${menuItem.date}" pattern="dd-MM-yyyy"/>
+                        <a href="#" role="button" class="btn btn-primary order-edit" data-date="${itemDate}" style="float: right">
                             <spring:message code="home.order.edit"/>
                         </a>
                     </div>
@@ -252,6 +257,16 @@
                     </div>
                 </div>
             </div>
+        
+            <br/>
+            <c:if test="${not empty prevWeek}">
+            <a class="btn btn-info" style="float: left" href="${contextPath}/home/${prevWeek}">
+                <spring:message code="week.0"/></a>
+            </c:if>
+            <c:if test="${not empty nextWeek}">
+            <a class="btn btn-info" style="float: right" href="${contextPath}/home/${nextWeek}">
+                <spring:message code="week.2"/></a>
+            </c:if>
         </div>
     </jsp:body>
         

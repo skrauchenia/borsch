@@ -1,15 +1,15 @@
+
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.dao.Dish;
-import com.exadel.borsch.dao.MenuItem;
-import com.exadel.borsch.dao.Order;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.dao.*;
 import com.exadel.borsch.managers.ManagerFactory;
+import com.exadel.borsch.managers.OrderChangeManager;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -19,20 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.UUID;
-import org.joda.time.DateTime;
+import java.util.*;
 
 /**
  * @author Andrey Zhilka
  */
 @Controller
 public class ReportController {
-
     @Autowired
     private ManagerFactory managerFactory;
 
@@ -46,38 +39,6 @@ public class ReportController {
         menuItem.setIsPaid(true);
         orderManager.updateOrder(order);
     }
-
-    @Secured("ROLE_PRINT_ORDER")
-    @RequestMapping("/report")
-    public String processPageRequest(ModelMap model) {
-        OrderManager orderManager = managerFactory.getOrderManager();
-        ListMultimap<Integer, DailyOrder> report = ArrayListMultimap.create();
-        List<Order> allOrders;
-
-        allOrders = orderManager.getAllOrders();
-
-        for (Order order : allOrders) {
-            for (MenuItem item : order.getOrder()) {
-                if (item.getChoices().isEmpty()) {
-                    continue;
-                }
-                DailyOrder daySummary = DailyOrder.mapOrderAndItemToDailyOrder(item, order);
-                report.put(item.getDate().getDayOfWeek() - 1, daySummary);
-            }
-        }
-
-        List<List<DailyOrder>> reportFinalVersion = new ArrayList<>();
-
-        for (int i = 0; i < DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
-            reportFinalVersion.add(report.get(i));
-        }
-
-        model.addAttribute("report", reportFinalVersion);
-        model.addAttribute("workingDays", DateTimeUtils.WORKING_DAYS_IN_WEEK);
-
-        return ViewURLs.WEEK_ORDER_REPORT;
-    }
-
     @Secured("ROLE_PRINT_ORDER")
     @RequestMapping("/orderTable")
     public String loadOrderTable(ModelMap model) {
@@ -111,7 +72,6 @@ public class ReportController {
         model.addAttribute("totalPrice", totalPrice);
         return ViewURLs.ORDER_TABLE;
     }
-
     @Secured("ROLE_PRINT_ORDER")
     @RequestMapping("/report/{week}")
     public String processPageRequest(ModelMap model, @PathVariable Integer week) {
@@ -121,13 +81,13 @@ public class ReportController {
 
         DateTime startOfWeek;
         switch (week) {
-            case 0: //previous week
+            case 0 : //previous week
                 startOfWeek = DateTimeUtils.getStartOfWeek(DateTime.now().minusDays(DateTimeUtils.DAYS_IN_WEEK));
                 break;
-            case 1: //current week
+            case 1 : //current week
                 startOfWeek = DateTimeUtils.getStartOfCurrentWeek();
                 break;
-            case 2: //next week
+            case 2 : //next week
                 startOfWeek = DateTimeUtils.getStartOfNextWeek();
                 break;
             default:
@@ -185,13 +145,28 @@ public class ReportController {
         return ViewURLs.ORDERS_SUMMARY_PAGE;
     }
 
-    public static class DailyOrder {
+    @RequestMapping("/report/changes")
+    public String processChangesRequest(ModelMap model) {
+        OrderChangeManager changeManager = managerFactory.getChangeManager();
+        ListMultimap<Integer, OrderChange> report = ArrayListMultimap.create();
+        List<OrderChange> changes = changeManager.getActualChanges();
 
+        for (OrderChange change : changes) {
+            report.put(change.getDateOfChange().getDayOfWeek(), change);
+        }
+
+        model.addAttribute("report", report.asMap());
+        return ViewURLs.CHANGES_REPORT;
+    }
+
+
+    public static class DailyOrder {
         private Integer weekDay;
         private User user;
         private MenuItem menuItem;
         private Integer total;
         private UUID weekOrderId;
+
 
         public Integer getWeekDay() {
             return weekDay;

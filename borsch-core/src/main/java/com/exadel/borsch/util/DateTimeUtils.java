@@ -30,10 +30,10 @@ public final class DateTimeUtils {
     }
 
     public static DateTime getStartOfWeek(DateTime ref) {
-        return ref.plusDays(DAYS_IN_WEEK - (ref.getDayOfWeek() - 1));
+        return ref.minusDays((ref.getDayOfWeek() - 1));
     }
 
     public static DateTime getStartOfNextWeek() {
-        return getStartOfWeek(DateTime.now());
+        return getStartOfWeek(DateTime.now()).plusDays(DAYS_IN_WEEK);
     }
 }

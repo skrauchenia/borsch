@@ -22,6 +22,7 @@ public final class ViewURLs {
     public static final String NOTIFICATION_REPORT = "notification";
     public static final String ORDER_TABLE = "orderTable";
     public static final String ORDERS_SUMMARY_PAGE = "reportSummary";
+    public static final String CHANGES_REPORT = "changesReport";
     private ViewURLs() {
     }
 }

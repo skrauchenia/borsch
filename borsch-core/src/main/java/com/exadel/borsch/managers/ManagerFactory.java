@@ -15,6 +15,8 @@ public final class ManagerFactory {
     private OrderManager orderManager;
     @Autowired
     private PriceManager priceManager;
+    @Autowired
+    private OrderChangeManager changeManager;
 
     public UserManager getUserManager() {
         return userManager;
@@ -26,5 +28,9 @@ public final class ManagerFactory {
 
     public PriceManager getPriceManager() {
         return priceManager;
+    }
+
+    public OrderChangeManager getChangeManager() {
+        return changeManager;
     }
 }
