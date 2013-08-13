@@ -12,8 +12,7 @@ public interface DishDao {
     void save(Dish dish);
     void delete(Long id);
     void update(Dish dish);
-    List<Dish> getAllByMenuItemId(Long orderId);
+    List<Dish> getAllByMenuItemId(Long menuItemId);
     List<Dish> getAllByPriceListId(Long priceListId);
-    void setMenuItem(Long dishId, Long orderId);
     void setPriceList(Long dishId, Long priceListId);
 }

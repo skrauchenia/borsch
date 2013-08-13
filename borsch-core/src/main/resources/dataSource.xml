@@ -52,4 +52,9 @@
     <bean id="orderChangeDao" class="com.exadel.borsch.dao.impl.OrderChangeDaoImpl">
         <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
+
+    <bean id="choisesDao" class="com.exadel.borsch.dao.impl.ChoisesDaoImpl">
+        <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
 </beans>

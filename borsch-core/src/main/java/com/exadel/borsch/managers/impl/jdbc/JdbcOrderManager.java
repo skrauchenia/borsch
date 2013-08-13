@@ -1,9 +1,6 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
-import com.exadel.borsch.dao.DishDao;
-import com.exadel.borsch.dao.MenuItemDao;
-import com.exadel.borsch.dao.OrderDao;
-import com.exadel.borsch.dao.UserDao;
+import com.exadel.borsch.dao.*;
 import com.exadel.borsch.entity.Dish;
 import com.exadel.borsch.entity.MenuItem;
 import com.exadel.borsch.entity.Order;
@@ -42,6 +39,9 @@ public class JdbcOrderManager implements OrderManager {
 
     @Autowired
     private DishDao dishDao;
+
+    @Autowired
+    private ChoisesDao choisesDao;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -190,13 +190,13 @@ public class JdbcOrderManager implements OrderManager {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void removeDishFormMenuItem(MenuItem menuItem, Dish dish) {
-        dishDao.setMenuItem(dish.getId(), null);
+        choisesDao.delete(dish.getId());
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void addDishFormMenuItem(MenuItem menuItem, Dish dish) {
-        dishDao.setMenuItem(dish.getId(), menuItem.getId());
+        choisesDao.save(menuItem.getId(), dish.getId());
     }
 
     /**
