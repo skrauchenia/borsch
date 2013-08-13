@@ -14,8 +14,17 @@ public class OrderChange {
     private ChangeAction committedAction;
 
     public OrderChange(Long changeId, Long changedDishId, Long actedUserId,
+                       Long menuItemId, DateTime date, ChangeAction action) {
+        this.id = changeId;
+        this.changedDishId = changedDishId;
+        this.actedUserId = actedUserId;
+        this.menuItemId = menuItemId;
+        this.dateOfChange = date;
+        this.committedAction = action;
+    }
+
+    public OrderChange(Long changedDishId, Long actedUserId,
                 Long menuItemId, DateTime date, ChangeAction action) {
-        this.setId(changeId);
         this.changedDishId = changedDishId;
         this.actedUserId = actedUserId;
         this.menuItemId = menuItemId;

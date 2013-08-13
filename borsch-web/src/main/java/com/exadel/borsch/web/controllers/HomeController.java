@@ -1,9 +1,7 @@
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.entity.Dish;
-import com.exadel.borsch.entity.MenuItem;
-import com.exadel.borsch.entity.Order;
-import com.exadel.borsch.entity.User;
+import com.exadel.borsch.checker.OrderChangesHolder;
+import com.exadel.borsch.entity.*;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.PriceManager;
@@ -137,7 +135,7 @@ public class HomeController {
     @RequestMapping("/home/orders/{date}/{itemId}")
     public OrderResult processOrderModification(Principal principal, @PathVariable String date,
         @PathVariable Long itemId) {
-
+        OrderChange change;
         PriceManager priceManager = managerFactory.getPriceManager();
         OrderManager orderManager = managerFactory.getOrderManager();
         User user = UserUtils.getUserByPrincipal(principal);
@@ -155,11 +153,17 @@ public class HomeController {
         if (menuItem.getChoices().contains(dish)) {
             menuItem.removeDish(dish);
             orderManager.removeDishFormMenuItem(menuItem, dish);
+            change = new OrderChange(dish.getId(), user.getId(), menuItem.getId(),
+                    DateTime.now(), ChangeAction.REMOVED_DISH);
+            OrderChangesHolder.addChange(change);
             return new OrderResult("removed", dish);
         }
 
         menuItem.addDish(dish);
         orderManager.addDishFormMenuItem(menuItem, dish);
+        change = new OrderChange(dish.getId(), user.getId(), menuItem.getId(),
+                DateTime.now(), ChangeAction.ADDED_NEW_DISH);
+        OrderChangesHolder.addChange(change);
         return new OrderResult("added", dish);
     }
 
