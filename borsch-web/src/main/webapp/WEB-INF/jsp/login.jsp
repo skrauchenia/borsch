@@ -24,9 +24,6 @@
                 <h2 class="form-signin-heading">Sign in</h2>
                 <input type="text" class="input-block-level" placeholder="login" required="true" name="j_username">
                 <input type="password" class="input-block-level" placeholder="password" required="true" name="j_password">
-                <label class="checkbox">
-                    <input type="checkbox" value="remember-me"> Remember me
-                </label>
                 <button class="btn btn-large btn-primary" type="submit">Sign in</button>
             </form>
         </div>

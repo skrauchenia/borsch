@@ -5,6 +5,9 @@ import com.exadel.borsch.entity.Dish;
 import com.exadel.borsch.entity.PriceList;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.PriceManager;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author Vlad
@@ -38,13 +43,21 @@ public class MenuController {
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
-//            ListMultimap<Course, Dish> courses = dishes.getCourses();
-              mav.addObject("courseList", dishes.getCourses().asMap());
-//            mav.addObject("firstCourse", courses.get(Course.FIRST_COURSE));
-//            mav.addObject("secondCourse", courses.get(Course.SECOND_COURSE));
-//            mav.addObject("dessert", courses.get(Course.SECOND_COURSE));
+            Map<Integer, Collection<Dish>> map = dishes.getCourses().asMap();
+            map = this.setMap(map);
+            mav.addObject("courseList", map);
         }
         return mav;
+    }
+
+    private Map<Integer, Collection<Dish>> setMap(Map<Integer, Collection<Dish>> map) {
+        Map<Integer, Collection<Dish>> temp = new TreeMap(map);
+        for (int i = 0; i < Course.COUNT_COURSE; i++) {
+            if (!temp.containsKey(i)) {
+                temp.put(i, new ArrayList<Dish>());
+            }
+        }
+        return Collections.unmodifiableMap(temp);
     }
 
     @Secured("ROLE_EDIT_PRICE")
@@ -127,6 +140,7 @@ public class MenuController {
     }
 
     public static class DishJSON {
+
         private String id;
         private String name;
         private Integer price;

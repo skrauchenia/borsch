@@ -7,7 +7,7 @@ public enum Course {
     FIRST_COURSE("firstCourse"),
     SECOND_COURSE("secondCourse"),
     DESSERT("dessert");
-
+    public static final Integer COUNT_COURSE = 3;
     private String name;
     Course(String name) {
         this.name = name;

@@ -1,7 +1,5 @@
 package com.exadel.borsch.dao;
 
-import java.util.List;
-
 /**
  * @author Vlad
  */

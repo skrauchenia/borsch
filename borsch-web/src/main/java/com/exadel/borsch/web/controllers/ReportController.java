@@ -1,9 +1,11 @@
+
 package com.exadel.borsch.web.controllers;
 
 import com.exadel.borsch.entity.*;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderChangeManager;
 import com.exadel.borsch.managers.OrderManager;
+import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -37,7 +39,39 @@ public class ReportController {
         menuItem.setIsPaid(true);
         orderManager.updateOrder(order, menuItem);
     }
-
+    @Secured("ROLE_PRINT_ORDER")
+    @RequestMapping("/orderTable")
+    public String loadOrderTable(ModelMap model) {
+        OrderManager orderManager = managerFactory.getOrderManager();
+        UserManager userManager = managerFactory.getUserManager();
+        List<User> users = userManager.getAllUsers();
+        ListMultimap<User, MenuItem> orders = ArrayListMultimap.create();
+        List<String> date = new ArrayList<>();
+        Map<Integer, Integer> totalPrice = new TreeMap<>();
+        boolean flag = true;
+        for (User user : users) {
+            List<MenuItem> items = orderManager.getCurrentOrderForUser(user).getOrder();
+            for (MenuItem item : items) {
+                if (flag) {
+                    date.add(item.getDate().dayOfMonth().get() + "."
+                            + item.getDate().monthOfYear().get() + "."
+                            + item.getDate().year().get());
+                }
+                int day = item.getDate().dayOfMonth().get();
+                if (!totalPrice.containsKey(day)) {
+                    totalPrice.put(day, item.getTotalPrice());
+                } else {
+                    totalPrice.put(day, totalPrice.get(day) + item.getTotalPrice());
+                }
+                orders.put(user, item);
+            }
+            flag = false;
+        }
+        model.addAttribute("date", date);
+        model.addAttribute("orders", orders.asMap());
+        model.addAttribute("totalPrice", totalPrice);
+        return ViewURLs.ORDER_TABLE;
+    }
     @Secured("ROLE_PRINT_ORDER")
     @RequestMapping("/report/{week}")
     public String processPageRequest(ModelMap model, @PathVariable Integer week) {

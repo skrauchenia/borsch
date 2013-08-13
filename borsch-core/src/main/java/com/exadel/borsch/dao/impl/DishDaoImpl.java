@@ -23,7 +23,8 @@ public class DishDaoImpl extends BorschJdbcDaoSupport implements DishDao {
 
     private static final String QUERY_SELECT_DISH_BY_ID = QUERY_SELECT_DISH + "WHERE idDish=?";
 
-    private static final String QUERY_SELECT_DISH_BY_MENU_ITEM_ID = "SELECT * FROM Dish LEFT OUTER JOIN Choises ON Choises.dish=Dish.idDish WHERE Choises.menuItem=?";
+    private static final String QUERY_SELECT_DISH_BY_MENU_ITEM_ID = "SELECT * FROM Dish "
+            + "LEFT OUTER JOIN Choises ON Choises.dish=Dish.idDish WHERE Choises.menuItem=?";
 
     private static final String QUERY_SELECT_DISH_BY_PRICE_LIST_ID = QUERY_SELECT_DISH + "WHERE priceList=?";
 

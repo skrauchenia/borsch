@@ -5,7 +5,6 @@ import com.exadel.borsch.dao.ChoisesDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
