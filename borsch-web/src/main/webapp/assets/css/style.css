@@ -86,3 +86,6 @@ body {
 table .centered-line {
     text-align: center;
 }
+li.left a.left  {
+    text-align: left;
+}
