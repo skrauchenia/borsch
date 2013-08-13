@@ -7,6 +7,7 @@ import com.exadel.borsch.dao.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.PriceManager;
+import com.exadel.borsch.notifier.PayOrderNotifier;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.exadel.borsch.web.users.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ import org.joda.time.format.DateTimeFormat;
 public class HomeController {
     @Autowired
     private ManagerFactory managerFactory;
+    @Autowired
+    private PayOrderNotifier notifier;
 
     public void fillInPageModel(Model model, Principal principal, DateTime date) {
         OrderManager orderManager = managerFactory.getOrderManager();
@@ -90,15 +93,17 @@ public class HomeController {
         Order testOrder1 = orderManager.getCurrentOrderForUser(admin);
         testOrder1.setStartDate(testOrder1.getStartDate().minusWeeks(1));
         testOrder1.setEndDate(testOrder1.getEndDate().minusWeeks(1));
-        for (MenuItem item: testOrder1.getOrder())
+        for (MenuItem item: testOrder1.getOrder()) {
             item.setDate(item.getDate().minusWeeks(1));
+        }
         orderManager.deleteOrderById(testOrder1.getId());
 
         Order testOrder2 = orderManager.getCurrentOrderForUser(admin);
         testOrder2.setStartDate(testOrder2.getStartDate().minusWeeks(2));
         testOrder2.setEndDate(testOrder2.getEndDate().minusWeeks(2));
-        for (MenuItem item: testOrder2.getOrder())
+        for (MenuItem item: testOrder2.getOrder()) {
             item.setDate(item.getDate().minusWeeks(2));
+        }
         orderManager.deleteOrderById(testOrder2.getId());
 
         orderManager.getCurrentOrderForUser(admin);
