@@ -34,7 +34,6 @@ public class SimpleOrderChangeManager implements OrderChangeManager {
     @Override
     public List<OrderChange> getActualChanges() {
         List<OrderChange> latestChanges = new ArrayList<>();
-        DateTime startOfWeek = DateTimeUtils.getStartOfCurrentWeek();
 
         for (OrderChange change : changes) {
             if (!DateTimeUtils.isDateBefore(change.getDateOfChange(), DateTime.now())) {

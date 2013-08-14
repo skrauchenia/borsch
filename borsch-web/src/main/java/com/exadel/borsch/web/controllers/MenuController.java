@@ -52,7 +52,7 @@ public class MenuController {
     }
 
     private Map<Integer, Collection<Dish>> setMap(Map<Integer, Collection<Dish>> map) {
-        Map<Integer, Collection<Dish>> temp = new TreeMap(map);
+        Map<Integer, Collection<Dish>> temp = new TreeMap<>(map);
         for (int i = 0; i < Course.COUNT_COURSE; i++) {
             if (!temp.containsKey(i)) {
                 temp.put(i, new ArrayList<Dish>());
