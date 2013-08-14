@@ -1,7 +1,7 @@
 
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.dao.*;
+import com.exadel.borsch.entity.*;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderChangeManager;
 import com.exadel.borsch.managers.OrderManager;
@@ -32,12 +32,12 @@ public class ReportController {
     @Secured("ROLE_PRINT_ORDER")
     @ResponseBody
     @RequestMapping(value = "/report/setPaid/{orderId}/{menuId}", method = RequestMethod.POST)
-    public void processAjaxRequest(@PathVariable String orderId, @PathVariable String menuId) {
+    public void processAjaxRequest(@PathVariable Long orderId, @PathVariable Long menuId) {
         OrderManager orderManager = managerFactory.getOrderManager();
-        Order order = orderManager.getOrderById(UUID.fromString(orderId));
-        MenuItem menuItem = order.getMenuById(UUID.fromString(menuId));
+        Order order = orderManager.getOrderById(orderId);
+        MenuItem menuItem = order.getMenuById(menuId);
         menuItem.setIsPaid(true);
-        orderManager.updateOrder(order);
+        orderManager.updateOrder(order, menuItem);
     }
     @Secured("ROLE_PRINT_ORDER")
     @RequestMapping("/orderTable")
@@ -165,7 +165,7 @@ public class ReportController {
         private User user;
         private MenuItem menuItem;
         private Integer total;
-        private UUID weekOrderId;
+        private Long weekOrderId;
 
 
         public Integer getWeekDay() {
@@ -176,11 +176,11 @@ public class ReportController {
             this.weekDay = weekDay;
         }
 
-        public UUID getWeekOrderId() {
+        public Long getWeekOrderId() {
             return weekOrderId;
         }
 
-        public void setWeekOrderId(UUID weekOrderId) {
+        public void setWeekOrderId(Long weekOrderId) {
             this.weekOrderId = weekOrderId;
         }
 

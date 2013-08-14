@@ -1,7 +1,7 @@
 package com.exadel.borsch.checker;
 
-import com.exadel.borsch.dao.ChangeAction;
-import com.exadel.borsch.dao.OrderChange;
+import com.exadel.borsch.entity.ChangeAction;
+import com.exadel.borsch.entity.OrderChange;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.Sets;
 

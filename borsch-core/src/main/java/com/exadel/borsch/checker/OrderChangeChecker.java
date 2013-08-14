@@ -1,6 +1,6 @@
 package com.exadel.borsch.checker;
 
-import com.exadel.borsch.dao.OrderChange;
+import com.exadel.borsch.entity.OrderChange;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderChangeManager;
 import com.exadel.borsch.util.DateTimeUtils;

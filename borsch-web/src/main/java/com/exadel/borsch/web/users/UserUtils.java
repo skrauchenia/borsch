@@ -1,12 +1,11 @@
 package com.exadel.borsch.web.users;
 
-import com.exadel.borsch.dao.AccessRight;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entity.AccessRight;
+import com.exadel.borsch.entity.User;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import java.security.Principal;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +42,7 @@ public final class UserUtils {
         }
     }
 
-    public static void checkEditor(Principal editor, UUID editableUserId) {
+    public static void checkEditor(Principal editor, Long editableUserId) {
         User userEditor = getUserByPrincipal(editor);
         if (userEditor != null) {
             if (!userEditor.getId().equals(editableUserId)) {

@@ -1,4 +1,4 @@
-package com.exadel.borsch.dao;
+package com.exadel.borsch.entity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,10 +8,11 @@ import java.util.*;
 /**
  * @author Andrey Zhilka
  */
-public class User extends Identifiable {
+public class User {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
+    private Long id;
     private String login;
     private String name;
     private String email;
@@ -22,6 +23,30 @@ public class User extends Identifiable {
     public User() {
         super();
         accessRights.add(AccessRight.ROLE_EDIT_MENU_SELF);
+    }
+
+    public User(Long id,
+                String login,
+                String name,
+                String email,
+                boolean needEmailNotification,
+                Set<AccessRight> accessRights,
+                Locale locale) {
+        this.setId(id);
+        this.login = login;
+        this.name = name;
+        this.email = email;
+        this.needEmailNotification = needEmailNotification;
+        this.accessRights = accessRights;
+        this.locale = locale;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public boolean getNeedEmailNotification() {

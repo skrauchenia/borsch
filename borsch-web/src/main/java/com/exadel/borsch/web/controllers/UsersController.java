@@ -1,7 +1,7 @@
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.dao.AccessRight;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entity.AccessRight;
+import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.web.users.UserUtils;
@@ -15,18 +15,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.Locale;
-import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
  * @author Vlad
@@ -48,11 +47,10 @@ public class UsersController {
 
     @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/edit/user/{userId}")
-    public String processEditPageRequest(@PathVariable String userId, ModelMap model, Principal principal) {
-        UUID uuidUserId = UUID.fromString(userId);
-        UserUtils.checkEditor(principal, uuidUserId);
+    public String processEditPageRequest(@PathVariable Long userId, ModelMap model, Principal principal) {
+        UserUtils.checkEditor(principal, userId);
         UserManager userManager = managerFactory.getUserManager();
-        User user = userManager.getUserById(uuidUserId);
+        User user = userManager.getUserById(userId);
 
         userCommand.mapUserToUserCommand(user);
         model.addAttribute("userCommand", userCommand);
@@ -62,13 +60,12 @@ public class UsersController {
 
     @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping(value = "/edit/user/{userId}/edit", method = RequestMethod.POST)
-    public String processUpdateUserRequest(@PathVariable String userId, ModelMap model,
+    public String processUpdateUserRequest(@PathVariable Long userId, ModelMap model,
             @Valid UserCommand userCommand, BindingResult result, Principal principal,
-            HttpServletRequest request, HttpServletResponse response) {
-        UUID uuidUserId = UUID.fromString(userId);
-        UserUtils.checkEditor(principal, uuidUserId);
+            HttpServletResponse response, HttpServletRequest request) {
+        UserUtils.checkEditor(principal, userId);
         UserManager userManager = managerFactory.getUserManager();
-        User user = userManager.getUserById(uuidUserId);
+        User user = userManager.getUserById(userId);
 
         boolean invalidForm = true;
 
@@ -105,10 +102,10 @@ public class UsersController {
 
     @Secured("ROLE_EDIT_PROFILE")
     @RequestMapping(value = "/edit/user/{userId}/remove", method = RequestMethod.POST)
-    public String processRemoveUserRequest(@PathVariable String userId, Principal principal) {
+    public String processRemoveUserRequest(@PathVariable Long userId, Principal principal) {
         UserUtils.hasRole(principal, AccessRight.ROLE_EDIT_PROFILE);
         UserManager userManager = managerFactory.getUserManager();
-        userManager.deleteUserById(UUID.fromString(userId));
+        userManager.deleteUserById(userId);
         return ViewURLs.USERS_PAGE;
     }
 
@@ -119,7 +116,7 @@ public class UsersController {
         @NotEmpty
         private String locale;
         @NotNull
-        private String id;
+        private Long id;
         @NotEmpty
         private String[] rights;
         private boolean needEmailNotification;
@@ -136,11 +133,11 @@ public class UsersController {
             this.needEmailNotification = needEmailNotification;
         }
 
-        public String getId() {
+        public Long getId() {
             return id;
         }
 
-        public void setId(String id) {
+        public void setId(Long id) {
             this.id = id;
         }
 
@@ -179,7 +176,7 @@ public class UsersController {
 
         public void mapUserToUserCommand(User user) {
             this.name = user.getName();
-            this.id = user.getId().toString();
+            this.id = user.getId();
             this.locale = user.getLocale().toString();
             this.needEmailNotification = user.getNeedEmailNotification();
             this.rights = user.getStringAccessRights().toArray(new String[]{""});

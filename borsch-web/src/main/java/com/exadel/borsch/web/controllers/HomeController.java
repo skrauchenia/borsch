@@ -1,15 +1,15 @@
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.dao.Dish;
-import com.exadel.borsch.dao.MenuItem;
-import com.exadel.borsch.dao.Order;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.checker.OrderChangesHolder;
+import com.exadel.borsch.entity.*;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.PriceManager;
 import com.exadel.borsch.notifier.PayOrderNotifier;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.exadel.borsch.web.users.UserUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -20,10 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.UUID;
-import org.joda.time.DateTime;
+
 import org.joda.time.Weeks;
-import org.joda.time.format.DateTimeFormat;
 
 /**
  *
@@ -139,13 +137,14 @@ public class HomeController {
     @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping("/home/orders/{date}/{itemId}")
     public OrderResult processOrderModification(Principal principal, @PathVariable String date,
-        @PathVariable String itemId) {
-
+        @PathVariable Long itemId) {
+        OrderChange change;
         PriceManager priceManager = managerFactory.getPriceManager();
         OrderManager orderManager = managerFactory.getOrderManager();
         User user = UserUtils.getUserByPrincipal(principal);
 
-        Dish dish = priceManager.getCurrentPriceList().getDishById(UUID.fromString(itemId));
+
+        Dish dish = priceManager.getCurrentPriceList().getDishById(itemId);
         DateTime orderDate = DateTime.parse(date, DateTimeFormat.forPattern("dd-MM-yyy"));
         Order order = orderManager.findOrderAtDateForUser(user, orderDate);
         int day = orderDate.getDayOfWeek() - 1;
@@ -156,10 +155,18 @@ public class HomeController {
         MenuItem menuItem = order.getOrder().get(day);
         if (menuItem.getChoices().contains(dish)) {
             menuItem.removeDish(dish);
+            orderManager.removeDishFormMenuItem(menuItem, dish);
+            change = new OrderChange(dish.getId(), user.getId(), menuItem.getId(),
+                    DateTime.now(), ChangeAction.REMOVED_DISH);
+            OrderChangesHolder.addChange(change);
             return new OrderResult("removed", dish);
         }
 
         menuItem.addDish(dish);
+        orderManager.addDishFormMenuItem(menuItem, dish);
+        change = new OrderChange(dish.getId(), user.getId(), menuItem.getId(),
+                DateTime.now(), ChangeAction.ADDED_NEW_DISH);
+        OrderChangesHolder.addChange(change);
         return new OrderResult("added", dish);
     }
 

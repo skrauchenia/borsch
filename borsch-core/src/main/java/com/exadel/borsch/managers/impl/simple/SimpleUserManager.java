@@ -1,7 +1,7 @@
-package com.exadel.borsch.managers.simple;
+package com.exadel.borsch.managers.impl.simple;
 
-import com.exadel.borsch.dao.AccessRight;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entity.AccessRight;
+import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.UserManager;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -11,14 +11,14 @@ import java.util.*;
 /**
  * @author Vlad
  */
-@Service
+@Service("simpleUserManager")
 @Scope(value = "singleton")
 public class SimpleUserManager implements UserManager {
     private List<User> users;
 
     public SimpleUserManager() {
         // TODO read frome file
-        users = new ArrayList<>();
+        users = new ArrayList<User>();
 
         // Test data
         User admin = new User();
@@ -28,8 +28,9 @@ public class SimpleUserManager implements UserManager {
         admin.addAccessRights(Arrays.asList(AccessRight.values()));
         users.add(admin);
     }
+
     @Override
-    public User getUserById(UUID userId) {
+    public User getUserById(Long userId) {
         for (User user : users) {
             if (user.getId().equals(userId)) {
                 return user;
@@ -50,7 +51,7 @@ public class SimpleUserManager implements UserManager {
 
 
     @Override
-    public void deleteUserById(UUID userId) {
+    public void deleteUserById(Long userId) {
         ListIterator<User> iter = users.listIterator();
         while (iter.hasNext()) {
             User curUser = iter.next();
@@ -74,12 +75,18 @@ public class SimpleUserManager implements UserManager {
     }
 
     @Override
-    public void addUsers(List<User> toAdd) {
-        users.addAll(toAdd);
+    public void addUser(User toAdd) {
+        users.add(toAdd);
     }
 
     @Override
     public List<User> getAllUsers() {
         return Collections.unmodifiableList(users);
+    }
+
+    @Override
+    public List<User> getAllUsers(AccessRight accessRight) {
+        // unused in this implementstion
+        return null;
     }
 }

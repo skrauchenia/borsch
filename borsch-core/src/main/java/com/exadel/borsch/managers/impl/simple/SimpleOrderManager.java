@@ -1,20 +1,24 @@
-package com.exadel.borsch.managers.simple;
+package com.exadel.borsch.managers.impl.simple;
 
-import com.exadel.borsch.dao.MenuItem;
-import com.exadel.borsch.dao.Order;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entity.Dish;
+import com.exadel.borsch.entity.MenuItem;
+import com.exadel.borsch.entity.Order;
+import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.util.DateTimeUtils;
 import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * @author Vlad
  */
-@Service
+@Service("simpleOrderManager")
 @Scope(value = "singleton")
 public class SimpleOrderManager implements OrderManager {
     private List<Order> orders;
@@ -23,8 +27,9 @@ public class SimpleOrderManager implements OrderManager {
         // TODO read frome file
         orders = new ArrayList<>();
     }
+
     @Override
-    public void updateOrder(Order toUpdate) {
+    public void updateOrder(Order toUpdate, MenuItem menuItem) {
         ListIterator<Order> iter = orders.listIterator();
         while (iter.hasNext()) {
             Order curOrder = iter.next();
@@ -38,7 +43,7 @@ public class SimpleOrderManager implements OrderManager {
     }
 
     @Override
-    public void deleteOrderById(UUID id) {
+    public void deleteOrderById(Long id) {
         ListIterator<Order> iter = orders.listIterator();
         while (iter.hasNext()) {
             Order curOrder = iter.next();
@@ -50,7 +55,7 @@ public class SimpleOrderManager implements OrderManager {
     }
 
     @Override
-    public Order getOrderById(UUID id) {
+    public Order getOrderById(Long id) {
         for (Order order : orders) {
             if (order.getId().equals(id)) {
                 return order;
@@ -84,7 +89,7 @@ public class SimpleOrderManager implements OrderManager {
     @Override
     public List<Order> getOrdersForUser(User user) {
         List<Order> result = new ArrayList<>();
-        for (Order order: orders) {
+        for (Order order : orders) {
             if (order.getOwner().equals(user)) {
                 result.add(order);
             }
@@ -121,5 +126,15 @@ public class SimpleOrderManager implements OrderManager {
             }
         }
         return null;
+    }
+
+    @Override
+    public void removeDishFormMenuItem(MenuItem menuItem, Dish dish) {
+        // unused in this impl
+    }
+
+    @Override
+    public void addDishFormMenuItem(MenuItem menuItem, Dish dish) {
+        // unused in this impl
     }
 }

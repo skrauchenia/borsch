@@ -1,8 +1,8 @@
 package com.exadel.borsch.notifier;
 
-import com.exadel.borsch.dao.MenuItem;
-import com.exadel.borsch.dao.Order;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entity.MenuItem;
+import com.exadel.borsch.entity.Order;
+import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.UserManager;

@@ -1,21 +1,25 @@
-package com.exadel.borsch.managers.simple;
+package com.exadel.borsch.managers.impl.simple;
 
-import com.exadel.borsch.dao.Course;
-import com.exadel.borsch.dao.Dish;
-import com.exadel.borsch.dao.PriceList;
+import com.exadel.borsch.entity.Course;
+import com.exadel.borsch.entity.Dish;
+import com.exadel.borsch.entity.PriceList;
 import com.exadel.borsch.managers.PriceManager;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * @author Vlad
  */
-@Service
+@Service("simplePriceManager")
 @Scope(value = "singleton")
 public class SimplePriceManager implements PriceManager {
     private List<PriceList> prices;
+
     public SimplePriceManager() {
         // TODO read from file
         prices = new ArrayList<>();
@@ -49,8 +53,9 @@ public class SimplePriceManager implements PriceManager {
         // Some useful list
         prices.add(list);
     }
+
     @Override
-    public PriceList getPriceListById(UUID id) {
+    public PriceList getPriceListById(Long id) {
         for (PriceList priceList : prices) {
             if (priceList.getId().equals(id)) {
                 return priceList;
@@ -60,7 +65,7 @@ public class SimplePriceManager implements PriceManager {
     }
 
     @Override
-    public void deletePriceListById(UUID id) {
+    public void deletePriceListById(Long id) {
         ListIterator<PriceList> iter = prices.listIterator();
         while (iter.hasNext()) {
             PriceList curPriceList = iter.next();
@@ -86,8 +91,46 @@ public class SimplePriceManager implements PriceManager {
                 return;
             }
         }
+    }
 
-        prices.add(toUpdate);
+    @Override
+    public void addDishToPriceList(Dish dish, PriceList priceList) {
+        priceList.addDish(dish);
+
+        ListIterator<PriceList> iter = prices.listIterator();
+        while (iter.hasNext()) {
+            PriceList curPriceList = iter.next();
+            if (curPriceList.getId().equals(priceList.getId())) {
+                iter.set(priceList);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void updateDishInPriceList(Dish dish, PriceList priceList) {
+        ListIterator<PriceList> iter = prices.listIterator();
+        while (iter.hasNext()) {
+            PriceList curPriceList = iter.next();
+            if (curPriceList.getId().equals(priceList.getId())) {
+                priceList.updateDish(dish);
+                iter.set(priceList);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void removeDishFromPriceList(Dish dish, PriceList priceList) {
+        ListIterator<PriceList> iter = prices.listIterator();
+        while (iter.hasNext()) {
+            PriceList curPriceList = iter.next();
+            if (curPriceList.getId().equals(priceList.getId())) {
+                priceList.removeDish(dish);
+                iter.set(priceList);
+                return;
+            }
+        }
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.exadel.borsch.web.controllers;
 
-import com.exadel.borsch.dao.Course;
-import com.exadel.borsch.dao.Dish;
-import com.exadel.borsch.dao.PriceList;
+import com.exadel.borsch.entity.Course;
+import com.exadel.borsch.entity.Dish;
+import com.exadel.borsch.entity.PriceList;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.PriceManager;
 import java.util.ArrayList;
@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.UUID;
 
 /**
  * @author Vlad
@@ -86,19 +85,19 @@ public class MenuController {
         } else {
             dishes = new PriceList();
         }
-        dishes.addDish(dish);
-        //manager.updatePriceList(dishes);
+
+        manager.addDishToPriceList(dish, dishes);
         return DishJSON.mapDishToJSON(dish);
     }
 
     @Secured("ROLE_EDIT_PRICE")
     @RequestMapping("/edit/dish/{id}/edit")
-    public String processEditPageRequest(@PathVariable String id, ModelMap model) {
+    public String processEditPageRequest(@PathVariable Long id, ModelMap model) {
         PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
-            Dish dish = dishes.getDishById(UUID.fromString(id));
+            Dish dish = dishes.getDishById(id);
             model.addAttribute("dish", dish);
         }
         model.addAttribute("action", "edit");
@@ -112,30 +111,30 @@ public class MenuController {
         String name = request.getParameter("name");
         String price = request.getParameter("price");
         String description = request.getParameter("description");
-        String id = request.getParameter("id");
+        Long id = Long.parseLong(request.getParameter("id"));
         PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         Dish dish = new Dish();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
-            dish = dishes.getDishById(UUID.fromString(id));
+            dish = dishes.getDishById(id);
             dish.setName(name);
             dish.setPrice(Integer.parseInt(price));
             dish.setDescription(description);
-            dishes.updateDish(dish);
+            manager.updateDishInPriceList(dish, dishes);
         }
         return DishJSON.mapDishToJSON(dish);
     }
 
     @Secured("ROLE_EDIT_PRICE")
     @RequestMapping("/edit/dish/{id}/remove")
-    public String processRemoveDishRequest(@PathVariable String id) {
+    public String processRemoveDishRequest(@PathVariable Long id) {
         PriceManager manager = managerFactory.getPriceManager();
         List<PriceList> prices = manager.getAllPriceLists();
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
-            Dish forRemove = dishes.getDishById(UUID.fromString(id));
-            dishes.removeDish(forRemove);
+            Dish forRemove = dishes.getDishById(id);
+            manager.removeDishFromPriceList(forRemove, dishes);
         }
         return ViewURLs.MENU_PAGE;
     }

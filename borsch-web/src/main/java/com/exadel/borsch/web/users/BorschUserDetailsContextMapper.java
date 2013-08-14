@@ -1,6 +1,6 @@
 package com.exadel.borsch.web.users;
 
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entity.User;
 import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -33,8 +32,7 @@ public class BorschUserDetailsContextMapper implements UserDetailsContextMapper 
             user.setName(dco.getStringAttribute("cn"));
             user.setEmail(userName + "@exadel.com");
 
-            User[] usersToAdd = {user};
-            daoManager.addUsers(Arrays.asList(usersToAdd));
+            daoManager.addUser(user);
         }
 
         return new BorschUserDetails(user);

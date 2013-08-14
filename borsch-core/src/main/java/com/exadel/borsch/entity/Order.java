@@ -1,16 +1,16 @@
-package com.exadel.borsch.dao;
+package com.exadel.borsch.entity;
 
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Andrey Zhilka
  */
-public class Order extends Identifiable {
+public class Order {
+    private Long id;
     private List<MenuItem> order = new ArrayList<>();
     private DateTime startDate;
     private DateTime endDate;
@@ -18,6 +18,20 @@ public class Order extends Identifiable {
 
     public Order() {
         super();
+    }
+
+    public Order(Long id, DateTime startDate, DateTime endDate) {
+        this.setId(id);
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public DateTime getStartDate() {
@@ -48,7 +62,7 @@ public class Order extends Identifiable {
         return Collections.unmodifiableList(order);
     }
 
-    public MenuItem getMenuById(UUID id) {
+    public MenuItem getMenuById(Long id) {
         for (MenuItem menu : order) {
             if (menu.getId().equals(id)) {
                 return menu;

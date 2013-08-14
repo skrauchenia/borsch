@@ -1,7 +1,7 @@
 package com.exadel.borsch.web.users;
 
-import com.exadel.borsch.dao.AccessRight;
-import com.exadel.borsch.dao.User;
+import com.exadel.borsch.entity.AccessRight;
+import com.exadel.borsch.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

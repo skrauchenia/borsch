@@ -1,6 +1,6 @@
-package com.exadel.borsch.managers.simple;
+package com.exadel.borsch.managers.impl.simple;
 
-import com.exadel.borsch.dao.OrderChange;
+import com.exadel.borsch.entity.OrderChange;
 import com.exadel.borsch.managers.OrderChangeManager;
 import com.exadel.borsch.util.DateTimeUtils;
 import org.joda.time.DateTime;
@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * @author Andrew Zhilka
  */
-@Service
+@Service("simpleOrderChangeManager")
 @Scope(value = "singleton")
 public class SimpleOrderChangeManager implements OrderChangeManager {
     private List<OrderChange> changes = new ArrayList<>();
@@ -50,7 +50,7 @@ public class SimpleOrderChangeManager implements OrderChangeManager {
     }
 
     @Override
-    public void deleteChangeById(UUID id) {
+    public void deleteChangeById(Long id) {
         ListIterator<OrderChange> it = changes.listIterator();
         while (it.hasNext()) {
             OrderChange curChange = it.next();
