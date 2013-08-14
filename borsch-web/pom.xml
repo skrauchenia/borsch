@@ -6,7 +6,6 @@
         <groupId>com.exadel</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exadel.borsch</groupId>
     <artifactId>borsch-web</artifactId>

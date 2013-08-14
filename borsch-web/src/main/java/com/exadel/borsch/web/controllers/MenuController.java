@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
+import org.joda.time.DateTime;
 
 /**
  * @author Vlad
@@ -68,7 +69,16 @@ public class MenuController {
         model.addAttribute("action", "add");
         return ViewURLs.DISH_ADD_PAGE;
     }
-
+    @Secured("ROLE_EDIT_PRICE")
+    @RequestMapping("/menu/newCurrentList")
+    public ModelAndView processNewListRequest() {
+        PriceManager manager = managerFactory.getPriceManager();
+        PriceList list = new PriceList();
+        list.setCreationTime(new DateTime());
+        list.setExpirationTime(new DateTime().plusWeeks(1));
+        manager.addPriceList(list);
+        return this.processPageRequest();
+    }
     @ResponseBody
     @Secured("ROLE_EDIT_PRICE")
     @RequestMapping(value = "/edit/dish/add/save", method = RequestMethod.POST)

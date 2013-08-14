@@ -48,7 +48,7 @@
             }
             function addDish(index) {
                 var course;
-                switch(index) {
+                switch (index) {
                     case 0:
                         course = "FIRST_COURSE";
                         break;
@@ -93,11 +93,13 @@
                     var tableId = "#" + response.index + "Table";
 
                     if (form.attr('action').search("add") != -1) {
-                        var newRow = $(tableId + " tr:nth-child(2)").clone();
+//                        var newRow = $(tableId + " tr:nth-child(2)").clone();
+                        var newRow = $("#rowForClone").clone();
                         newRow.attr("id", "row" + response.id);
-                        newRow.children("[id^=index]").html($(tableId + " tr").length);
+                        newRow.removeAttr("style");
+                        newRow.children("[id^=index]").html($(tableId + " tr").length - 1);
                         newRow.children("[id^=index]").attr("id", "index" + response.id);
-                        
+
 //                        var tooltip = document.createElement("a");
                         newRow.find("[id^=dishName]").html(response.name);
                         newRow.find("[id^=dishName]").attr("id", "dishName" + response.id);
@@ -123,7 +125,8 @@
 
                         $(tableId).append(newRow);
                         $("[rel=tooltip]").tooltip();
-                        
+                        showDate();
+
                     } else {
 //                                var editedRow = $(tableId).find()
                         $("#row" + response.id).find("[id^=dishName]").html(response.name);
@@ -131,9 +134,8 @@
                     }
                 });
             }
-            
-            $(function() {
-                <c:if test="${empty param.internal}">
+            function showDate() {
+            <c:if test="${empty param.internal}">
                 $('.add-to-order').datepicker({
                     onRender: function(date) {
                         var dayOfWeek = date.getDay() - 1;
@@ -159,8 +161,11 @@
                         }
                     });
                 });
-                </c:if>
-            });
+            </c:if>
+                }
+                $(function() {
+                    showDate();
+                });
         </script>
     </jsp:attribute>
 
@@ -188,12 +193,40 @@
                                         <th>Name</th>
                                         <th>Price</th>
                                         <th></th>
-                                        <c:if test="${showAdminControls}">
+                                            <c:if test="${showAdminControls}">
                                             <th>
                                                 <button type="submit" class="btn btn-success" style="float: right" onclick="addDish(${course})">
                                                     <i class="icon-plus icon-white"></i> Add
                                                 </button>
                                             </th>
+                                        </c:if>
+                                    </tr>
+                                    <tr id="rowForClone" style="display: none">
+                                        <td id="index"></td>
+                                        <td>
+                                            <a href="#" id="dishName" data-toggle="tooltip"
+                                               rel="tooltip" data-placement="right" title="" 
+                                               data-original-title="">
+                                            </a>
+                                        </td>
+                                        <td id="dishPrice"></td>
+                                        <td>
+                                            <button type="submit" class="btn btn-success add-to-order" data-date="" data-date-format="dd-mm-yyyy" autocomplete="off"
+                                                    data-loading-text="<spring:message code="menu.order.processing"/>"
+                                                    data-added-text="<spring:message code="menu.order.added"/>"
+                                                    data-removed-text="<spring:message code="menu.order.removed"/>">
+                                                <i class="icon-ok icon-white"></i> Add to order
+                                            </button>
+                                        </td>
+                                        <c:if test="${showAdminControls}">
+                                            <td>
+                                                <button type="submit" class="btn btn-info" id="editBtn">
+                                                    <i class="icon-pencil icon-white"></i> Edit
+                                                </button>
+                                                <button type="submit" class="btn btn-danger" id="removeBtn">
+                                                    <i class="icon-remove icon-white"></i> Remove
+                                                </button>
+                                            </td>
                                         </c:if>
                                     </tr>
                                     <c:forEach var="dish" items="${dish}" varStatus="st">
@@ -233,6 +266,11 @@
                     </div>
                 </c:forEach>
             </div>
+            <form action="${contextPath}/menu/newCurrentList" method="POST">
+                <button id="newCurrentList" name="newCurrentList" class="btn btn-info" style="float: right">
+                    <i class="icon-plus icon-white"></i> New list
+                </button>
+            </form>
         </div>
         <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header">
