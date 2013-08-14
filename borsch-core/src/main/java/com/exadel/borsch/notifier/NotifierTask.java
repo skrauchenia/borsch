@@ -2,8 +2,6 @@ package com.exadel.borsch.notifier;
 
 import com.exadel.borsch.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 import java.util.Locale;
@@ -15,7 +13,7 @@ public abstract class NotifierTask {
     private Notification notification;
 
     @Autowired
-    ReloadableResourceBundleMessageSource messageSource;
+    private ReloadableResourceBundleMessageSource messageSource;
 
     public NotifierTask(Notification notification) {
         this.notification = notification;

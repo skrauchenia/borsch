@@ -12,7 +12,7 @@
 <t:genericpage>
 
     <jsp:attribute name="head">
-        <title>Users</title>
+        <title><spring:message code="users.title"/></title>
     </jsp:attribute>
 
     <jsp:attribute name="scripts">

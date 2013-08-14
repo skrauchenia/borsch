@@ -49,6 +49,9 @@
     </module> -->
     <!-- Try to use CPD instead -->
 
+    <!--For ignoring-->
+    <module name="SuppressionCommentFilter"/>
+
     <module name="TreeWalker">
 
         <property name="cacheFile" value="${checkstyle.cache.file}"/>
@@ -60,6 +63,8 @@
         <!--<module name="JavadocVariable"/>-->
         <!--<module name="JavadocStyle"/>-->
 
+        <!--For ignoring lines-->
+        <module name="FileContentsHolder"/>
 
         <!-- Checks for Naming Conventions.                  -->
         <!-- See http://checkstyle.sf.net/config_naming.html -->

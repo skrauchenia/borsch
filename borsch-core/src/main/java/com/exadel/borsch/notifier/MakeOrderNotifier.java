@@ -33,7 +33,7 @@ public class MakeOrderNotifier extends NotifierTask {
         boolean[] days = new boolean[DateTimeUtils.WORKING_DAYS_IN_WEEK];
         for (MenuItem item: order.getOrder()) {
             if (item.getDate().isAfter(startOfWeek) && item.getDate().isBefore(endOfWeek)) {
-                days[item.getDate().getDayOfWeek()-1] = true;
+                days[item.getDate().getDayOfWeek() - 1] = true;
             }
         }
         for (int i = 0; i < days.length; i++) {
@@ -45,8 +45,7 @@ public class MakeOrderNotifier extends NotifierTask {
     }
 
     @Override
-//    @Scheduled(cron = "* * * * 4 *")
-    @Scheduled(fixedRate = 3*60*1000)
+    @Scheduled(cron = "0 0 * * 4 *")
     public void runPeriodicCheck() {
         UserManager userManager = managerFactory.getUserManager();
         OrderManager menuManager = managerFactory.getOrderManager();

@@ -63,10 +63,29 @@ public class UsersController {
     public String processUpdateUserRequest(@PathVariable Long userId, ModelMap model,
             @Valid UserCommand userCommand, BindingResult result, Principal principal,
             HttpServletResponse response, HttpServletRequest request) {
-        UserUtils.checkEditor(principal, userId);
         UserManager userManager = managerFactory.getUserManager();
         User user = userManager.getUserById(userId);
+        User userFromPrincipal = UserUtils.getUserByPrincipal(principal);
 
+        boolean updatePrincipal = user.getId() == userFromPrincipal.getId();
+
+        boolean invalidForm = setUserFields(userCommand, result, response, request, user);
+
+        if (!invalidForm) {
+            userManager.updateUser(user);
+        }
+
+        if (updatePrincipal) {
+            updatePrinciple(userCommand, user, userFromPrincipal);
+        }
+        userCommand.setId(userId);
+        model.addAttribute(userCommand);
+        model.addAttribute("allRights", AccessRight.getAllRightsToString().toArray(new String[]{""}));
+        return ViewURLs.USER_EDIT_PAGE;
+    }
+
+    private boolean setUserFields(UserCommand userCommand, BindingResult result,
+                                  HttpServletResponse response, HttpServletRequest request, User user) {
         boolean invalidForm = true;
 
         invalidForm &= result.hasFieldErrors("rights") && user.hasAccessRight(AccessRight.ROLE_EDIT_PROFILE);
@@ -83,21 +102,23 @@ public class UsersController {
         invalidForm &= result.hasFieldErrors("locale");
         if (!result.hasFieldErrors("locale")) {
             userCommand.extractAndSetLocale(user);
-
-            LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
-            localeResolver.setLocale(request, response, user.getLocale());
+            updateLocaleResolver(response, request, user);
         }
 
         user.setNeedEmailNotification(userCommand.getNeedEmailNotification());
+        return invalidForm;
+    }
 
-        if (!invalidForm) {
-            userManager.updateUser(user);
-        }
+    private void updatePrinciple(UserCommand userCommand, User user, User userFromPrincipal) {
+        userFromPrincipal.setName(user.getName());
+        userFromPrincipal.setLocale(user.getLocale());
+        userFromPrincipal.setStringAccessRights(Arrays.asList(userCommand.getRights()));
+        userFromPrincipal.setNeedEmailNotification(user.getNeedEmailNotification());
+    }
 
-        userCommand.setId(userId);
-        model.addAttribute(userCommand);
-        model.addAttribute("allRights", AccessRight.getAllRightsToString().toArray(new String[]{""}));
-        return ViewURLs.USER_EDIT_PAGE;
+    private void updateLocaleResolver(HttpServletResponse response, HttpServletRequest request, User user) {
+        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+        localeResolver.setLocale(request, response, user.getLocale());
     }
 
     @Secured("ROLE_EDIT_PROFILE")

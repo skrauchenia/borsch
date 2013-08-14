@@ -8,7 +8,7 @@
 <t:genericpage>
 
     <jsp:attribute name="head">
-        <title>Edit profile</title>
+        <title><spring:message code="navbar.user.edit"/></title>
         <link href="${contextPath}/assets/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="${contextPath}/assets/js/bootstrap-select.min.js"></script>
     </jsp:attribute>

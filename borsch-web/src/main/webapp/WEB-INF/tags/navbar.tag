@@ -50,6 +50,9 @@
                             <li role="presentation" class="left">
                                 <a role="menuitem" class="left" tabindex="-1" href="${contextPath}/orderTable"><spring:message code="navbar.reportTable"/></a>
                             </li>
+                            <li role="presentation" class="left">
+                                <a role="menuitem" class="left" tabindex="-1" href="${contextPath}/report/changes"><spring:message code="navbar.changes"/></a>
+                            </li>
                         </ul>
                     </li>
                 </sec:authorize>

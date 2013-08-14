@@ -114,9 +114,9 @@ public class JdbcPriceManager implements PriceManager {
     public List<PriceList> getAllPriceLists() {
         List<PriceList> priceLists = priceDao.getAll();
 
-        if (priceLists.isEmpty()) {
+        /*if (priceLists.isEmpty()) {
             priceLists.add(init());
-        }
+        }*/
         ListIterator<PriceList> it = priceLists.listIterator();
 
         while (it.hasNext()) {

@@ -17,7 +17,7 @@
 <t:genericpage>
 
     <jsp:attribute name="head">
-        <title>Menu</title>
+        <title><spring:message code="menu.title"/></title>
     </jsp:attribute>
 
     <jsp:attribute name="scripts">

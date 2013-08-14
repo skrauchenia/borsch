@@ -13,7 +13,7 @@
 <t:genericpage>
 
     <jsp:attribute name="head">
-        <title>Dish</title>
+        <title><spring:message code="menu.table.dish"/></title>
     </jsp:attribute>
     <jsp:attribute name="scripts">
         <script>

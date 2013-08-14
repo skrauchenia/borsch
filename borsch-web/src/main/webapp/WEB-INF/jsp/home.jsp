@@ -8,6 +8,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
 
 <t:genericpage>
@@ -22,7 +23,7 @@
                 $("#navHome").addClass("active");
                 
                 var emptyOrderTemplate = "<tr class=\"order-rows\">\
-                                            <td colspan=\"4\" class=\"centered-line\">&lt;currently empty&gt;</td>\
+                                            <td colspan=\"4\" class=\"centered-line\">&lt;<spring:message code="message.empty"/>&gt;</td>\
                                           </tr>";
                 var orderTemplate = "<tr class=\"order-rows\" id=\"{3}\">\
                                        <td>{0}</td>\

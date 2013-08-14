@@ -1,9 +1,6 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
-import com.exadel.borsch.dao.DishDao;
-import com.exadel.borsch.dao.MenuItemDao;
 import com.exadel.borsch.dao.OrderChangeDao;
-import com.exadel.borsch.dao.UserDao;
 import com.exadel.borsch.entity.OrderChange;
 import com.exadel.borsch.managers.OrderChangeManager;
 import com.exadel.borsch.util.DateTimeUtils;
