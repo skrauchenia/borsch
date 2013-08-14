@@ -7,7 +7,6 @@ import com.exadel.borsch.managers.ManagerFactory;
 import com.exadel.borsch.managers.OrderManager;
 import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.notification.BrowserNotification;
-import com.exadel.borsch.util.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -26,9 +25,7 @@ public class PayOrderNotifier extends NotifierTask {
     }
 
     @Override
-//    @Scheduled(fixedRate = SCHEDULED_HOURS * DateTimeUtils.MINUTES_IN_HOUR
-//            * DateTimeUtils.SECOND_IN_MINUTE * DateTimeUtils.MILLIS_IN_SECOND)
-    @Scheduled(fixedRate = 4*1000*60)
+    @Scheduled(cron = "0 0 * * * *")
     public void runPeriodicCheck() {
         UserManager userManager = managerFactory.getUserManager();
         OrderManager orderManager = managerFactory.getOrderManager();
