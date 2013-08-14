@@ -25,7 +25,7 @@ public class PayOrderNotifier extends NotifierTask {
     }
 
     @Override
-    @Scheduled(cron = "* * /1 * * *")
+    @Scheduled(cron = "0 0 * * * *")
     public void runPeriodicCheck() {
         UserManager userManager = managerFactory.getUserManager();
         OrderManager orderManager = managerFactory.getOrderManager();
