@@ -16,8 +16,7 @@ public class OrderChangeChecker extends Checker {
     private static final int SCHEDULE_HOURS = 1;
 
     @Override
-    @Scheduled(fixedRate = SCHEDULE_HOURS * DateTimeUtils.MINUTES_IN_HOUR
-                            * DateTimeUtils.SECOND_IN_MINUTE * DateTimeUtils.MILLIS_IN_SECOND)
+    @Scheduled(cron = "0 0 */2 * * *")
     public void runPeriodCheck() {
         OrderChangeManager changeManager = managerFactory.getChangeManager();
 
