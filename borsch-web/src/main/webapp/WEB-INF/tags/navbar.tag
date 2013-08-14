@@ -9,6 +9,7 @@
 <%@tag description="Produce bootstrap navigation bar" pageEncoding="UTF-8"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags/" %>
 
 <div class="container">
     <div class="btn-group" style="float: right" id="userButton">
@@ -27,6 +28,7 @@
         </ul>
     </div>
     <h3 class="muted">Borsch</h3>
+    <t:browserNotification/>
     <div id="myNav" class="navbar">
         <div class="navbar-inner">
             <ul class="nav">

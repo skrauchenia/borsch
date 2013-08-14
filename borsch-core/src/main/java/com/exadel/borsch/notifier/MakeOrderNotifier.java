@@ -9,6 +9,7 @@ import com.exadel.borsch.managers.UserManager;
 import com.exadel.borsch.notification.EmailNotification;
 import com.exadel.borsch.util.DateTimeUtils;
 import org.joda.time.DateTime;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class MakeOrderNotifier extends NotifierTask {
     }
 
     @Override
+    @Scheduled(cron = "* * * * 4 *")
     public void runPeriodicCheck() {
         UserManager userManager = managerFactory.getUserManager();
         OrderManager menuManager = managerFactory.getOrderManager();

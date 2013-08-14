@@ -20,6 +20,7 @@ public class NotificationController {
     @RequestMapping(value = "/notification", method = RequestMethod.POST)
     public String processAjaxRequest(Principal principal) {
         User user = UserUtils.getUserByPrincipal(principal);
-        return BrowserNotificationHolder.getOldestNotification(user);
+        String notification = BrowserNotificationHolder.getOldestNotification(user);
+        return notification;
     }
 }
