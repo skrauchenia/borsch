@@ -9,6 +9,10 @@ import com.exadel.borsch.managers.OrderChangeManager;
 import com.exadel.borsch.util.DateTimeUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,22 +20,21 @@ import java.util.List;
 /**
  * @author Andrew Zhilka
  */
+@Service("jdbcOrderChangeManager")
+@Scope("singleton")
 public class JdbcOrderChangeManager implements OrderChangeManager {
-    @Autowired
-    private MenuItemDao menuItemDao;
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private DishDao dishDao;
+
     @Autowired
     private OrderChangeDao orderChangeDao;
 
     @Override
+    @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public List<OrderChange> getChangesForCurrentWeek() {
         return orderChangeDao.getAllByWeekStart(DateTimeUtils.getStartOfCurrentWeek());
     }
 
     @Override
+    @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public List<OrderChange> getActualChanges() {
         List<OrderChange> actualChanges = new ArrayList<>();
         DateTime startOfCurrentWeek = DateTimeUtils.getStartOfCurrentWeek();
@@ -47,26 +50,31 @@ public class JdbcOrderChangeManager implements OrderChangeManager {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void addNewChange(OrderChange newChange) {
         orderChangeDao.save(newChange);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void deleteChangeById(Long id) {
         orderChangeDao.delete(id);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void updateChange(OrderChange newChange) {
         orderChangeDao.update(newChange);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void resetChanges() {
         orderChangeDao.truncateTable();
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void resetOldChanges() {
         List<OrderChange> actualChanges = getActualChanges();
         resetChanges();
