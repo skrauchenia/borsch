@@ -30,14 +30,32 @@ public final class DateTimeUtils {
 
     public static DateTime getStartOfCurrentWeek() {
         DateTime today = DateTime.now();
-        return today.minusDays(today.getDayOfWeek() - 1);
+        DateTime startOfWeek = today.minusDays(today.getDayOfWeek() - 1);
+        startOfWeek = setTimeToDefault(startOfWeek);
+
+        return startOfWeek;
+    }
+
+    private static DateTime setTimeToDefault(DateTime date) {
+        date = date.minusMinutes(date.getMinuteOfHour());
+        date = date.minusHours(date.getHourOfDay());
+        date = date.minusSeconds(date.getSecondOfMinute());
+        date = date.minusMillis(date.getMillisOfSecond());
+
+        return date;
     }
 
     public static DateTime getStartOfWeek(DateTime ref) {
-        return ref.minusDays((ref.getDayOfWeek() - 1));
+        DateTime startOfWeek = ref.minusDays((ref.getDayOfWeek() - 1));
+        startOfWeek = setTimeToDefault(startOfWeek);
+
+        return startOfWeek;
     }
 
     public static DateTime getStartOfNextWeek() {
-        return getStartOfWeek(DateTime.now()).plusDays(DAYS_IN_WEEK);
+        DateTime startOfWeek = getStartOfWeek(DateTime.now()).plusDays(DAYS_IN_WEEK);
+        startOfWeek = setTimeToDefault(startOfWeek);
+
+        return startOfWeek;
     }
 }

@@ -2,10 +2,7 @@
 package com.exadel.borsch.web.controllers;
 
 import com.exadel.borsch.entity.*;
-import com.exadel.borsch.managers.ManagerFactory;
-import com.exadel.borsch.managers.OrderChangeManager;
-import com.exadel.borsch.managers.OrderManager;
-import com.exadel.borsch.managers.UserManager;
+import com.exadel.borsch.managers.*;
 import com.exadel.borsch.util.DateTimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -148,17 +145,74 @@ public class ReportController {
     @RequestMapping("/report/changes")
     public String processChangesRequest(ModelMap model) {
         OrderChangeManager changeManager = managerFactory.getChangeManager();
-        ListMultimap<Integer, OrderChange> report = ArrayListMultimap.create();
+        ListMultimap<Integer, ChangeJSON> report = ArrayListMultimap.create();
         List<OrderChange> changes = changeManager.getActualChanges();
 
         for (OrderChange change : changes) {
-            report.put(change.getDateOfChange().getDayOfWeek(), change);
+            report.put(change.getDateOfChange().getDayOfWeek() - 1, mapChangeToJson(change));
         }
 
         model.addAttribute("report", report.asMap());
         return ViewURLs.CHANGES_REPORT;
     }
 
+    private ChangeJSON mapChangeToJson(OrderChange change) {
+        UserManager userManager = managerFactory.getUserManager();
+        OrderManager orderManager = managerFactory.getOrderManager();
+
+        MenuItem item = new MenuItem();
+        ChangeJSON json = new ChangeJSON();
+        User user = userManager.getUserById(change.getActedUserId());
+        json.setUserName(user.getName());
+
+        json.setCommittedAction(change.getCommittedAction());
+
+        for (Order order : orderManager.getOrdersForUser(user)) {
+            item = order.getMenuById(change.getMenuItemId());
+            if (!item.getChoices().isEmpty()) {
+                break;
+            }
+        }
+
+        for (Dish dish : item.getChoices()) {
+            if (dish.getId() == change.getChangedDishId()) {
+                json.setDishName(dish.getName());
+            }
+        }
+
+        return json;
+    }
+
+
+   public static class ChangeJSON {
+       private String userName;
+       private String dishName;
+       private ChangeAction committedAction;
+
+       public String getUserName() {
+           return userName;
+       }
+
+       public void setUserName(String userName) {
+           this.userName = userName;
+       }
+
+       public String getDishName() {
+           return dishName;
+       }
+
+       public void setDishName(String dishName) {
+           this.dishName = dishName;
+       }
+
+       public ChangeAction getCommittedAction() {
+           return committedAction;
+       }
+
+       public void setCommittedAction(ChangeAction committedAction) {
+           this.committedAction = committedAction;
+       }
+   }
 
     public static class DailyOrder {
         private Integer weekDay;

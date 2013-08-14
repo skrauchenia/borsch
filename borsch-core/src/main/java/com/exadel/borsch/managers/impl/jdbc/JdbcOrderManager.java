@@ -41,7 +41,10 @@ public class JdbcOrderManager implements OrderManager {
     private DishDao dishDao;
 
     @Autowired
-    private ChoisesDao choisesDao;
+    private ChoicesDao choicesDao;
+
+    @Autowired
+    private OrderChangeDao changeDao;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -52,6 +55,12 @@ public class JdbcOrderManager implements OrderManager {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteOrderById(Long id) {
+        for (MenuItem item : menuItemDao.getAllByOrderId(id)) {
+            choicesDao.deleteAllByMenuItemId(item.getId());
+            changeDao.deleteAllByMenuItemId(item.getId());
+        }
+        menuItemDao.deleteAllByOrderId(id);
+
         orderDao.delete(id);
     }
 
@@ -146,15 +155,8 @@ public class JdbcOrderManager implements OrderManager {
             order.setEndDate(order.getStartDate().plusDays(DateTimeUtils.WORKING_DAYS_IN_WEEK));
 
             orderDao.save(order);
-            orderDao.setOwnerId(order.getId(), user.getId());
 
-            for (int i = 0; i < DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
-                MenuItem item = new MenuItem();
-                item.setDate(order.getStartDate().plusDays(i));
-                menuItemDao.save(item);
-                menuItemDao.setOrderId(item.getId(), order.getId());
-                order.addMenuItem(item);
-            }
+            fillOrderWithItems(order);
             return order;
         }
         Order curOrder = userOrders.get(0);
@@ -166,6 +168,16 @@ public class JdbcOrderManager implements OrderManager {
         curOrder.setOwner(user);
 
         return curOrder;
+    }
+
+    public void fillOrderWithItems(Order order) {
+        for (int i = 0; i < DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
+            MenuItem item = new MenuItem();
+            item.setDate(order.getStartDate().plusDays(i));
+            menuItemDao.save(item);
+            menuItemDao.setOrderId(item.getId(), order.getId());
+            order.addMenuItem(item);
+        }
     }
 
     @Override
@@ -190,13 +202,13 @@ public class JdbcOrderManager implements OrderManager {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void removeDishFormMenuItem(MenuItem menuItem, Dish dish) {
-        choisesDao.delete(dish.getId());
+        choicesDao.delete(dish.getId());
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void addDishFormMenuItem(MenuItem menuItem, Dish dish) {
-        choisesDao.save(menuItem.getId(), dish.getId());
+        choicesDao.save(menuItem.getId(), dish.getId());
     }
 
     /**

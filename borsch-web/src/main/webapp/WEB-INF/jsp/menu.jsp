@@ -229,7 +229,7 @@
                                             </td>
                                         </c:if>
                                     </tr>
-                                    <c:forEach var="dish" items="${dish}" varStatus="st">
+                                    <c:forEach var="dish" items="${dishes}" varStatus="st">
                                         <tr id="row${dish.id}">
                                             <td id="index${dish.id}">${st.index+1}</td>
                                             <td>

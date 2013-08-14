@@ -1,7 +1,7 @@
 package com.exadel.borsch.dao.impl;
 
 import com.exadel.borsch.dao.BorschJdbcDaoSupport;
-import com.exadel.borsch.dao.ChoisesDao;
+import com.exadel.borsch.dao.ChoicesDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.HashMap;
@@ -10,13 +10,13 @@ import java.util.Map;
 /**
  * @author Vlad
  */
-public class ChoisesDaoImpl extends BorschJdbcDaoSupport implements ChoisesDao {
+public class ChoicesDaoImpl extends BorschJdbcDaoSupport implements ChoicesDao {
 
     private static final String QUERY_DELETE_DISH = "DELETE FROM Choises WHERE dish=?";
 
     private static final String QUERY_DELETE_DISH_BY_MENU_ITEM_ID = "DELETE FROM Choises WHERE menuItem=?";
 
-    public ChoisesDaoImpl(JdbcTemplate jdbcTemplate) {
+    public ChoicesDaoImpl(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
         setJdbcInsert(getJdbcInsert()
                 .withTableName("choises")

@@ -105,15 +105,20 @@ public class SimpleOrderManager implements OrderManager {
             order.setOwner(user);
             order.setStartDate(DateTimeUtils.getStartOfNextWeek());
             order.setEndDate(order.getStartDate().plusDays(DateTimeUtils.WORKING_DAYS_IN_WEEK));
-            for (int i = 0; i < DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
-                MenuItem item = new MenuItem();
-                item.setDate(order.getStartDate().plusDays(i));
-                order.addMenuItem(item);
-            }
+            fillOrderWithItems(order);
             addOrder(order);
             return order;
         }
         return userOrders.get(0);
+    }
+
+    @Override
+    public void fillOrderWithItems(Order order) {
+        for (int i = 0; i < DateTimeUtils.WORKING_DAYS_IN_WEEK; i++) {
+            MenuItem item = new MenuItem();
+            item.setDate(order.getStartDate().plusDays(i));
+            order.addMenuItem(item);
+        }
     }
 
     @Override
@@ -127,6 +132,7 @@ public class SimpleOrderManager implements OrderManager {
         }
         return null;
     }
+
 
     @Override
     public void removeDishFormMenuItem(MenuItem menuItem, Dish dish) {

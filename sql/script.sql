@@ -19,7 +19,6 @@ CREATE  TABLE `borsch`.`Orders` (
   `endDate` DATETIME NOT NULL ,
   `owner` INT ,
   PRIMARY KEY (`idOrder`) ,
-  UNIQUE INDEX `owner_idx` (`owner` ASC) ,
   CONSTRAINT `owner`
     FOREIGN KEY (`owner` )
     REFERENCES `borsch`.`user` (`idUser` ));

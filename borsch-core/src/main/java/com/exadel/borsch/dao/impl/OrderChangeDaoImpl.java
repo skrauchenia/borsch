@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ public class OrderChangeDaoImpl extends BorschJdbcDaoSupport implements OrderCha
 
     private static final String QUERY_SELECT_CHANGE_BY_ID = QUERY_SELECT_CHANGE + "WHERE changeId=?";
 
+    private static final String QUERY_SELECT_CHANGE_BY_DISH_ID = QUERY_SELECT_CHANGE + "WHERE changedDishId=?";
+
     private static final String QUERY_SELECT_CHANGE_BY_MENU_ITEM_ID = QUERY_SELECT_CHANGE + "WHERE menuItemId=?";
 
     private static final String QUERY_SELECT_CHANGE_BY_DATE = QUERY_SELECT_CHANGE + "WHERE dateOfChange=?";
@@ -41,6 +44,12 @@ public class OrderChangeDaoImpl extends BorschJdbcDaoSupport implements OrderCha
 
     private static final String QUERY_DELETE_CHANGE = "DELETE FROM OrderChanges chageId=?";
 
+    private static final String QUERY_DELETE_BY_USER_ID = "DELETE FROM OrderChanges WHERE actedUserId=?";
+
+    private static final String QUERY_DELETE_BY_MENU_ITEM_ID = "DELETE FROM OrderChanges WHERE menuItemId=?";
+
+    private static final String QUERY_DELETE_BY_DISH_ID = "DELETE FROM OrderChanges WHERE changedDishId=?";
+
     private static final String QUERY_UPDATE_CHANGE = "UPDATE OrderChanges SET "
             + "changedDishId=?,actedUserId=?,menuItemId=?,dateOfChange=?,committedAction=? WHERE changeId=?";
 
@@ -53,7 +62,7 @@ public class OrderChangeDaoImpl extends BorschJdbcDaoSupport implements OrderCha
                     rs.getLong("actedUserId"),
                     rs.getLong("menuItemId"),
                     new DateTime(rs.getDate("dateOfChange")),
-                    ChangeAction.valueOf(rs.getString("course"))
+                    ChangeAction.valueOf(rs.getString("committedAction"))
             );
         }
     };
@@ -89,7 +98,8 @@ public class OrderChangeDaoImpl extends BorschJdbcDaoSupport implements OrderCha
         params.put("menuItemId", change.getMenuItemId());
         params.put("dateOfChange", change.getDateOfChange().toDate());
         params.put("committedAction", change.getCommittedAction().name());
-        params.put("startOfWeek", DateTimeUtils.getStartOfWeek(change.getDateOfChange()).toDate());
+        Date startOfWeek = DateTimeUtils.getStartOfWeek(change.getDateOfChange()).toDate();
+        params.put("startOfWeek", startOfWeek);
 
         change.setId((Long) getJdbcInsert()
                 .executeAndReturnKey(params));
@@ -138,9 +148,19 @@ public class OrderChangeDaoImpl extends BorschJdbcDaoSupport implements OrderCha
 
     @Override
     public List<OrderChange> getAllByWeekStart(DateTime date) {
+        Date javaDate = date.toDate();
         return getJdbcTemplate().query(
                 QUERY_SELECT_CHANGE_BY_WEEK_START,
                 new Object[]{date.toDate()},
+                CHANGE_ROW_MAPPER
+        );
+    }
+
+    @Override
+    public List<OrderChange> getAllByDishId(Long dishId) {
+        return getJdbcTemplate().query(
+                QUERY_SELECT_CHANGE_BY_DISH_ID,
+                new Object[]{dishId},
                 CHANGE_ROW_MAPPER
         );
     }
@@ -158,6 +178,30 @@ public class OrderChangeDaoImpl extends BorschJdbcDaoSupport implements OrderCha
     @Override
     public void truncateTable() {
         getJdbcTemplate().update(QUERY_TRUNCATE_TABLE);
+    }
+
+    @Override
+    public void deleteAllByMenuItemId(Long menuItemId) {
+        getJdbcTemplate().update(
+                QUERY_DELETE_BY_MENU_ITEM_ID,
+                menuItemId
+        );
+    }
+
+    @Override
+    public void deleteAllByDishId(Long dishId) {
+        getJdbcTemplate().update(
+                QUERY_DELETE_BY_DISH_ID,
+                dishId
+        );
+    }
+
+    @Override
+    public void deleteAllbyUserId(Long userID) {
+        getJdbcTemplate().update(
+                QUERY_DELETE_BY_USER_ID,
+                userID
+        );
     }
 
 

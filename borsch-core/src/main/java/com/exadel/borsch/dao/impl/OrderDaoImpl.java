@@ -84,6 +84,7 @@ public class OrderDaoImpl extends BorschJdbcDaoSupport implements OrderDao {
         Map<String, Object> params = new HashMap<>();
         params.put("startDate", order.getStartDate().toDate());
         params.put("endDate", order.getEndDate().toDate());
+        params.put("owner", order.getOwner().getId());
 
         order.setId((Long) getJdbcInsert()
                 .executeAndReturnKey(params));

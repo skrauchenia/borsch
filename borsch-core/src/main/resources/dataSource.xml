@@ -53,7 +53,7 @@
         <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
-    <bean id="choisesDao" class="com.exadel.borsch.dao.impl.ChoisesDaoImpl">
+    <bean id="choisesDao" class="com.exadel.borsch.dao.impl.ChoicesDaoImpl">
         <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 

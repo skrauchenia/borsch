@@ -22,13 +22,13 @@
                 <h4><spring:message code="home.day${daySummary.key}"/></h4>
                 <table id="day${daySummary.key}" class="table table-bordered reportSummary">
                     <tr>
-                        <th colspan="2"><spring:message code="menu.table.name"/></th>
-                        <th colspan="1"><spring:message code="menu.table.totalNumber"/></th>
+                        <th colspan="75%"><spring:message code="menu.table.dish"/></th>
+                        <th colspan="25%"><spring:message code="menu.table.totalNumber"/></th>
                     </tr>
                     <c:forEach var="dishSummary" items="${daySummary.value}">
                         <tr>
-                            <td colspan="2"><c:out value="${dishSummary.key}"/></td>
-                            <td colspan="1"><c:out value="${dishSummary.value}"/></td>
+                            <td colspan="75%"><c:out value="${dishSummary.key}"/></td>
+                            <td colspan="25%"><c:out value="${dishSummary.value}"/></td>
                         </tr>
                     </c:forEach>
                 </table>

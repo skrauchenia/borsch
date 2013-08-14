@@ -15,6 +15,10 @@ public interface OrderChangeDao {
     List<OrderChange> getByUserAndMenuItemId(OrderChange change, Long userId, Long menuItemId);
     List<OrderChange> getAllByDate(DateTime date);
     List<OrderChange> getAllByWeekStart(DateTime date);
+    List<OrderChange> getAllByDishId(Long dishId);
     List<OrderChange> getAllChangesByUser(Long userId);
     void truncateTable();
+    void deleteAllByMenuItemId(Long menuItemId);
+    void deleteAllByDishId(Long dishId);
+    void deleteAllbyUserId(Long userId);
 }

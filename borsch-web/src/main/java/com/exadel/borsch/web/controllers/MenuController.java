@@ -8,6 +8,8 @@ import com.exadel.borsch.managers.PriceManager;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+
+import com.exadel.borsch.util.DateTimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,9 +74,14 @@ public class MenuController {
     @RequestMapping("/menu/newCurrentList")
     public ModelAndView processNewListRequest() {
         PriceManager manager = managerFactory.getPriceManager();
+        DateTime startOfNextWeek = DateTimeUtils.getStartOfNextWeek();
         PriceList list = new PriceList();
-        list.setCreationTime(new DateTime());
-        list.setExpirationTime(new DateTime().plusWeeks(1));
+        PriceList priceList = manager.getCurrentPriceList();
+        if (DateTimeUtils.sameDates(priceList.getCreationTime(), startOfNextWeek)) {
+            return this.processPageRequest();
+        }
+        list.setCreationTime(startOfNextWeek);
+        list.setExpirationTime(startOfNextWeek.plusWeeks(1));
         manager.addPriceList(list);
         return this.processPageRequest();
     }

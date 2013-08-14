@@ -87,26 +87,24 @@ public class HomeController {
     public String processGenTestOrders() {
         OrderManager orderManager = managerFactory.getOrderManager();
         // Test data
-        User admin = managerFactory.getUserManager().getUserByLogin("rod");
+        User admin = managerFactory.getUserManager().getUserByLogin("admin");
         Order testOrder1 = orderManager.getCurrentOrderForUser(admin);
         testOrder1.setStartDate(testOrder1.getStartDate().minusWeeks(1));
         testOrder1.setEndDate(testOrder1.getEndDate().minusWeeks(1));
-        for (MenuItem item: testOrder1.getOrder()) {
-            item.setDate(item.getDate().minusWeeks(1));
-        }
+
         orderManager.deleteOrderById(testOrder1.getId());
 
         Order testOrder2 = orderManager.getCurrentOrderForUser(admin);
         testOrder2.setStartDate(testOrder2.getStartDate().minusWeeks(2));
         testOrder2.setEndDate(testOrder2.getEndDate().minusWeeks(2));
-        for (MenuItem item: testOrder2.getOrder()) {
-            item.setDate(item.getDate().minusWeeks(2));
-        }
+
         orderManager.deleteOrderById(testOrder2.getId());
 
         orderManager.getCurrentOrderForUser(admin);
         orderManager.addOrder(testOrder1);
+        orderManager.fillOrderWithItems(testOrder1);
         orderManager.addOrder(testOrder2);
+        orderManager.fillOrderWithItems(testOrder2);
 
         return "redirect:/home";
     }

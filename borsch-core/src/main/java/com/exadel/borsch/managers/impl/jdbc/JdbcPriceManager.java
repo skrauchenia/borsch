@@ -1,7 +1,8 @@
 package com.exadel.borsch.managers.impl.jdbc;
 
-import com.exadel.borsch.dao.ChoisesDao;
+import com.exadel.borsch.dao.ChoicesDao;
 import com.exadel.borsch.dao.DishDao;
+import com.exadel.borsch.dao.OrderChangeDao;
 import com.exadel.borsch.dao.PriceDao;
 import com.exadel.borsch.entity.Course;
 import com.exadel.borsch.entity.Dish;
@@ -31,7 +32,10 @@ public class JdbcPriceManager implements PriceManager {
     private DishDao dishDao;
 
     @Autowired
-    private ChoisesDao choisesDao;
+    private ChoicesDao choicesDao;
+
+    @Autowired
+    private OrderChangeDao changesDao;
 
     @Override
     @Transactional(readOnly = true)
@@ -73,6 +77,11 @@ public class JdbcPriceManager implements PriceManager {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void deletePriceListById(Long id) {
+        for (Dish dish : dishDao.getAllByPriceListId(id)) {
+            changesDao.deleteAllByDishId(dish.getId());
+            dishDao.delete(dish.getId());
+        }
+
         priceDao.delete(id);
     }
 
@@ -104,7 +113,7 @@ public class JdbcPriceManager implements PriceManager {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void removeDishFromPriceList(Dish dish, PriceList priceList) {
-        choisesDao.delete(dish.getId());
+        choicesDao.delete(dish.getId());
 
         dishDao.delete(dish.getId());
     }
