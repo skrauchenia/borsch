@@ -23,6 +23,10 @@ import java.security.Principal;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
  * @author Vlad
@@ -59,7 +63,8 @@ public class UsersController {
     @Secured("ROLE_EDIT_MENU_SELF")
     @RequestMapping(value = "/edit/user/{userId}/edit", method = RequestMethod.POST)
     public String processUpdateUserRequest(@PathVariable String userId, ModelMap model,
-            @Valid UserCommand userCommand, BindingResult result, Principal principal) {
+            @Valid UserCommand userCommand, BindingResult result, Principal principal,
+            HttpServletRequest request, HttpServletResponse response) {
         UUID uuidUserId = UUID.fromString(userId);
         UserUtils.checkEditor(principal, uuidUserId);
         UserManager userManager = managerFactory.getUserManager();
@@ -81,6 +86,9 @@ public class UsersController {
         invalidForm &= result.hasFieldErrors("locale");
         if (!result.hasFieldErrors("locale")) {
             userCommand.extractAndSetLocale(user);
+
+            LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
+            localeResolver.setLocale(request, response, user.getLocale());
         }
 
         user.setNeedEmailNotification(userCommand.getNeedEmailNotification());
