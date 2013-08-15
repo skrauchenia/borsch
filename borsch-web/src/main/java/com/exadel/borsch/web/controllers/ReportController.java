@@ -175,7 +175,7 @@ public class ReportController {
         }
 
         for (Dish dish : item.getChoices()) {
-            if (dish.getId() == change.getChangedDishId()) {
+            if (dish.getId().equals(change.getChangedDishId())) {
                 json.setDishName(dish.getName());
             }
         }

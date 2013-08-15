@@ -67,7 +67,7 @@ public class UsersController {
         User user = userManager.getUserById(userId);
         User userFromPrincipal = UserUtils.getUserByPrincipal(principal);
 
-        boolean updatePrincipal = user.getId() == userFromPrincipal.getId();
+        boolean updatePrincipal = user.getId().equals(userFromPrincipal.getId());
 
         boolean invalidForm = setUserFields(userCommand, result, response, request, user);
 
