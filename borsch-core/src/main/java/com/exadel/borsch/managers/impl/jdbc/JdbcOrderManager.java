@@ -147,7 +147,7 @@ public class JdbcOrderManager implements OrderManager {
     public Order getCurrentOrderForUser(User user) {
         List<Order> userOrders = orderDao.getByOwnerId(user.getId());
         if (userOrders.isEmpty()
-                || Weeks.weeksBetween(userOrders.get(0).getStartDate(),
+                || Weeks.weeksBetween(userOrders.get(userOrders.size() - 1).getStartDate(),
                                         DateTimeUtils.getStartOfNextWeek()).getWeeks() >= 1) {
             Order order = new Order();
             order.setOwner(user);
