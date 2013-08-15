@@ -109,11 +109,8 @@
                     var empty = true;
                     var table = getTable(day);
                     var sum = 0;
+                    table.find("tr:gt(0):not([id])").remove();
                     table.find("tr:gt(0)").each(function(idx) {
-                        if (!$(this).attr("id")) {
-                            $(this).remove();
-                            return;
-                        }
                         $(this).find("td:first").text(idx + 1);
                         sum += +$(this).find("td:eq(2)").text();
                         empty = false;

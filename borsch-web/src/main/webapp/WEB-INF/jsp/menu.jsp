@@ -141,6 +141,13 @@
                         var dayOfWeek = date.getDay() - 1;
                         if (dayOfWeek < 0 || dayOfWeek > 4)
                             return 'disabled';
+                        var today = new Date();
+                        var nextWeek = new Date(today.getFullYear(),
+                            today.getMonth(), today.getDate() + 7 - today.getDay());
+                        var nextNextWeek = new Date(nextWeek.getFullYear(),
+                            nextWeek.getMonth(), nextWeek.getDate() + 7);
+                        if (date < nextWeek || date > nextNextWeek)
+                            return 'disabled';
                         return '';
                     }
                 }).on('changeDate', function(event) {
