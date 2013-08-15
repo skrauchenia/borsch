@@ -135,7 +135,8 @@
                     var frame = modal.find("iframe");
                     var table = getTable(day);
                     frame[0].contentWindow.location.reload();
-                    frame.attr("src", "${contextPath}/menu/${order.startDate}?internal=true");
+                    <joda:format var="priceDate" value="${order.startDate}" pattern="dd-MM-yyyy"/>
+                    frame.attr("src", "${contextPath}/menu/${priceDate}?internal=true");
                     modal.modal("show");
                     
                     frame.off("load");
