@@ -96,8 +96,15 @@ VALUES ("admin","Administrator The Great"
 		,"en_US");
 
 
+
+
+INSERT INTO `borsch`.`PriceList` (`creationTime`,`expirationTime`)
+VALUES ("2013-08-5 00:00:00","2013-08-10 00:00:00");
+
 INSERT INTO `borsch`.`PriceList` (`creationTime`,`expirationTime`)
 VALUES ("2013-08-12 00:00:00","2013-08-17 00:00:00");
+
+
 
 
 
@@ -105,13 +112,7 @@ INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`p
 VALUES ("Торт", "Отличный старый добрый торт! Прямо из пекарни! (столовая)", "cake.jpg.to", 59600, "DESSERT", 1);
 
 INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
-VALUES ("Блинчики с джемом", "Очень вкусные, и в отличие от блинчиков с ветчиной - не содержат кошек!", "pancakes.jpg.to", 10000, "DESSERT", 1);
-
-INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
 VALUES ("Боорщъ", "Просто борщ", "borsch.jpg.to", 7950, "FIRST_COURSE", 1);
-
-INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
-VALUES ("Суп", "Это не борщ. Не заказывайте.", "soup.jpg.to", 7000, "FIRST_COURSE", 1);
 
 INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
 VALUES ("Макароны", "Длинные такие, твердые.", "spaghetti.jpg.to", 3700, "SECOND_COURSE", 1);
@@ -120,8 +121,50 @@ INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`p
 VALUES ("Картофель фри", "Mega edition. Специально от нашей столовой! Почти как в макдональдсе!", "potatoes.jpg.to", 4200, "SECOND_COURSE", 1);
 
 INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
-VALUES ("Драники", "Настоящие белорусские! Без пояснений", "draniki.jpg.to", 5400, "SECOND_COURSE", 1);
+VALUES ("Котлеты", "Из них делают блины. В том числе.", "http://котлет.jpg.to/", 19000, "SECOND_COURSE", 1);
+
+
 
 INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
-VALUES ("Котлеты", "Из них делают блины. В том числе.", "http://котлет.jpg.to/", 19000, "SECOND_COURSE", 1);
+VALUES ("Торт", "Отличный старый добрый торт! Прямо из пекарни! (столовая)", "cake.jpg.to", 59600, "DESSERT", 2);
+
+INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
+VALUES ("Блинчики с джемом", "Очень вкусные, и в отличие от блинчиков с ветчиной - не содержат кошек!", "pancakes.jpg.to", 10000, "DESSERT", 2);
+
+INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
+VALUES ("Боорщъ", "Просто борщ", "borsch.jpg.to", 7950, "FIRST_COURSE", 2);
+
+INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
+VALUES ("Суп", "Это не борщ. Не заказывайте.", "soup.jpg.to", 7000, "FIRST_COURSE", 2);
+
+INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
+VALUES ("Макароны", "Длинные такие, твердые.", "spaghetti.jpg.to", 3700, "SECOND_COURSE", 2);
+
+INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
+VALUES ("Картофель фри", "Mega edition. Специально от нашей столовой! Почти как в макдональдсе!", "potatoes.jpg.to", 4200, "SECOND_COURSE", 2);
+
+INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
+VALUES ("Драники", "Настоящие белорусские! Без пояснений", "draniki.jpg.to", 5400, "SECOND_COURSE", 2);
+
+INSERT INTO `borsch`.`Dish` (`name`,`description`,`photoUrl`,`price`,`course`,`priceList`)
+VALUES ("Котлеты", "Из них делают блины. В том числе.", "http://котлет.jpg.to/", 19000, "SECOND_COURSE", 2);
+
+
+
+
+INSERT INTO `borsch`.`orders` (`startDate`,`endDate`,`owner`)
+VALUES ("2013-08-12 00:00:00","2013-08-17 00:00:00",1);
+
+INSERT INTO `borsch`.`menuitem` (`date`,`isPaid`,`idOrder`) VALUES ("2013-08-12 00:00:00", 1, 1);
+INSERT INTO `borsch`.`menuitem` (`date`,`isPaid`,`idOrder`) VALUES ("2013-08-13 00:00:00", 1, 1);
+INSERT INTO `borsch`.`menuitem` (`date`,`isPaid`,`idOrder`) VALUES ("2013-08-14 00:00:00", 1, 1);
+INSERT INTO `borsch`.`menuitem` (`date`,`isPaid`,`idOrder`) VALUES ("2013-08-15 00:00:00", 0, 1);
+INSERT INTO `borsch`.`menuitem` (`date`,`isPaid`,`idOrder`) VALUES ("2013-08-16 00:00:00", 0, 1);
+
+INSERT INTO `borsch`.`choises`(`menuItem`,`dish`) VALUES (1,10);
+INSERT INTO `borsch`.`choises`(`menuItem`,`dish`) VALUES (1,9);
+INSERT INTO `borsch`.`choises`(`menuItem`,`dish`) VALUES (2,11);
+INSERT INTO `borsch`.`choises`(`menuItem`,`dish`) VALUES (2,13);
+INSERT INTO `borsch`.`choises`(`menuItem`,`dish`) VALUES (3,12);
+INSERT INTO `borsch`.`choises`(`menuItem`,`dish`) VALUES (5,11);
 	
