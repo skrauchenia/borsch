@@ -82,7 +82,13 @@ public class JdbcPriceManager implements PriceManager {
         if (priceLists.isEmpty()) {
             return null;
         } else {
-            return priceLists.get(0);
+            PriceList priceList = priceLists.get(0);
+
+            priceList.addDishes(
+                    dishDao.getAllByPriceListId(priceList.getId())
+            );
+
+            return priceList;
         }
     }
 
