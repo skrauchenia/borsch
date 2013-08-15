@@ -56,7 +56,7 @@ public class HomeController {
         OrderManager orderManager = managerFactory.getOrderManager();
         User user = UserUtils.getUserByPrincipal(principal);
 
-        Order order = orderManager.findOrderAtDateForUser(user,DateTime.now().plusWeeks(1));
+        Order order = orderManager.getCurrentOrderForUser(user);
         model.addAttribute(order);
 
         fillInPageModel(model, principal, DateTimeUtils.getStartOfNextWeek());
