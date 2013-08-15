@@ -23,7 +23,7 @@ public class PriceList {
 
     public PriceList() {
         super();
-        this.creationTime = DateTimeUtils.getStartOfCurrentWeek();
+        this.creationTime = DateTimeUtils.getStartOfNextWeek();
         this.expirationTime = creationTime.plusWeeks(1);
     }
 

@@ -99,10 +99,10 @@ VALUES ("admin","Administrator The Great"
 
 
 INSERT INTO `borsch`.`PriceList` (`creationTime`,`expirationTime`)
-VALUES ("2013-08-5 00:00:00","2013-08-10 00:00:00");
+VALUES ("2013-08-12 00:00:00","2013-08-17 00:00:00");
 
 INSERT INTO `borsch`.`PriceList` (`creationTime`,`expirationTime`)
-VALUES ("2013-08-12 00:00:00","2013-08-17 00:00:00");
+VALUES ("2013-08-19 00:00:00","2013-08-24 00:00:00");
 
 
 
