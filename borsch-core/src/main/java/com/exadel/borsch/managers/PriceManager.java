@@ -2,6 +2,7 @@ package com.exadel.borsch.managers;
 
 import com.exadel.borsch.entity.Dish;
 import com.exadel.borsch.entity.PriceList;
+import org.joda.time.DateTime;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
 public interface PriceManager {
     PriceList getPriceListById(Long id);
     PriceList getCurrentPriceList();
+    PriceList getPriceListByCreationTime(DateTime time);
     void deletePriceListById(Long id);
     void addPriceList(PriceList toAdd);
     void updatePriceList(PriceList toUpdate);

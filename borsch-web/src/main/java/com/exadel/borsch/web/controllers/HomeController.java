@@ -40,11 +40,11 @@ public class HomeController {
 
         DateTime prevWeek = date.minusWeeks(1);
         if (orderManager.findOrderAtDateForUser(user, prevWeek) != null) {
-            model.addAttribute("prevWeek", prevWeek.toString("dd-MM-yyy"));
+            model.addAttribute("prevWeek", prevWeek.toString("dd-MM-yyyy"));
         }
         DateTime nextWeek = date.plusWeeks(1);
         if (orderManager.findOrderAtDateForUser(user, nextWeek) != null) {
-            model.addAttribute("nextWeek", nextWeek.toString("dd-MM-yyy"));
+            model.addAttribute("nextWeek", nextWeek.toString("dd-MM-yyyy"));
         }
         model.addAttribute("currentWeekCode",
                 Weeks.weeksBetween(DateTimeUtils.getStartOfNextWeek(), date).getWeeks() + 2);
@@ -71,7 +71,7 @@ public class HomeController {
         OrderManager orderManager = managerFactory.getOrderManager();
         User user = UserUtils.getUserByPrincipal(principal);
 
-        DateTime orderDate = DateTime.parse(date, DateTimeFormat.forPattern("dd-MM-yyy"));
+        DateTime orderDate = DateTime.parse(date, DateTimeFormat.forPattern("dd-MM-yyyy"));
         Order order = orderManager.findOrderAtDateForUser(user, orderDate);
         if (order == null) {
             return "redirect:/home";
@@ -140,10 +140,17 @@ public class HomeController {
         PriceManager priceManager = managerFactory.getPriceManager();
         OrderManager orderManager = managerFactory.getOrderManager();
         User user = UserUtils.getUserByPrincipal(principal);
+        DateTime orderDate = DateTime.parse(date, DateTimeFormat.forPattern("dd-MM-yyyy"));
+        DateTime startOfNeededWeek = DateTimeUtils.getStartOfWeek(orderDate);
+        PriceList neededList;
 
+        if (DateTimeUtils.sameDates(startOfNeededWeek, DateTimeUtils.getStartOfNextWeek())) {
+            neededList = priceManager.getCurrentPriceList();
+        } else {
+            neededList = priceManager.getPriceListByCreationTime(startOfNeededWeek);
+        }
 
-        Dish dish = priceManager.getCurrentPriceList().getDishById(itemId);
-        DateTime orderDate = DateTime.parse(date, DateTimeFormat.forPattern("dd-MM-yyy"));
+        Dish dish = neededList.getDishById(itemId);
         Order order = orderManager.findOrderAtDateForUser(user, orderDate);
         int day = orderDate.getDayOfWeek() - 1;
         if (dish == null || order == null || day >= order.getOrder().size()) {

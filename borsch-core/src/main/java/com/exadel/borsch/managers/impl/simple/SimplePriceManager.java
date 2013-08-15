@@ -4,6 +4,7 @@ import com.exadel.borsch.entity.Course;
 import com.exadel.borsch.entity.Dish;
 import com.exadel.borsch.entity.PriceList;
 import com.exadel.borsch.managers.PriceManager;
+import org.joda.time.DateTime;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -144,5 +145,10 @@ public class SimplePriceManager implements PriceManager {
             return null;
         }
         return prices.get(prices.size() - 1);
+    }
+
+    @Override
+    public PriceList getPriceListByCreationTime(DateTime time) {
+        return null;//TODO: don't need for now. Have JdbcManager
     }
 }

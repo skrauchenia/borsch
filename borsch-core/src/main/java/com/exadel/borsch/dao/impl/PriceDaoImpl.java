@@ -28,6 +28,9 @@ public class PriceDaoImpl extends BorschJdbcDaoSupport implements PriceDao {
     private static final String QUERY_UPDATE_PRICE = "UPDATE PriceList "
             + "SET creationTime=?,expirationTime=?  WHERE idPriceList=?";
 
+    private static final String QUERY_SELECT_PRICE_BY_CREATION_DATE = QUERY_SELECT_PRICE
+            + "WHERE creationTime=?";
+
     private static final RowMapper<PriceList> PRICE_LIST_ROW_MAPPER = new RowMapper<PriceList>() {
         @Override
         public PriceList mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -94,4 +97,15 @@ public class PriceDaoImpl extends BorschJdbcDaoSupport implements PriceDao {
                 PRICE_LIST_ROW_MAPPER
         );
     }
+
+    @Override
+    public List<PriceList> getPriceListByCreationTime(DateTime creationTime) {
+        return getJdbcTemplate().query(
+                QUERY_SELECT_PRICE_BY_CREATION_DATE,
+                new Object[]{creationTime.toDate()},
+                PRICE_LIST_ROW_MAPPER
+        );
+    }
+
+
 }

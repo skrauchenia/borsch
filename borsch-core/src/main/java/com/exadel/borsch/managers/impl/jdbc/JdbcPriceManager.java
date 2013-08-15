@@ -8,6 +8,7 @@ import com.exadel.borsch.entity.Course;
 import com.exadel.borsch.entity.Dish;
 import com.exadel.borsch.entity.PriceList;
 import com.exadel.borsch.managers.PriceManager;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -72,6 +73,17 @@ public class JdbcPriceManager implements PriceManager {
             );
         }
         return priceLists.get(priceLists.size() - 1);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PriceList getPriceListByCreationTime(DateTime time) {
+        List<PriceList> priceLists = priceDao.getPriceListByCreationTime(time);
+        if (priceLists.isEmpty()) {
+            return null;
+        } else {
+            return priceLists.get(0);
+        }
     }
 
     @Override

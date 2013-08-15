@@ -159,7 +159,7 @@ public class JdbcOrderManager implements OrderManager {
             fillOrderWithItems(order);
             return order;
         }
-        Order curOrder = userOrders.get(0);
+        Order curOrder = userOrders.get(userOrders.size() - 1);
 
         curOrder.addMenuItems(
                     getMenuItemsForOrder(curOrder.getId())
