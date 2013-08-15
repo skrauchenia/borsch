@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.exadel.borsch.util.DateTimeUtils;
+import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,21 @@ public class MenuController {
         if ((prices != null) && (!prices.isEmpty())) {
             PriceList dishes = prices.get(prices.size() - 1);
             Map<Integer, Collection<Dish>> map = dishes.getCourses().asMap();
+            map = this.setMap(map);
+            mav.addObject("courseList", map);
+        }
+        return mav;
+    }
+
+    @Secured("ROLE_EDIT_MENU_SELF")
+    @RequestMapping("/menu/{date}")
+    public ModelAndView processPageRequestWithDate(@PathVariable String date) {
+        ModelAndView mav = new ModelAndView(ViewURLs.MENU_PAGE);
+        PriceManager manager = managerFactory.getPriceManager();
+        DateTime orderDate = DateTime.parse(date, DateTimeFormat.forPattern("dd-MM-yyyy"));
+        PriceList price= manager.getPriceListByCreationTime(orderDate);
+        if (price != null) {
+            Map<Integer, Collection<Dish>> map = price.getCourses().asMap();
             map = this.setMap(map);
             mav.addObject("courseList", map);
         }

@@ -148,7 +148,6 @@ public class OrderChangeDaoImpl extends BorschJdbcDaoSupport implements OrderCha
 
     @Override
     public List<OrderChange> getAllByWeekStart(DateTime date) {
-        Date javaDate = date.toDate();
         return getJdbcTemplate().query(
                 QUERY_SELECT_CHANGE_BY_WEEK_START,
                 new Object[]{date.toDate()},

@@ -62,33 +62,5 @@
                 </tr>
             </table>
         </div>
-        <div style="position: absolute; right: 5%; bottom: 5%" class="btn-group" id="buttons">
-            <form action="${contextPath}/print/pdf" method="POST">
-                <button type="submit" class="btn btn-info">
-                    <i class="icon-download-alt icon-white"></i>
-                </button>
-                <input id="src" type="hidden" name="src" value=""/>
-            </form>
-            <form>
-                <button href="" role="button" type="submit" class="btn btn-info" >
-                    <i class="icon-print icon-white"></i>
-                </button>
-            </form>
-        </div>
-        <script src="${contextPath}/assets/js/jquery-2.0.3.min.js"></script>
-        <script type="text/javascript">
-//            var src = "<html><head></head><body>" + $("#table").html(); + "</body></html>";
-            var src = document.location.href;
-            $("#src").attr("value", src);
-            $('#buttons').fadeTo(100, 0.2);
-            $(function() {
-                $("#buttons").mouseover(function() {
-                    $('#buttons').stop().fadeTo(100, 1);
-                });
-                $("#buttons").mouseout(function() {
-                    $('#buttons').stop().fadeTo(100, 0.2);
-                });
-
-            });</script>
     </body>
 </html>

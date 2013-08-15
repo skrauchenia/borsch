@@ -135,7 +135,7 @@
                     var frame = modal.find("iframe");
                     var table = getTable(day);
                     frame[0].contentWindow.location.reload();
-                    frame.attr("src", "${contextPath}/menu/?internal=true");
+                    frame.attr("src", "${contextPath}/menu/${order.startDate}?internal=true");
                     modal.modal("show");
                     
                     frame.off("load");
