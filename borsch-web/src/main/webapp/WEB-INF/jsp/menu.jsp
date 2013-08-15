@@ -274,11 +274,13 @@
                 </c:forEach>
             </div>
             <sec:authorize access="hasRole('ROLE_EDIT_PRICE')">
-            <form action="${contextPath}/menu/newCurrentList" method="POST">
-                <button id="newCurrentList" name="newCurrentList" class="btn btn-info" style="float: right">
-                    <i class="icon-plus icon-white"></i> <spring:message code="action.newlist"/>
-                </button>
-            </form>
+                <c:if test="${showAdminControls}">
+                    <form action="${contextPath}/menu/newCurrentList" method="POST">
+                        <button id="newCurrentList" name="newCurrentList" class="btn btn-info" style="float: right">
+                            <i class="icon-plus icon-white"></i> <spring:message code="action.newlist"/>
+                        </button>
+                    </form>
+                </c:if>
             </sec:authorize>
         </div>
         <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
